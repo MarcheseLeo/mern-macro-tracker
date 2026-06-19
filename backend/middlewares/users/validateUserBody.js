@@ -16,7 +16,6 @@ const userBodyValidation = [
     body('email')
         .isEmail()
         .notEmpty()
-        .normalizeEmail()
         .withMessage('email must be a valid email'),
     body('password')
         .if(body('googleId').not().exists())
