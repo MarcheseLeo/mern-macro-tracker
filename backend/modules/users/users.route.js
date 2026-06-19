@@ -13,6 +13,6 @@ users.post('/', userController.createUser)
 users.put('/:id', userController.editUser)
 
 //Delete 
-users.delete('/:ïd', userController.deleteUser)
+users.delete('/:id', userController.deleteUser)
 
 module.exports = users

@@ -19,7 +19,7 @@ const editUser = async (id, body) => {
 }
 
 const deleteUser = async(id) =>{
-    const  userToDelete = await userSchema.findByIdAndDelete(id)
+    return await userSchema.findByIdAndDelete(id)
 }
 
 module.exports = {

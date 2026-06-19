@@ -1,7 +1,7 @@
 const userService = require('./users.service')
 const UserNotFoundException = require('../../exceptions/users/UserNotFoundException')
 
-const getUsers = async (req, res) => {
+const getUsers = async (req, res, next) => {
     try {
         const users = await userService.getUsers()
 
@@ -14,15 +14,10 @@ const getUsers = async (req, res) => {
                 users
             })
     } catch (e) {
-        res.status(500)
-            .send({
-                statusCode: 500,
-                message: 'Error during user request',
-                error: e.message
-            })
+        next(e)
     }
 }
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
     try {
         const { id } = req.params
         const user = await userService.getUserById(id)
@@ -36,16 +31,11 @@ const getUserById = async (req, res) => {
                 user
             })
     } catch (e) {
-        res.status(500)
-            .send({
-                statusCode: 500,
-                message: 'Error during user request',
-                error: e.message
-            })
+        next(e)
     }
 }
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
     try {
         const { body } = req
         const user = await userService.createUser(body)
@@ -60,16 +50,11 @@ const createUser = async (req, res) => {
                 user
             })
     } catch (e) {
-        res.status(500)
-            .send({
-                statusCode: 500,
-                message: 'Error during user request',
-                error: e.message
-            })
+        next(e)
     }
 }
 
-const editUser = async (req, res) => {
+const editUser = async (req, res, next) => {
     try {
         const { body } = req
         const { id } = req.params
@@ -86,16 +71,11 @@ const editUser = async (req, res) => {
                 user
             })
     } catch (e) {
-        res.status(500)
-            .send({
-                statusCode: 500,
-                message: 'Error during user request',
-                error: e.message
-            })
+        next(e)
     }
 }
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params
 
@@ -107,16 +87,10 @@ const deleteUser = async (req, res) => {
         res.status(200)
             .send({
                 statusCode: 200,
-                message: 'New user created successfully',
-                user
+                message: 'User deleted successfully',
             })
     } catch (e) {
-        res.status(500)
-            .send({
-                statusCode: 500,
-                message: 'Error during user request',
-                error: e.message
-            })
+        next(e)
     }
 }
 
