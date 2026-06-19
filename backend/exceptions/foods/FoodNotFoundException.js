@@ -1,8 +1,8 @@
 const HttpException= require('../index')
 
-class UserNotFoundException extends HttpException{
+class FoodNotFoundException extends HttpException{
     constructor(
-        message = 'No User Found',
+        message = 'No Food Found',
         statusCode  = '404',
         error = 'The requested resource is not found'
     ){
@@ -10,4 +10,4 @@ class UserNotFoundException extends HttpException{
     }
 }
 
-module.exports = UserNotFoundException
+module.exports = FoodNotFoundException

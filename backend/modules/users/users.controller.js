@@ -6,7 +6,11 @@ const getUsers = async (req, res, next) => {
         const users = await userService.getUsers()
 
         if (users.length === 0) {
-            throw new UserNotFoundException()
+            return res.status(200)
+                .send({
+                    statusCode:200,
+                    users: []
+                })
         }
         res.status(200)
             .send({
@@ -43,9 +47,9 @@ const createUser = async (req, res, next) => {
         if (!user) {
             throw new UserNotFoundException()
         }
-        res.status(200)
+        res.status(201)
             .send({
-                statusCode: 200,
+                statusCode: 201,
                 message: 'New user created successfully',
                 user
             })
@@ -67,7 +71,7 @@ const editUser = async (req, res, next) => {
         res.status(200)
             .send({
                 statusCode: 200,
-                message: 'New user created successfully',
+                message: 'User updated successfully',
                 user
             })
     } catch (e) {
