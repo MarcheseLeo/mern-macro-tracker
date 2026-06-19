@@ -1,15 +1,12 @@
 const userService = require('./users.service')
+const UserNotFoundException = require('../../exceptions/users/UserNotFoundException')
 
 const getUsers = async (req, res) => {
     try {
         const users = await userService.getUsers()
 
         if (users.length === 0) {
-            return res.status(404)
-                .send({
-                    statusCode: 404,
-                    message: 'No user found'
-                })
+            throw new UserNotFoundException()
         }
         res.status(200)
             .send({
@@ -31,11 +28,7 @@ const getUserById = async (req, res) => {
         const user = await userService.getUserById(id)
 
         if (!user) {
-            return res.status(404)
-                .send({
-                    statusCode: 404,
-                    message: 'No user found'
-                })
+            throw new UserNotFoundException()
         }
         res.status(200)
             .send({
@@ -58,11 +51,7 @@ const createUser = async (req, res) => {
         const user = await userService.createUser(body)
 
         if (!user) {
-            return res.status(404)
-                .send({
-                    statusCode: 404,
-                    message: 'No user found'
-                })
+            throw new UserNotFoundException()
         }
         res.status(200)
             .send({
@@ -88,11 +77,7 @@ const editUser = async (req, res) => {
         const user = await userService.editUser(id, body)
 
         if (!user) {
-            return res.status(404)
-                .send({
-                    statusCode: 404,
-                    message: 'No user found'
-                })
+            throw new UserNotFoundException()
         }
         res.status(200)
             .send({
@@ -117,11 +102,7 @@ const deleteUser = async (req, res) => {
         const user = await userService.deleteUser(id)
 
         if (!user) {
-            return res.status(404)
-                .send({
-                    statusCode: 404,
-                    message: 'No user found'
-                })
+            throw new UserNotFoundException()
         }
         res.status(200)
             .send({
