@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema({
         default: 'not specified' 
     },
     height:{
-        type: mongoose.Schema.Types.Int32
+        type: mongoose.Schema.Types.Double
     }
 }, {timestamps: true, strict: true})
 
