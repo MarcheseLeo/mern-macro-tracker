@@ -45,7 +45,11 @@ const userBodyValidation = [
     body('height')
         .optional()
         .isFloat({ min: 0 })
-        .withMessage('height must be a positive number')
+        .withMessage('height must be a positive number'),
+    body('dailyKcalGoal')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('dailyKcalGoal must be a positive integer')
 ]
 
 const userBodyValidator = (req, res, next) => {

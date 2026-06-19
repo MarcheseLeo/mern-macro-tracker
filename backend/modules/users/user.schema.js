@@ -9,13 +9,13 @@ const UserSchema = new mongoose.Schema({
         required: true,
         type: String,
     },
-    email:{
+    email: {
         required: true,
         unique: true,
         type: String,
     },
-    password:{
-        required: function(){
+    password: {
+        required: function () {
             return !this.googleId
         },
         type: String,
@@ -30,11 +30,16 @@ const UserSchema = new mongoose.Schema({
     gender: {
         type: String,
         enum: ['male', 'female', 'not specified'],
-        default: 'not specified' 
+        default: 'not specified'
     },
-    height:{
-        type: mongoose.Schema.Types.Double
+    height: {
+        type: mongoose.Schema.Types.Number
+    },
+    dailyKcalGoal: {
+        type: Number,
+        required: true,
+        default: 2000
     }
-}, {timestamps: true, strict: true})
+}, { timestamps: true, strict: true })
 
-module.exports = mongoose.model('user',UserSchema, 'Users')
+module.exports = mongoose.model('user', UserSchema, 'Users')
