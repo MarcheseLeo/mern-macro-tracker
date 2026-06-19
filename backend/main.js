@@ -7,11 +7,13 @@ const port = process.env.PORT || 3000
 
 
 //Dichiarazione Rotte
+const users = require('./modules/users/users.route')
 
 const server = express()
 server.use(express.json())
 
 
+server.use('/users', users)
 
 //Error Handler middleware
 
