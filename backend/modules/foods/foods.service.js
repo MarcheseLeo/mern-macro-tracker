@@ -1,26 +1,26 @@
-const foodSchema = require('./foods.schema')
+const FoodSchema = require('./foods.schema')
 
 const getFoods = async (searchQuery='') =>{
     const filter = searchQuery ? {name: { $regex: searchQuery, $options: 'i'}} : {}
-    return await foodSchema.find(filter)
+    return await FoodSchema.find(filter)
 }
 
 const getFoodById = async(id)=>{
-    return await foodSchema.findById(id)
+    return await FoodSchema.findById(id)
 }
 
 const createFood = async(body) =>{
-    const newFood = new foodSchema(body)
+    const newFood = new FoodSchema(body)
     return await newFood.save()
 }
 
 const editFood = async(id, body)=>{
-    const updatedFood = await foodSchema.findByIdAndUpdate(id, body, {new:true})
+    const updatedFood = await FoodSchema.findByIdAndUpdate(id, body, {new:true})
     return updatedFood
 }
 
 const deleteFood = async(id) =>{
-    return await foodSchema.findByIdAndDelete(id)
+    return await FoodSchema.findByIdAndDelete(id)
 }
 
 module.exports = {

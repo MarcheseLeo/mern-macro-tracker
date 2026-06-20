@@ -1,25 +1,25 @@
-const userSchema = require('./user.schema')
+const UserSchema = require('./user.schema')
 
 const getUsers = async () => {
-    return await userSchema.find()
+    return await UserSchema.find()
 }
 
 const getUserById = async (id) => {
-    return await userSchema.findById(id)
+    return await UserSchema.findById(id)
 }
 
 const createUser = async (body) => {
-    const newUser = new userSchema(body)
+    const newUser = new UserSchema(body)
     return await newUser.save()
 }
 
 const editUser = async (id, body) => {
-    const updatedUser = await userSchema.findByIdAndUpdate(id, body, { new: true })
+    const updatedUser = await UserSchema.findByIdAndUpdate(id, body, { new: true })
     return updatedUser
 }
 
 const deleteUser = async(id) =>{
-    return await userSchema.findByIdAndDelete(id)
+    return await UserSchema.findByIdAndDelete(id)
 }
 
 module.exports = {

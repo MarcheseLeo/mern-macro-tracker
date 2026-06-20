@@ -1,10 +1,10 @@
-const foodService = require('./foods.service')
+const FoodService = require('./foods.service')
 const FoodNotFoundException = require('../../exceptions/foods/FoodNotFoundException')
 
 const getFoods = async (req, res, next) => {
     try {
         const { name } = req.query
-        const foods = await foodService.getFoods(name)
+        const foods = await FoodService.getFoods(name)
 
         if (foods.length === 0) {
             return res.status(200)
@@ -27,7 +27,7 @@ const getFoods = async (req, res, next) => {
 const getFoodById = async (req, res, next) => {
     try {
         const { id } = req.params
-        const food = await foodService.getFoodById(id)
+        const food = await FoodService.getFoodById(id)
 
         if (!food) {
             throw new FoodNotFoundException()
@@ -46,7 +46,7 @@ const getFoodById = async (req, res, next) => {
 const createFood = async (req, res, next) => {
     try {
         const { body } = req
-        const food = await foodService.createFood(body)
+        const food = await FoodService.createFood(body)
 
         if (!food) {
             throw new FoodNotFoundException()
@@ -67,7 +67,7 @@ const editFood = async (req, res, next) => {
     try {
         const { body } = req
         const { id } = req.params
-        const food = await foodService.editFood(id, body)
+        const food = await FoodService.editFood(id, body)
 
         if (!food) {
             throw new FoodNotFoundException()
@@ -87,7 +87,7 @@ const editFood = async (req, res, next) => {
 const deleteFood = async (req, res, next) => {
     try {
         const { id } = req.params
-        const food = await foodService.deleteFood(id)
+        const food = await FoodService.deleteFood(id)
 
         if (!food) {
             throw new FoodNotFoundException()

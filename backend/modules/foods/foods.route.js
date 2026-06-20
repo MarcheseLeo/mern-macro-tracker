@@ -1,19 +1,19 @@
 const express = require('express')
 const {foodBodyValidation, foodBodyValidator} = require('../../middlewares/foods/validateFoodBody')
 const foods = express.Router()
-const foodController = require('./foods.controller')
+const FoodController = require('./foods.controller')
 
 //GET
-foods.get('/', foodController.getFoods)
-foods.get('/:id', foodController.getFoodById)
+foods.get('/', FoodController.getFoods)
+foods.get('/:id', FoodController.getFoodById)
 
 //POST
-foods.post('/',[foodBodyValidation, foodBodyValidator] ,foodController.createFood)
+foods.post('/',[foodBodyValidation, foodBodyValidator] ,FoodController.createFood)
 
 //PUT
-foods.put('/:id', foodController.editFood)
+foods.put('/:id', FoodController.editFood)
 
 //DELETE
-foods.delete('/:id', foodController.deleteFood)
+foods.delete('/:id', FoodController.deleteFood)
 
 module.exports = foods

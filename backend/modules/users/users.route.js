@@ -1,19 +1,19 @@
 const express = require('express')
 const users = express.Router()
-const userController = require('./users.controller')
+const UserController = require('./users.controller')
 const {userBodyValidation, userBodyValidator} = require('../../middlewares/users/validateUserBody')
 
 //Get
-users.get('/', userController.getUsers)
-users.get('/:id', userController.getUserById)
+users.get('/', UserController.getUsers)
+users.get('/:id', UserController.getUserById)
 
 //Post
-users.post('/',[userBodyValidation, userBodyValidator] ,userController.createUser)
+users.post('/',[userBodyValidation, userBodyValidator] ,UserController.createUser)
 
 //Put
-users.put('/:id', userController.editUser)
+users.put('/:id', UserController.editUser)
 
 //Delete 
-users.delete('/:id', userController.deleteUser)
+users.delete('/:id', UserController.deleteUser)
 
 module.exports = users
