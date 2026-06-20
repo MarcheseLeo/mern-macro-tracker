@@ -28,7 +28,7 @@ const userBodyValidation = [
         .withMessage('googleId must be a string'),
     body('dob')
         .optional()
-        .isISO8601()
+        .isISO8601().toDate()
         .toDate()
         .custom(value => {
             if (value > new Date()) {
