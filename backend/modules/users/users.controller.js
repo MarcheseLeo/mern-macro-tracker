@@ -39,25 +39,6 @@ const getUserById = async (req, res, next) => {
     }
 }
 
-const createUser = async (req, res, next) => {
-    try {
-        const { body } = req
-        const user = await userService.createUser(body)
-
-        if (!user) {
-            throw new UserNotFoundException()
-        }
-        res.status(201)
-            .send({
-                statusCode: 201,
-                message: 'New user created successfully',
-                user
-            })
-    } catch (e) {
-        next(e)
-    }
-}
-
 const editUser = async (req, res, next) => {
     try {
         const { body } = req
@@ -101,7 +82,6 @@ const deleteUser = async (req, res, next) => {
 module.exports = {
     getUsers,
     getUserById,
-    createUser,
     editUser,
     deleteUser
 }

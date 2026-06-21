@@ -18,7 +18,7 @@ server.use(express.json())
 
 server.use(logger)
 
-server.use('/', auth)
+server.use('/auth', auth)
 
 server.use(verifyToken)
 
