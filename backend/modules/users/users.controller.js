@@ -1,14 +1,30 @@
-const userService = require('./users.service')
+const UserService = require('./users.service')
 const UserNotFoundException = require('../../exceptions/users/UserNotFoundException')
+
+const getMe = async (req, res, next) => {
+    try {
+        const { id } = req.user
+        const user = await UserService.getUserById(id)
+
+        if (!user)
+            throw new UserNotFoundException()
+
+        res.status(200)
+            .send(user)
+
+    } catch (e) {
+        next(e)
+    }
+}
 
 const getUsers = async (req, res, next) => {
     try {
-        const users = await userService.getUsers()
+        const users = await UserService.getUsers()
 
         if (users.length === 0) {
             return res.status(200)
                 .send({
-                    statusCode:200,
+                    statusCode: 200,
                     users: []
                 })
         }
@@ -24,7 +40,7 @@ const getUsers = async (req, res, next) => {
 const getUserById = async (req, res, next) => {
     try {
         const { id } = req.params
-        const user = await userService.getUserById(id)
+        const user = await UserService.getUserById(id)
 
         if (!user) {
             throw new UserNotFoundException()
@@ -39,12 +55,32 @@ const getUserById = async (req, res, next) => {
     }
 }
 
+const editMe = async (req, res, next) => {
+    try{
+        const {id} = req.user
+        const {body} = req
+        const user = await UserService.editUser(id,body)
+
+        if(!user)
+            throw new UserNotFoundException()
+
+        res.status(200)
+            .send({
+                statusCode: 200,
+                message: 'User updated successfully',
+                user
+            })
+    }catch(e){
+        next(e)
+    }
+}
+
 const editUser = async (req, res, next) => {
     try {
         const { body } = req
         const { id } = req.params
 
-        const user = await userService.editUser(id, body)
+        const user = await UserService.editUser(id, body)
 
         if (!user) {
             throw new UserNotFoundException()
@@ -64,7 +100,7 @@ const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params
 
-        const user = await userService.deleteUser(id)
+        const user = await UserService.deleteUser(id)
 
         if (!user) {
             throw new UserNotFoundException()
@@ -80,8 +116,10 @@ const deleteUser = async (req, res, next) => {
 }
 
 module.exports = {
+    getMe,
     getUsers,
     getUserById,
+    editMe,
     editUser,
     deleteUser
 }
