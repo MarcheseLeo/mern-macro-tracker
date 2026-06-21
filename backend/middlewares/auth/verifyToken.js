@@ -4,7 +4,7 @@ const pc = require('picocolors')
 
 const EXCLUDED_ROUTES = [
     '/auth/login',
-    'auth/google',
+    '/auth/google',
     '/auth/google/callback'
 ]
 
