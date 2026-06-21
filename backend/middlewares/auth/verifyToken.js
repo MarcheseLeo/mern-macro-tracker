@@ -4,12 +4,13 @@ const pc = require('picocolors')
 
 const EXCLUDED_ROUTES = [
     '/auth/login',
+    '/auth/register',
     '/auth/google',
     '/auth/google/callback'
 ]
 
 const verifyToken = async (req, res, next) => {
-    if (EXCLUDED_ROUTES.includes(req.path) || (req.path === '/users' && req.method === 'POST')) return next()
+    if (EXCLUDED_ROUTES.includes(req.path)) return next()
 
     const token = req.header('authorization')
 

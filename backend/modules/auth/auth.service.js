@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const Users = require('../users/user.schema')
+const User = require('../users/user.schema')
 const InvalidCredentialsException = require('../../exceptions/auth/InvalidCredentialsException')
 
 const login = async (email, password) => {
-    const user = await Users.findOne({ email }).select('+password')
+    const user = await User.findOne({ email }).select('+password')
 
     if (!user) {
         throw new InvalidCredentialsException()
@@ -27,6 +27,11 @@ const login = async (email, password) => {
     }
 }
 
+const register = async(body) =>{
+    const newUser = new User(body)
+    return await newUser.save()
+}
 module.exports = {
-    login
+    login,
+    register
 }

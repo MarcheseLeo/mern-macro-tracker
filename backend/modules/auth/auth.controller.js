@@ -17,6 +17,23 @@ const login = async (req, res, next) => {
     }
 }
 
+const register = async(req, res, next) =>{
+    try{
+        const {body} = req
+        const user = await AuthService.register(body)
+
+        res.status(201)
+            .send({
+                statusCode: 201,
+                message: 'User registered successfully',
+                user
+            })
+    }catch(e){
+        next(e)
+    }
+}
+
 module.exports = {
-    login
+    login,
+    register
 }
