@@ -6,15 +6,22 @@ const port = process.env.PORT || 3000
 //Dichiarazione Middlewares
 const logger = require('./middlewares/globals/logger')
 const errorHandler = require('./middlewares/errors/errorHandler')
+const verifyToken = require('./middlewares/auth/verifyToken')
 
 //Dichiarazione Rotte
 const users = require('./modules/users/users.route')
 const foods = require('./modules/foods/foods.route')
+const auth = require('./modules/auth/auth.route')
 
 const server = express()
 server.use(express.json())
 
 server.use(logger)
+
+server.use('/', auth)
+
+server.use(verifyToken)
+
 
 server.use('/users', users)
 server.use('/foods', foods)
