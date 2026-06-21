@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 const UserSchema = new mongoose.Schema({
     firstName: {
@@ -19,7 +20,8 @@ const UserSchema = new mongoose.Schema({
             return !this.googleId
         },
         type: String,
-        minLength: 8
+        minLength: 8,
+        select: false
     },
     googleId: {
         type: String
@@ -40,6 +42,43 @@ const UserSchema = new mongoose.Schema({
         required: true,
         default: 2000
     }
-}, { timestamps: true, strict: true })
+}, {
+    timestamps: true,
+    strict: true,
+    toJSON: {
+        transform: function (doc, ret) {
+            delete ret.password
+            return ret
+        }
+    }
+})
 
-module.exports = mongoose.model('user', UserSchema, 'Users')
+UserSchema.pre('save', async function () {
+    if (!this.isModified('password') || !this.password) {
+        return
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    this.password = await bcrypt.hash(this.password, salt)
+})
+
+UserSchema.pre('findOneAndUpdate', async function () {
+    const update = this.getUpdate()
+    const password = update.password || update.$set?.password
+
+    if (!password) {
+        return
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hashed = await bcrypt.hash(password, salt)
+
+    if (update.$set?.password) {
+        update.$set.password = hashed
+    } else {
+        update.password = hashed
+    }
+
+    this.setUpdate(update)
+})
+module.exports = mongoose.model('user', UserSchema, 'users')

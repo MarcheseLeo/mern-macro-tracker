@@ -15,7 +15,7 @@ const createUser = async (body) => {
 
 const editUser = async (id, body) => {
     const updatedUser = await UserSchema.findByIdAndUpdate(id, body, { new: true })
-    return updatedUser
+    return updatedUser.select('-password')
 }
 
 const deleteUser = async(id) =>{
