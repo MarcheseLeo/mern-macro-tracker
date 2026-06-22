@@ -8,9 +8,9 @@ users.get('/', UserController.getUsers)
 users.get('/:id', UserController.getUserById)
 
 
-//Put
-users.put('/me', [editUserValidation, userBodyValidator], UserController.editMe)
-users.put('/:id', [editUserValidation, userBodyValidator], UserController.editUser)
+//PATCH
+users.patch('/me', [editUserValidation, userBodyValidator], UserController.editMe)
+users.patch('/:id', [editUserValidation, userBodyValidator], UserController.editUser)
 
 //Delete 
 users.delete('/me', UserController.deleteMe)

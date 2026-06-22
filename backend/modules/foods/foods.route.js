@@ -10,8 +10,8 @@ foods.get('/:id', FoodController.getFoodById)
 //POST
 foods.post('/',[foodBodyValidation, foodBodyValidator] ,FoodController.createFood)
 
-//PUT
-foods.put('/:id',[editFoodValidation, foodBodyValidator] ,FoodController.editFood)
+//PATCH
+foods.patch('/:id',[editFoodValidation, foodBodyValidator] ,FoodController.editFood)
 
 //DELETE
 foods.delete('/:id', FoodController.deleteFood)

@@ -10,8 +10,8 @@ meals.get('/:id', MealsController.getMealById)
 //POST
 meals.post('/',[mealBodyValidation, mealBodyValidator] ,MealsController.createMeal)
 
-//PUT       
-meals.put('/:id', [editMealValidation, mealBodyValidator], MealsController.editMeal)
+//PATCH       
+meals.patch('/:id', [editMealValidation, mealBodyValidator], MealsController.editMeal)
 
 //DELETE
 meals.delete('/:id', MealsController.deleteMeal)
