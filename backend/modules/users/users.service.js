@@ -1,4 +1,5 @@
 const UserSchema = require('./user.schema')
+const MealSchema = require('../meals/meals.schema')
 
 const getUsers = async () => {
     return await UserSchema.find()
@@ -14,6 +15,7 @@ const editUser = async (id, body) => {
 }
 
 const deleteUser = async(id) =>{
+    await MealSchema.deleteMany({user: id})
     return await UserSchema.findByIdAndDelete(id)
 }
 
