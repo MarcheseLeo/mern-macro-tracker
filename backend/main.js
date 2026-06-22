@@ -1,5 +1,6 @@
 const express = require('express')
 const startServer = require('./config/db')
+const cors = require('cors')
 require('dotenv').config()
 
 const port = process.env.PORT || 3000
@@ -15,8 +16,13 @@ const foods = require('./modules/foods/foods.route')
 const meals = require('./modules/meals/meals.route')
 
 const server = express()
-server.use(express.json())
 
+
+server.use(cors({
+    origin: 'http://localhost:5173'
+}))
+
+server.use(express.json())
 server.use(logger)
 
 server.use('/auth', auth)
