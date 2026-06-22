@@ -85,8 +85,8 @@ MealSchema.virtual('totalMealFats').get(function () {
     })
 
     return {
-        total: Math.round(total.total),
-        saturated: Math.round(total.saturated)
+        total: Number(total.total.toFixed(1)),
+        saturated: Number(total.saturated.toFixed(1)),
     }
 })
 
@@ -100,7 +100,7 @@ MealSchema.virtual('totalMealCarbs').get(function () {
 
     const total = this.items.reduce((sum, item) => {
         if (item.foodId && item.foodId.nutritionalValues) {
-            const { total: rowTotal, sugars: rowSugars} = item.foodId.nutritionalValues.carbs
+            const { total: rowTotal, sugars: rowSugars } = item.foodId.nutritionalValues.carbs
             const consumedQuantity = item.consumedQuantity
 
             const actualTotal = (rowTotal / 100) * consumedQuantity
@@ -119,8 +119,8 @@ MealSchema.virtual('totalMealCarbs').get(function () {
     })
 
     return {
-        total: Math.round(total.total),
-        sugars: Math.round(total.sugars)
+        total: Number(total.total.toFixed(1)),
+        sugars: Number(total.sugars.toFixed(1)),
     }
 })
 
@@ -134,7 +134,7 @@ MealSchema.virtual('totalMealProteins').get(function () {
 
         if (item.foodId && item.foodId.nutritionalValues) {
 
-            const {proteins: rowProteins} = item.foodId.nutritionalValues
+            const { proteins: rowProteins } = item.foodId.nutritionalValues
             const consumedQuantity = item.consumedQuantity
             const actualProteins = (rowProteins / 100) * consumedQuantity
 
@@ -155,7 +155,7 @@ MealSchema.virtual('totalMealFibers').get(function () {
 
         if (item.foodId && item.foodId.nutritionalValues) {
 
-            const {fibers: rowFibers} = item.foodId.nutritionalValues
+            const { fibers: rowFibers } = item.foodId.nutritionalValues
             const consumedQuantity = item.consumedQuantity
             const actualFibers = (rowFibers / 100) * consumedQuantity
 
@@ -176,7 +176,7 @@ MealSchema.virtual('totalMealSalt').get(function () {
 
         if (item.foodId && item.foodId.nutritionalValues) {
 
-            const {salt: rowSalt} = item.foodId.nutritionalValues
+            const { salt: rowSalt } = item.foodId.nutritionalValues
             const consumedQuantity = item.consumedQuantity
             const actualSalt = (rowSalt / 100) * consumedQuantity
 
