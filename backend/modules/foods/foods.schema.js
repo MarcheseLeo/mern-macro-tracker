@@ -48,6 +48,10 @@ const FoodSchema = new mongoose.Schema({
         type: String,
         enum: ['per_100', 'per_serving'],
         default: 'per_100'
+    },
+    isActive: {
+        type: Boolean,
+        default: true
     }
 }, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 
