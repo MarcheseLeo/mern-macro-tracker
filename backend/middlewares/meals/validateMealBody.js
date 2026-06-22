@@ -23,6 +23,31 @@ const mealBodyValidation = [
 
 ]
 
+const editMealValidation = [
+    body('mealType')
+        .optional() 
+        .isIn(['breakfast', 'lunch', 'dinner', 'snack'])
+        .withMessage('mealType must be breakfast, lunch, dinner or snack'),
+    body('date')
+        .optional()
+        .isISO8601().toDate()
+        .withMessage('date must be a valid date'),
+    body('items')
+        .optional() 
+        .isArray({ min: 1 })
+        .withMessage('items must be a non-empty array'),
+    body('items.*.foodId')
+        .if(body('items').exists()) 
+        .notEmpty()
+        .isMongoId()
+        .withMessage('foodId must be a valid MongoDB ObjectId'),
+    body('items.*.consumedQuantity')
+        .if(body('items').exists()) 
+        .notEmpty()
+        .isFloat({ min: 1 })
+        .withMessage('consumedQuantity must be a number greater than or equal to 1')
+]
+
 const mealBodyValidator = (req, res, next) => {
     const errors = validationResult(req)
 
@@ -37,5 +62,6 @@ const mealBodyValidator = (req, res, next) => {
 
 module.exports = {
     mealBodyValidation,
+    editMealValidation,
     mealBodyValidator
 }

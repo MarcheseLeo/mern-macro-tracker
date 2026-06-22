@@ -1,6 +1,6 @@
 const express = require('express')
 const MealsController = require('./meals.controller')
-const {mealBodyValidation, mealBodyValidator} = require('../../middlewares/meals/validateMealBody')
+const {mealBodyValidation, editMealValidation, mealBodyValidator} = require('../../middlewares/meals/validateMealBody')
 const meals = express.Router()
 
 //GET
@@ -11,7 +11,7 @@ meals.get('/:id', MealsController.getMealById)
 meals.post('/',[mealBodyValidation, mealBodyValidator] ,MealsController.createMeal)
 
 //PUT       
-meals.put('/:id', MealsController.editMeal)
+meals.put('/:id', [editMealValidation, mealBodyValidator], MealsController.editMeal)
 
 //DELETE
 meals.delete('/:id', MealsController.deleteMeal)
