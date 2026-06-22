@@ -13,6 +13,7 @@ users.put('/me', UserController.editMe)
 users.put('/:id', UserController.editUser)
 
 //Delete 
+users.delete('/me', UserController.deleteMe)
 users.delete('/:id', UserController.deleteUser)
 
 module.exports = users

@@ -67,7 +67,7 @@ const editMe = async (req, res, next) => {
         res.status(200)
             .send({
                 statusCode: 200,
-                message: 'User updated successfully',
+                message: 'User updated successfully!',
                 user
             })
     }catch(e){
@@ -88,10 +88,28 @@ const editUser = async (req, res, next) => {
         res.status(200)
             .send({
                 statusCode: 200,
-                message: 'User updated successfully',
+                message: 'User updated successfully!',
                 user
             })
     } catch (e) {
+        next(e)
+    }
+}
+
+const deleteMe = async(req, res, next) =>{
+    try{
+        const {id} = req.user
+        const user = await UserService.deleteUser(id)
+
+        if(!user)
+            throw new UserNotFoundException()
+
+        res.status(200)
+            .send({
+                statusCode: 200,
+                message: 'User deleted successfully!'
+            })
+    }catch(e){
         next(e)
     }
 }
@@ -108,7 +126,7 @@ const deleteUser = async (req, res, next) => {
         res.status(200)
             .send({
                 statusCode: 200,
-                message: 'User deleted successfully',
+                message: 'User deleted successfully!',
             })
     } catch (e) {
         next(e)
@@ -121,5 +139,6 @@ module.exports = {
     getUserById,
     editMe,
     editUser,
+    deleteMe,
     deleteUser
 }
