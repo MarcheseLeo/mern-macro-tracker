@@ -69,6 +69,10 @@ const foodBodyValidation = [
         .optional()
         .isIn(['per_100', 'per_serving'])
         .withMessage('nutritionBasis must be per_100 or per_serving'),
+    body('isActive')
+        .optional()
+        .isBoolean()
+        .withMessage('isActive must be a boolean')
 ]
 
 const editFoodValidation = [
@@ -151,6 +155,10 @@ const editFoodValidation = [
         .optional()
         .isIn(['per_100', 'per_serving'])
         .withMessage('nutritionBasis must be per_100 or per_serving'),
+    body('isActive')
+        .optional()
+        .isBoolean()
+        .withMessage('isActive must be a boolean')
 ]
 
 const foodBodyValidator = (req, res, next) => {

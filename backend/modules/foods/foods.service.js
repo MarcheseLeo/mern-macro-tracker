@@ -1,7 +1,11 @@
 const FoodSchema = require('./foods.schema')
 
 const getFoods = async (searchQuery='') =>{
-    const filter = searchQuery ? {name: { $regex: searchQuery, $options: 'i'}} : {}
+    const filter = { isActive: true }
+
+    if (searchQuery) {
+        filter.name = { $regex: searchQuery, $options: 'i' }
+    }
     return await FoodSchema.find(filter)
 }
 
@@ -20,7 +24,8 @@ const editFood = async(id, body)=>{
 }
 
 const deleteFood = async(id) =>{
-    return await FoodSchema.findByIdAndDelete(id)
+    const deletedFood = await FoodSchema.findByIdAndUpdate(id, {isActive: false }, {new: true})
+    return deleteFood
 }
 
 module.exports = {
