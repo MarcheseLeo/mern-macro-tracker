@@ -1,10 +1,6 @@
 const { body, validationResult } = require('express-validator')
 
 const mealBodyValidation = [
-    body('user')
-        .notEmpty()
-        .isMongoId()
-        .withMessage('user must be a valid user MongoDb ObjectId'),
     body('mealType')
         .notEmpty()
         .isIn(['breakfast', 'lunch', 'dinner', 'snack'])

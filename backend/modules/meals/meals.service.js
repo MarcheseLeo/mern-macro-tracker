@@ -14,16 +14,20 @@ const getMeals = async (userId, dateString = null) => {
     }
 
     return await MealSchema.find(filter).populate([
-        { path: 'user', select: 'firstName lastName gender height dailyKcalGoal' },
-        { path: 'items.foodId' }
+        {
+            path: 'items.foodId',
+            select: 'name brand servingSize servingUnit nutritionalValues '
+        }
     ])
         .sort({ date: -1 })
 }
 
 const getMealById = async (id, userId) => {
     return await MealSchema.findOne({ _id: id, user: userId }).populate([
-        { path: 'user', select: 'firstName lastName gender height dailyKcalGoal' },
-        { path: 'items.foodId' }
+        {
+            path: 'items.foodId',
+            select: 'name brand servingSize servingUnit nutritionalValues'
+        }
     ])
 }
 
@@ -32,8 +36,10 @@ const createMeal = async (body) => {
     await newMeal.save()
 
     return await newMeal.populate([
-        { path: 'user', select: 'firstName lastName gender height dailyKcalGoal' },
-        { path: 'items.foodId' }
+        {
+            path: 'items.foodId',
+            select: 'name brand servingSize servingUnit nutritionalValues'
+        }
     ])
 
 }
@@ -44,8 +50,10 @@ const editMeal = async (id, body, userId) => {
         return null
     }
     return updatedMeal.populate([
-        { path: 'user', select: 'firstName lastName gender height dailyKcalGoal' },
-        { path: 'items.foodId' }
+        {
+            path: 'items.foodId',
+            select: 'name brand servingSize servingUnit nutritionalValues'
+        }
     ])
 }
 
