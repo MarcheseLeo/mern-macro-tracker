@@ -34,23 +34,51 @@ const UserSchema = new mongoose.Schema({
         enum: ['male', 'female', 'not specified'],
         default: 'not specified'
     },
+    weight:{
+        type: Number
+    },
     height: {
-        type: mongoose.Schema.Types.Number
+        type: Number
     },
     dailyKcalGoal: {
         type: Number,
         required: true,
         default: 2000
+    },
+    avatar:{
+        type: String,
+        required: false,
+        default: 'https://placehold.co/600x400'
     }
 }, {
     timestamps: true,
     strict: true,
+    toObject: {virtuals: true},
     toJSON: {
+        virtuals: true,
         transform: function (doc, ret) {
             delete ret.password
             return ret
         }
     }
+})
+
+UserSchema.virtual('age').get(function(){
+    if(!this.dob){
+        return null
+    }
+
+    const today = new Date()
+    const birthDate = new Date(this.dob)
+
+    let age = today.getFullYear() - birthDate.getFullYear()
+    const m = today.getMonth() - birthDate.getMonth()
+
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    return age
 })
 
 UserSchema.pre('save', async function () {

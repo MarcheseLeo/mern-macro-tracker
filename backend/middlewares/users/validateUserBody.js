@@ -40,6 +40,10 @@ const userBodyValidation = [
         .optional()
         .isIn(['male', 'female', 'not specified'])
         .withMessage('gender must be male, female or not specified'),
+    body('weight')
+        .optional()
+        .isFloat({ min: 0 })
+        .withMessage('weight must be a positive number'),
     body('height')
         .optional()
         .isFloat({ min: 0 })
@@ -47,7 +51,12 @@ const userBodyValidation = [
     body('dailyKcalGoal')
         .optional()
         .isInt({ min: 1 })
-        .withMessage('dailyKcalGoal must be a positive integer')
+        .withMessage('dailyKcalGoal must be a positive integer'),
+    body('avatar')
+        .optional()
+        .isString()
+        .isURL()
+        .withMessage('avatar must be a valid url'),
 ]
 
 const editUserValidation = [
@@ -94,6 +103,10 @@ const editUserValidation = [
         .optional()
         .isIn(['male', 'female', 'not specified'])
         .withMessage('gender must be male, female or not specified'),
+    body('weight')
+        .optional()
+        .isFloat({ min: 0 })
+        .withMessage('weight must be a positive number'),
     body('height')
         .optional()
         .isFloat({ min: 0 })
@@ -101,7 +114,12 @@ const editUserValidation = [
     body('dailyKcalGoal')
         .optional()
         .isInt({ min: 1 })
-        .withMessage('dailyKcalGoal must be a positive integer')
+        .withMessage('dailyKcalGoal must be a positive integer'),
+    body('avatar')
+        .optional()
+        .isString()
+        .isURL()
+        .withMessage('avatar must be a valid url'),
 ]
 
 const userBodyValidator = (req, res, next) => {
