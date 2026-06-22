@@ -1,5 +1,5 @@
 const express = require('express')
-const {foodBodyValidation, foodBodyValidator} = require('../../middlewares/foods/validateFoodBody')
+const {foodBodyValidation, editFoodValidation , foodBodyValidator} = require('../../middlewares/foods/validateFoodBody')
 const foods = express.Router()
 const FoodController = require('./foods.controller')
 
@@ -11,7 +11,7 @@ foods.get('/:id', FoodController.getFoodById)
 foods.post('/',[foodBodyValidation, foodBodyValidator] ,FoodController.createFood)
 
 //PUT
-foods.put('/:id', FoodController.editFood)
+foods.put('/:id',[editFoodValidation, foodBodyValidator] ,FoodController.editFood)
 
 //DELETE
 foods.delete('/:id', FoodController.deleteFood)
