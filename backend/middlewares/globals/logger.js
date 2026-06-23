@@ -1,21 +1,45 @@
-const pc = require('picocolors')
+const pc = require("picocolors");
+
 const logger = (req, res, next) => {
-    const { method, url } = req
-    const timeString = new Date().toLocaleTimeString()
+    const { method, originalUrl } = req;
+    const startTime = Date.now();
 
-    let coloredMethod = pc.white(method)
-    switch (method) {
-        case 'GET': coloredMethod = pc.green(method); break;
-        case 'POST': coloredMethod = pc.yellow(method); break;
-        case 'PUT': coloredMethod = pc.blue(method); break;
-        case 'DELETE': coloredMethod = pc.red(method); break;
-    }
 
-    console.log(
-        `${pc.gray(timeString)} | ${pc.bold(coloredMethod)} -> ${pc.cyan(url)}`
-    )
-    next()
+    const methodColors = {
+        GET: pc.green,
+        POST: pc.yellow,
+        PUT: pc.blue,
+        DELETE: pc.red,
+        PATCH: pc.magenta,
+    };
 
-}
+
+    const colorFn = methodColors[method] || pc.white;
+    const coloredMethod = pc.bold(colorFn(method));
+
+
+
+    res.on("finish", () => {
+        const timeString = new Date().toLocaleTimeString();
+        const duration = Date.now() - startTime;
+        const statusCode = res.statusCode;
+
+        let statusColor = pc.green;
+        if (statusCode >= 400) statusColor = pc.red;
+        else if (statusCode >= 300) statusColor = pc.yellow;
+
+
+        const logLine = `${pc.gray(`[${timeString}]`)} | ${coloredMethod} -> ${pc.cyan(originalUrl)} | Status: ${statusColor(statusCode)} (${duration}ms)`;
+
+
+        if (statusCode >= 400) {
+            console.log(`${pc.red("⚠️ ")} ${logLine}`);
+        } else {
+            console.log(`${pc.cyan("ℹ️ ")} ${logLine}`);
+        }
+    });
+
+    next();
+};
 
 module.exports = logger
