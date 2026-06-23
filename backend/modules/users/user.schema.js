@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema({
     avatar:{
         type: String,
         required: false,
-        default: 'https://placehold.co/600x400'
+        default: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
     }
 }, {
     timestamps: true,
