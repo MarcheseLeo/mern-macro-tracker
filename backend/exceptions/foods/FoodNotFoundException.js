@@ -2,7 +2,7 @@ const HttpException= require('../index')
 
 class FoodNotFoundException extends HttpException{
     constructor(
-        message = 'No Food Found',
+        message = 'No product Found',
         statusCode  = 404,
         error = 'The requested resource is not found'
     ){
