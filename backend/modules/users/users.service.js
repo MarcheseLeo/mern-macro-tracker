@@ -10,7 +10,7 @@ const getUserById = async (id) => {
 }
 
 const editUser = async (id, body) => {
-    const updatedUser = await UserSchema.findByIdAndUpdate(id, body, { new: true })
+    const updatedUser = await UserSchema.findByIdAndUpdate(id, body, { returnDocument: 'after' })
     return updatedUser
 }
 
