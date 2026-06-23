@@ -11,6 +11,7 @@ const verifyToken = require('./middlewares/auth/verifyToken')
 
 //Dichiarazione Rotte
 const auth = require('./modules/auth/auth.route')
+const googleOauth = require('./modules/oauth/oauth.route')
 const users = require('./modules/users/users.route')
 const foods = require('./modules/foods/foods.route')
 const meals = require('./modules/meals/meals.route')
@@ -26,6 +27,7 @@ server.use(express.json())
 server.use(logger)
 
 server.use('/auth', auth)
+server.use('/auth', googleOauth)
 
 server.use(verifyToken)
 
