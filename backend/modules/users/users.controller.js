@@ -98,6 +98,26 @@ const editUser = async (req, res, next) => {
     }
 }
 
+const updatePassword = async (req, res, next) =>{
+    try{
+        const {id} = req.user
+        const {oldPassword, newPassword} = req.body
+
+        const user = await UserService.updatePassword(id, oldPassword, newPassword)
+
+        if(!user)
+            throw new UserNotFoundException()
+
+        res.status(200)
+            .send({
+                statusCode: 200,
+                message: 'Password updated successfully!'
+            })
+    }catch(e){
+        next(e)
+    }
+}
+
 const deleteMe = async (req, res, next) => {
     try {
         const { id } = req.user
@@ -205,6 +225,7 @@ module.exports = {
     getUserById,
     editMe,
     editUser,
+    updatePassword,
     deleteMe,
     deleteUser,
     uploadAvatar

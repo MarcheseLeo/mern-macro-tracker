@@ -57,6 +57,12 @@ const userBodyValidation = [
         .isString()
         .isURL()
         .withMessage('avatar must be a valid url'),
+    body('isVerified')
+        .not().exists()
+        .withMessage('Cannot set isVerified from this route'),
+    body('verificationToken')
+        .not().exists()
+        .withMessage('Cannot set verificationToken from this route'),
 ]
 
 const editUserValidation = [
@@ -80,11 +86,8 @@ const editUserValidation = [
         .notEmpty()
         .withMessage('email must be a valid email'),
     body('password')
-        .optional()
-        .if(body('googleId').not().exists())
-        .isLength({ min: 8 })
-        .isString()
-        .withMessage('password must be a string with at least 8 characters'),
+        .not().exists()
+        .withMessage('Cannot update password from this route. Please use /me/password'),
     body('googleId')
         .optional()
         .isString()
@@ -120,6 +123,26 @@ const editUserValidation = [
         .isString()
         .isURL()
         .withMessage('avatar must be a valid url'),
+    body('isVerified')
+        .not().exists()
+        .withMessage('Cannot update isVerified from this route'),
+    body('verificationToken')
+        .not().exists()
+        .withMessage('Cannot update verificationToken from this route'),
+]
+
+const changePasswordValidation = [
+    body('oldPassword')
+        .exists()
+        .withMessage('oldPassword is required')
+        .isString()
+        .notEmpty(),
+    body('newPassword')
+        .exists()
+        .withMessage('newPassword is required')
+        .isString()
+        .isLength({ min: 8 })
+        .withMessage('newPassword must be a string with at least 8 characters')
 ]
 
 const userBodyValidator = (req, res, next) => {
@@ -138,5 +161,6 @@ const userBodyValidator = (req, res, next) => {
 module.exports = {
     userBodyValidation,
     editUserValidation,
+    changePasswordValidation,
     userBodyValidator
 }
