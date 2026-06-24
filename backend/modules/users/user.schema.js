@@ -49,6 +49,13 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: false,
         default: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    verificationToken: {
+        type: String
     }
 }, {
     timestamps: true,

@@ -2,10 +2,10 @@ const passport = require('passport')
 const express = require('express')
 const oauth = express.Router()
 const GoogleStrategy = require('passport-google-oauth20').Strategy
-// rimosso express-session: in un'API REST con JWT non serve!
+
 const GoogleController = require('./google.oauth.controller')
 
-const User = require('../users/user.schema') // <-- Adatta il percorso al tuo file
+const User = require('../users/user.schema') 
 
 oauth.use(passport.initialize())
 
