@@ -29,10 +29,17 @@ const errorHandler = (err, req, res, next) => {
     }
 
     if (err.code === 11000) {
-        return res.status(400)
+        const duplicatedField = Object.keys(err.keyValue)[0]
+        let customMessage = `Field '${duplicatedField}' already in use`
+
+        if (duplicatedField === 'email') {
+            customMessage = "An account linked to this email address already exists.";
+        }
+
+        return res.status(409)
             .json({
-                statusCode: 400,
-                message: 'Mongoose Error: duplicate key error'
+                statusCode: 409,
+                message: customMessage
             })
     }
 
