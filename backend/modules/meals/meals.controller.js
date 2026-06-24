@@ -1,5 +1,6 @@
 const MealService = require('./meals.service')
 const MealNotFoundException = require('../../exceptions/meals/MealNotFoundException')
+const { get } = require('./meals.route')
 
 const getMeals = async (req, res, next) => {
     try {
@@ -28,10 +29,10 @@ const getMeals = async (req, res, next) => {
 
 const getMealById = async (req, res, next) => {
     try {
-        const { id } = req.params
+        const { id: mealId } = req.params
         const { id: userId } = req.user
 
-        const meal = await MealService.getMealById(id, userId)
+        const meal = await MealService.getMealById(mealId, userId)
 
         if (!meal)
             throw new MealNotFoundException()
@@ -64,13 +65,36 @@ const createMeal = async (req, res, next) => {
     }
 }
 
+const addMealItem = async (req, res, next) => {
+    try {
+        const { id: mealId } = req.params
+        const { id: userId } = req.user
+        const { body } = req
+
+        const meal = await MealService.addMealItem(mealId, userId, body)
+
+        if (!meal)
+            throw new MealNotFoundException()
+
+        res.status(200)
+            .send({
+                statusCode: 200,
+                message: 'Food added to meal successfully!',
+                meal: meal
+            })
+    } catch (e) {
+        console.error("🚨 ERRORE IN ADD ITEM:", e);
+        next(e)
+    }
+}
+
 const editMeal = async (req, res, next) => {
     try {
         const { id: userId } = req.user
-        const { id } = req.params
+        const { id: mealId } = req.params
         const { body } = req
 
-        const meal = await MealService.editMeal(id, body, userId)
+        const meal = await MealService.editMeal(mealId, userId, body)
 
         if (!meal)
             throw new MealNotFoundException()
@@ -85,14 +109,53 @@ const editMeal = async (req, res, next) => {
     }
 }
 
+const removeMealItem = async (req, res, next) => {
+    try {
+        const { id: userId } = req.user
+        const { id: mealId, itemId } = req.params
+
+        const meal = await MealService.removeMealItem(mealId, itemId, userId)
+
+        if (!meal)
+            throw new MealNotFoundException()
+
+        res.status(200)
+            .send({
+                statusCode: 200,
+                message: 'Food removed from meal successfully!'
+            })
+    } catch (e) {
+        console.log(e)
+        next(e)
+    }
+}
+
+const getDailySummary = async (req, res, next) => {
+    try {
+        const { id } = req.user
+        const { date } = req.query
+
+        const summary = await MealService.getDailySummary(id, date)
+
+        res.status(200)
+            .send({
+                statusCode: 200,
+                message: 'Daily summary fetched successfully',
+                summary
+            })
+    } catch (e) {
+        next(e)
+    }
+}
+
 const deleteMeal = async (req, res, next) => {
     try {
         const { id: userId } = req.user
-        const { id } = req.params
+        const { id: mealId } = req.params
 
-        const meal = await MealService.deleteMeal(id, userId)
+        const meal = await MealService.deleteMeal(mealId, userId)
 
-        if(!meal)
+        if (!meal)
             throw new MealNotFoundException()
 
         res.status(200)
@@ -109,6 +172,9 @@ module.exports = {
     getMeals,
     getMealById,
     createMeal,
+    addMealItem,
     editMeal,
+    removeMealItem,
+    getDailySummary,
     deleteMeal
 }
