@@ -22,6 +22,18 @@ const mealBodyValidation = [
         .withMessage('consumedQuantity must be a number greater than or equal to 1')
 
 ]
+const mealItemValidation = [
+    body('foodId')
+        .notEmpty()
+        .withMessage('foodId is required')
+        .isMongoId()
+        .withMessage('foodId must be a valid MongoDB ObjectId'),
+    body('consumedQuantity')
+        .notEmpty()
+        .withMessage('consumedQuantity is required')
+        .isFloat({ min: 1 })
+        .withMessage('consumedQuantity must be a number greater than or equal to 1')
+]
 
 const editMealValidation = [
     body('mealType')
@@ -62,6 +74,7 @@ const mealBodyValidator = (req, res, next) => {
 
 module.exports = {
     mealBodyValidation,
+    mealItemValidation,
     editMealValidation,
     mealBodyValidator
 }
