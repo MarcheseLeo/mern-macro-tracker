@@ -80,7 +80,7 @@ export const Welcome = () => {
                 </div>
 
                 {/* Top badge */}
-                <span className='badge bg-white text-muted rounded-pill shadow-soft-sm px-3 py-2 mb-4 mt-5 fs-6 fw-normal d-inline-flex align-items-center gap-2'>
+                <span className='badge bg-white rounded-pill shadow-soft-sm px-3 py-2 mb-4 mt-5 fs-6 d-inline-flex align-items-center gap-2 fw-semibold text-muted-foreground' >
                     <span className="dot-protein rounded-circle"></span>
                     Your daily nutrition, simplified
                 </span>
@@ -89,7 +89,7 @@ export const Welcome = () => {
                     Track your <span className='text-primary-custom'>diet journey</span> with joy
                 </h1>
 
-                <p className='lead text-muted mx-auto mb-5 fw-semibold' style={{ maxWidth: '600px' }}>
+                <p className='lead text-muted-foreground mx-auto mb-5 fw-normal' style={{ maxWidth: '600px' }}>
                     Log meals in seconds, keep your macros balanced, and build healthy
                     habits with a tracker that actually feels good to use.
                 </p>
@@ -117,7 +117,7 @@ export const Welcome = () => {
                                     <f.icon size={24} />
                                 </span>
                                 <h3 className='h5 fw-bold  mb-2'>{f.title}</h3>
-                                <p className='text-muted fw-semibold small mb-0'>{f.body}</p>
+                                <p className='text-muted-foreground fw-semibold small mb-0'>{f.body}</p>
                             </article>
                         </div>
                     ))}
