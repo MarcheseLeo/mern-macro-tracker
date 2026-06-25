@@ -1,6 +1,5 @@
 const MealService = require('./meals.service')
 const MealNotFoundException = require('../../exceptions/meals/MealNotFoundException')
-const { get } = require('./meals.route')
 
 const getMeals = async (req, res, next) => {
     try {

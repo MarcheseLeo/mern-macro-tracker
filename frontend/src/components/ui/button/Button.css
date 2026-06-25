@@ -1,0 +1,106 @@
+.btn {
+    line-height: 1.2;
+}
+
+.btn svg {
+    vertical-align: middle;
+    transform: translateY(1px);
+}
+
+.btn-primary-custom {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.btn-primary-custom {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary-custom:hover,
+.btn-primary-custom:focus {
+    background-color: var(--primary-muted);
+    border-color: var(--primary-muted);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-outline-custom {
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    color: var(--foreground);
+    transition: all 0.2s ease;
+}
+
+.btn-outline-custom:hover,
+.btn-outline-custom[aria-expanded="true"] {
+    background-color: var(--muted);
+    color: var(--foreground);
+}
+
+.btn-secondary-custom {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary-custom:hover,
+.btn-secondary-custom[aria-expanded="true"] {
+    opacity: 0.8;
+    color: var(--secondary-foreground);
+}
+
+.btn-ghost-custom {
+    background-color: transparent;
+    color: var(--muted-foreground);
+    /* Testo leggermente grigio di base */
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-ghost-custom:hover,
+.btn-ghost-custom:focus,
+.btn-ghost-custom[aria-expanded="true"] {
+    background-color: var(--muted);
+    color: var(--foreground);
+}
+
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-destructive-custom {
+    background-color: rgba(241, 39, 78, 0.1);
+    color: var(--destructive);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.btn-destructive-custom:hover {
+    background-color: rgba(241, 39, 78, 0.2);
+    color: var(--destructive);
+}
+
+.btn-link-custom {
+    background-color: transparent;
+    color: var(--primary);
+    border: 1px solid transparent;
+    text-decoration: none;
+    text-underline-offset: 4px;
+}
+
+.btn-link-custom:hover {
+    text-decoration: underline;
+    color: var(--primary);
+}
