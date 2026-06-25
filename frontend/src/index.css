@@ -1,0 +1,124 @@
+/* Importiamo Inter e Poppins da Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap');
+
+:root {
+    /* macro-tracker theme v2 */
+    --background: #f9fafc;
+    --foreground: #121826;
+    --card: #ffffff;
+    --card-foreground: #121826;
+    --popover: #ffffff;
+    --popover-foreground: #121826;
+
+    /* Indigo primary */
+    --primary: #4f50de;
+    --primary-foreground: #fafbff;
+    --primary-muted: #7474db;
+
+    --secondary: #eff2f9;
+    --secondary-foreground: #262d42;
+    --muted: #f2f3f8;
+    --muted-foreground: #6d717e;
+    --accent: #e9edff;
+    --accent-foreground: #383e87;
+    --destructive: #f1274e;
+    --border: #e3e4e9;
+    --input: #e3e4e9;
+    --ring: #4f50de;
+
+    /* Macro colors */
+    --carbs: rgb(0, 158, 218);
+    --carbs-foreground: rgb(0, 68, 105);
+    --carbs-soft: rgb(207, 237, 255);
+    --protein: rgb(46, 186, 122);
+    --protein-foreground: rgb(0, 87, 50);
+    --protein-soft: rgb(205, 243, 219);
+    --fat: rgb(244, 164, 55);
+    --fat-foreground: rgb(141, 74, 0);
+    --fat-soft: rgb(255, 231, 199);
+    --water: rgb(0, 170, 207);
+    --water-foreground: rgb(0, 82, 106);
+    --water-soft: rgb(214, 240, 249);
+
+    --chart-1: rgb(79, 80, 222);
+    --chart-2: rgb(0, 158, 218);
+    --chart-3: rgb(46, 186, 122);
+    --chart-4: rgb(244, 164, 55);
+    --chart-5: rgb(197, 78, 190);
+
+    --radius: 1.5rem;
+
+    --sidebar: rgb(255, 255, 255);
+    --sidebar-foreground: rgb(18, 24, 38);
+    --sidebar-primary: rgb(79, 80, 222);
+    --sidebar-primary-foreground: oklch(0.99 0.01 276);
+    --sidebar-accent: rgb(233, 237, 255);
+    --sidebar-accent-foreground: rgb(56, 62, 135);
+    --sidebar-border: oklch(0.92 0.006 270);
+    --sidebar-ring: rgb(79, 80, 222);
+
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.font-heading {
+    font-family: var(--font-heading);
+}
+
+.shadow-soft {
+    box-shadow: 0 10px 30px -12px rgba(79, 80, 222, 0.18);
+}
+
+.shadow-soft-sm {
+    box-shadow: 0 6px 18px -10px rgba(79, 80, 222, 0.16);
+}
+
+.shadow-soft-lg {
+    box-shadow: 0 24px 50px -20px rgba(79, 80, 222, 0.28);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.radius-sm {
+    border-radius: calc(var(--radius) - 6px) !important
+}
+
+.radius-md {
+    border-radius: (var(--radius) - 4px) !important
+}
+
+.radius-lg {
+    border-radius: var(--radius) !important
+}
+
+.radius-xl {
+    border-radius: calc(var(--radius) + 6px) !important
+}
+
+.radius-2xl {
+    border-radius: calc(var(--radius) + 12px) !important
+}
+
+.radius-3xl {
+    border-radius: calc(var(--radius) + 18px) !important
+}
