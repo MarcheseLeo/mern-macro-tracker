@@ -36,7 +36,6 @@ export const LoginForm = () => {
                 body: JSON.stringify(loginForm)
             })
             const data = await response.json()
-            console.log(data.token)
             if (response.ok) {
                 setError(null)
                 await login(data.token)

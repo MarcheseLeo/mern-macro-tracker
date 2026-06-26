@@ -4,16 +4,23 @@ export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
 
     const getUser = async () => {
+        setIsLoading(true)
         const token = localStorage.getItem('token')
-        if (!token)
+        if (!token) {
+            setIsLoading(false)
             return
-
+        }
         try {
             const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/users/me`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
+
+            if (response.status === 401) {
+                logout()
+            }
             if (response.ok) {
                 const data = await response.json()
                 setUser(data)
@@ -23,6 +30,9 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (e) {
             console.error("Errore fetch user", e)
+            setUser(null)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -45,7 +55,8 @@ export const AuthProvider = ({ children }) => {
             value={{
                 user,
                 login,
-                logout
+                logout,
+                isLoading
             }}
         >
             {children}
