@@ -12,7 +12,6 @@ main{
     background-color: var(--protein);
 }
 
-
 .feature-card {
     transition: transform 0.3s ease;
 }

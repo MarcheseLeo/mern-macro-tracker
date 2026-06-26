@@ -5,6 +5,7 @@ export const BlurredBackground = () => {
         <>
             <div aria-hidden="true" className='bg-blob blob-left'></div>
             <div aria-hidden="true" className='bg-blob blob-right'></div>
+            <div aria-hidden="true" className='bg-blob blob-bottom'></div>
         </>
     )
 }
