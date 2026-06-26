@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
+import { Loader2, CheckCircle2, XCircle, Home } from 'lucide-react';
+import Button from '../../components/ui/button/Button'
+import './VerifyEmail.css'
 
 export default function VerifyEmail() {
     const [searchParams] = useSearchParams()
     const token = searchParams.get('token')
-    
     const [status, setStatus] = useState('loading');
 
     useEffect(() => {
@@ -38,33 +40,42 @@ export default function VerifyEmail() {
     }, [token])
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-            {status === 'loading' && (
-                <>
-                    <h2>Verifica in corso... ⏳</h2>
-                    <p>Stiamo confermando il tuo indirizzo email.</p>
-                </>
-            )}
+        <main className="d-flex justify-content-center align-items-center min-vh-100 px-3">
+            <div className="text-center" style={{ maxWidth: '400px' }}>
+                
+                {/* STATUS: LOADING */}
+                {status === 'loading' && (
+                    <>
+                        <Loader2 className="animate-spin mb-4" size={48} color="var(--primary)" />
+                        <h2 className="font-heading fw-bold">Verifying your account...</h2>
+                        <p className="text-muted small">Please wait a moment while we confirm your email.</p>
+                    </>
+                )}
 
-            {status === 'success' && (
-                <>
-                    <h2 style={{ color: 'green' }}>Email verificata con successo! 🎉</h2>
-                    <p>Il tuo account è ora attivo.</p>
-                    <Link to="/login">
-                        <button>Vai al Login</button>
-                    </Link>
-                </>
-            )}
+                {/* STATUS: SUCCESS */}
+                {status === 'success' && (
+                    <>
+                        <div className="mb-4 text-success"><CheckCircle2 size={64} /></div>
+                        <h2 className="font-heading fw-bold">Email verified! 🎉</h2>
+                        <p className="text-muted small mb-4">Your account is now active. You can log in and start tracking your meals.</p>
+                        <Button asChild variant="default" className="rounded-pill px-4">
+                            <Link to="/login">Go to Login</Link>
+                        </Button>
+                    </>
+                )}
 
-            {status === 'error' && (
-                <>
-                    <h2 style={{ color: 'red' }}>Ops, qualcosa è andato storto ❌</h2>
-                    <p>Il link di verifica potrebbe essere scaduto o non valido.</p>
-                    <Link to="/register">
-                        <button>Torna alla registrazione</button>
-                    </Link>
-                </>
-            )}
-        </div>
+                {/* STATUS: ERROR */}
+                {status === 'error' && (
+                    <>
+                        <div className="mb-4 text-danger"><XCircle size={64} /></div>
+                        <h2 className="font-heading fw-bold">Verification failed</h2>
+                        <p className="text-muted small mb-4">The link is invalid or expired. Try registering again.</p>
+                        <Button asChild variant="outline" className="rounded-pill px-4">
+                            <Link to="/register">Back to register</Link>
+                        </Button>
+                    </>
+                )}
+            </div>
+        </main>
     );
 }
