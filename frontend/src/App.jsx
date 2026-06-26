@@ -3,7 +3,8 @@ import Home from "./pages/Home/Home"
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail"
 import { Welcome } from './pages/Welcome/Welcome';
 import { Login } from './pages/Login/Login';
-import { Register } from './pages/Register/Register';
+import { Register } from './pages/Register/Register'
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
 const App = () => {
 
   return (
@@ -15,12 +16,11 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path='/register' element={<Register/>} />
         <Route path='/verify' element={<VerifyEmail/>} />
-        {/* <Route element={<AppShell />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route> * */}
-      <Route path='/home' element={<Home/>}>
 
+      <Route element={<ProtectedRoute/>}>
+        <Route path='/home' element={<Home/>}/>
       </Route>
+
       </Routes>
     </BrowserRouter>
   )
