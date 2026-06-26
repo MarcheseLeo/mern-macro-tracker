@@ -1,7 +1,9 @@
 import { ArrowRight, Flame, Droplets, Activity, Check } from 'lucide-react'
 import { Link } from 'react-router-dom';
 import './Welcome.css'
+import { Logo } from '../../components/logo/Logo';
 import Button from '../../components/ui/button/Button';
+import { BlurredBackground } from '../../components/ui/blurredBackground/BlurredBackground';
 
 const floaties = [
     { emoji: '🥑', top: '18%', left: '6%', rotate: '-8deg', delay: '0s' },
@@ -41,17 +43,12 @@ export const Welcome = () => {
         <main className='welcome-main position-relative min-vh-100 overflow-hidden'>
 
             {/* Blurred backgrounds */}
-            <div className='bg-blob blob-left'></div>
-            <div className='bg-blob blob-right'></div>
+            <BlurredBackground/>
 
             {/* HEADER */}
             <header className='container position-relative z-1 d-flex justify-content-between align-items-center py-4'>
-                <div className='d-flex align-items-center gap-2'>
-                    <span className='logo-icon rounded-5 d-flex justify-content-center align-items-center rounded-4 shadow-soft-sm text-white'>
-                        <Flame size={20} />
-                    </span>
-                    <span className='fs-5 fw-bold tracking-tight'>Macro</span>
-                </div>
+                {/* Logo */}
+                <Logo/>
                 <Button asChild variant='ghost' size='sm' className='rounded-5 fw-medium'>
                     <Link to="/login">
                         Login
@@ -97,7 +94,7 @@ export const Welcome = () => {
                 {/* Call to Action Buttons */}
                 <div className=' d-flex flex-column flex-sm-row justify-content-center gap-3 mb-4'>
                     <Button asChild size='lg' className='px-4' style={{ height: '48px' }}>
-                        <Link to={"/register"}>
+                        <Link to={"/login"}>
                             Get started <ArrowRight size={20} className='ms-2' />
                         </Link>
                     </Button>

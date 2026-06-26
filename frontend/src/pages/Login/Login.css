@@ -1,0 +1,15 @@
+.login-container {
+    min-height: 100dvh;
+}
+
+.login-inner-container{
+    max-width: 448px;
+}
+
+.hover-underline:hover{
+    text-decoration: underline !important;
+}
+
+.login-container .card{
+    padding: 1.75rem;
+}
