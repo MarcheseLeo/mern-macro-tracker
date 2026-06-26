@@ -4,6 +4,7 @@ import VerifyEmail from "./pages/VerifyEmail/VerifyEmail"
 import { Welcome } from './pages/Welcome/Welcome';
 import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register'
+import { NotFound } from './pages/NotFound/NotFound';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 const App = () => {
 
@@ -20,7 +21,7 @@ const App = () => {
       <Route element={<ProtectedRoute/>}>
         <Route path='/home' element={<Home/>}/>
       </Route>
-
+      <Route path='*' element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>
   )
