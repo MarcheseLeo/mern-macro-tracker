@@ -123,6 +123,10 @@ h1, h2, h3, h4, h5, h6,
     border-radius: calc(var(--radius) + 18px) !important
 }
 
-.text-muted-foreground{
+.text-muted-foreground {
     color: var(--muted-foreground) !important
+}
+
+.tracking-tight {
+    letter-spacing: -0.025em;
 }
