@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { LoginForm } from '../../components/loginForm/LoginForm'
+import { LoginForm } from '../../components/form/loginForm/LoginForm'
 import Button from "../../components/ui/button/Button"
 import { Flame } from 'lucide-react';
 import './Login.css'

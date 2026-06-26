@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react'
 import { Mail, Lock, Loader2 } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
-import Button from '../ui/button/Button'
+import Button from '../../ui/button/Button'
 import { Form, InputGroup } from 'react-bootstrap'
-import {AuthContext} from '../../context/AuthContext'
+import {AuthContext} from '../../../context/AuthContext'
 import './LoginForm.css'
 
 export const LoginForm = () => {
@@ -25,6 +25,7 @@ export const LoginForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoadig(true)
+        setError(null)
         
         try {
             const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`, {
@@ -37,11 +38,12 @@ export const LoginForm = () => {
             const data = await response.json()
             console.log(data.token)
             if (response.ok) {
+                setError(null)
                 await login(data.token)
                 console.log("Login Success! Token salvato.");
                 navigate('/home')
             } else {
-                setError('Email or password field are wrong')
+                setError(data.message || 'Email or password field are wrong')
             }
         } catch (e) {
             console.error("Error:", e);
