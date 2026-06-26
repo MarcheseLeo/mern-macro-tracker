@@ -1,0 +1,31 @@
+.not-found-main {
+    background-color: var(--background);
+}
+
+.bg-blob-404 {
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    width: 300px;
+    height: 300px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+}
+
+.emoji-bounce {
+    font-size: 5rem;
+    display: inline-block;
+    animation: bounce-anim 3.5s ease-in-out infinite;
+}
+
+@keyframes bounce-anim {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}

@@ -41,6 +41,7 @@ export default function VerifyEmail() {
 
     return (
         <main className="d-flex justify-content-center align-items-center min-vh-100 px-3">
+            <div className="bg-blob-404"></div>
             <div className="text-center" style={{ maxWidth: '400px' }}>
                 
                 {/* STATUS: LOADING */}
@@ -48,7 +49,7 @@ export default function VerifyEmail() {
                     <>
                         <Loader2 className="animate-spin mb-4" size={48} color="var(--primary)" />
                         <h2 className="font-heading fw-bold">Verifying your account...</h2>
-                        <p className="text-muted small">Please wait a moment while we confirm your email.</p>
+                        <p className="text-muted-foreground small">Please wait a moment while we confirm your email.</p>
                     </>
                 )}
 
@@ -57,7 +58,7 @@ export default function VerifyEmail() {
                     <>
                         <div className="mb-4 text-success"><CheckCircle2 size={64} /></div>
                         <h2 className="font-heading fw-bold">Email verified! 🎉</h2>
-                        <p className="text-muted small mb-4">Your account is now active. You can log in and start tracking your meals.</p>
+                        <p className="text-muted-foreground small mb-4">Your account is now active. You can log in and start tracking your meals.</p>
                         <Button asChild variant="default" className="rounded-pill px-4">
                             <Link to="/login">Go to Login</Link>
                         </Button>
@@ -69,7 +70,7 @@ export default function VerifyEmail() {
                     <>
                         <div className="mb-4 text-danger"><XCircle size={64} /></div>
                         <h2 className="font-heading fw-bold">Verification failed</h2>
-                        <p className="text-muted small mb-4">The link is invalid or expired. Try registering again.</p>
+                        <p className="text-muted-foreground small mb-4">The link is invalid or expired. Try registering again.</p>
                         <Button asChild variant="outline" className="rounded-pill px-4">
                             <Link to="/register">Back to register</Link>
                         </Button>
