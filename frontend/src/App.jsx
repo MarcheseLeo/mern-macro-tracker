@@ -6,6 +6,7 @@ import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register'
 import { NotFound } from './pages/NotFound/NotFound';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { OauthSuccessPage } from './pages/OauthSuccessPage/OauthSuccessPage';
 const App = () => {
 
   return (
@@ -17,7 +18,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path='/register' element={<Register/>} />
         <Route path='/verify' element={<VerifyEmail/>} />
-
+        <Route path='/oauth/success' element={<OauthSuccessPage/>}/>
       <Route element={<ProtectedRoute/>}>
         <Route path='/home' element={<Home/>}/>
       </Route>

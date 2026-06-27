@@ -1,18 +1,54 @@
 import React, { createContext, useState, useEffect } from "react";
+import { jwtDecode } from 'jwt-decode'
 
 export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
+    const [isAuthorized, setIsAuthorized] = useState(false)
+
+    const logout = () => {
+        localStorage.removeItem('token')
+        setUser(null)
+        setIsAuthorized(false)
+    }
+
+    const checkToken = (token) => {
+        try {
+            const decoded = jwtDecode(token)
+            const isExpired = decoded.exp * 1000 < Date.now()
+
+            if (isExpired) {
+                logout()
+                return false
+            }
+
+            setUser(decoded)
+            setIsAuthorized(true)
+            return true
+        } catch (e) {
+            logout()
+            return false
+        }
+    }
 
     const getUser = async () => {
         setIsLoading(true)
         const token = localStorage.getItem('token')
+
         if (!token) {
             setIsLoading(false)
             return
         }
+
+        const isValid = checkToken(token)
+        if (!isValid) {
+            setIsLoading(false)
+            return
+        }
+
+
         try {
             const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/users/me`, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -30,7 +66,6 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (e) {
             console.error("Errore fetch user", e)
-            setUser(null)
         } finally {
             setIsLoading(false)
         }
@@ -45,10 +80,7 @@ export const AuthProvider = ({ children }) => {
         await getUser()
     }
 
-    const logout = () => {
-        localStorage.removeItem('token')
-        setUser(null)
-    }
+
 
     return (
         <AuthContext.Provider
@@ -56,7 +88,8 @@ export const AuthProvider = ({ children }) => {
                 user,
                 login,
                 logout,
-                isLoading
+                isLoading,
+                isAuthorized
             }}
         >
             {children}
