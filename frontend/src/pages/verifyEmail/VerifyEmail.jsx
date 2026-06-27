@@ -43,7 +43,7 @@ export default function VerifyEmail() {
     return (
         <main className="d-flex justify-content-center align-items-center min-vh-100 px-3">
             
-            <BlurredBackground variant="404"/>
+            <BlurredBackground variant="single"/>
 
             <div className="bg-blob-404"></div>
             <div className="text-center" style={{ maxWidth: '400px' }}>

@@ -32,7 +32,7 @@ export const OauthSuccessPage = () => {
     return (
         <main className="d-flex justify-content-center align-items-center min-vh-100 px-3 position-relative overflow-hidden bg-background">
 
-            <BlurredBackground variant="404"/>
+            <BlurredBackground variant="single"/>
 
             <div className="text-center position-relative z-1" style={{ maxWidth: '400px' }}>
                 <Loader2

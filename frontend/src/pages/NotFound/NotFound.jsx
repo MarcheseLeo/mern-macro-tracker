@@ -12,7 +12,7 @@ export const NotFound = () => {
 
     return (
         <main className='not-found-main d-flex justify-content-center align-items-center min-vh-100 position-relative overflow-hidden px-4 text-center'>
-            <BlurredBackground variant='404' />
+            <BlurredBackground variant='single' />
 
             <div className='position-relative z-1 d-flex flex-column align-items-center' style={{ maxWidth: '400px' }}>
                 <span className='emoji-bounce mb-3'>
