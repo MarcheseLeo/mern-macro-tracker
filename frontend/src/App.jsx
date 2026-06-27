@@ -7,22 +7,31 @@ import { Register } from './pages/Register/Register'
 import { NotFound } from './pages/NotFound/NotFound';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { OauthSuccessPage } from './pages/OauthSuccessPage/OauthSuccessPage';
+import { GuestRoute } from './components/auth/GuestRoute';
 const App = () => {
 
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* Rotte Pubbliche */}
+        {/* Public routes */}
         <Route path="/" element={<Welcome />} />
-        <Route path="/login" element={<Login />} />
-        <Route path='/register' element={<Register/>} />
-        <Route path='/verify' element={<VerifyEmail/>} />
-        <Route path='/oauth/success' element={<OauthSuccessPage/>}/>
-      <Route element={<ProtectedRoute/>}>
-        <Route path='/home' element={<Home/>}/>
-      </Route>
-      <Route path='*' element={<NotFound/>}/>
+
+        <Route element={<GuestRoute/>}>
+          <Route path="/login" element={<Login />} />
+
+          <Route path='/register' element={<Register />} />
+          <Route path='/verify' element={<VerifyEmail />} />
+          <Route path='/oauth/success' element={<OauthSuccessPage />} />
+        </Route>
+
+        {/* Protected routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path='/home' element={<Home />} />
+        </Route>
+
+
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
