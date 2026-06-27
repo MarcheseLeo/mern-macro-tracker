@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom'
 import { Loader2, CheckCircle2, XCircle, Home } from 'lucide-react';
 import Button from '../../components/ui/button/Button'
 import './VerifyEmail.css'
+import { BlurredBackground } from '../../components/ui/blurredBackground/BlurredBackground';
 
 export default function VerifyEmail() {
     const [searchParams] = useSearchParams()
@@ -41,6 +42,9 @@ export default function VerifyEmail() {
 
     return (
         <main className="d-flex justify-content-center align-items-center min-vh-100 px-3">
+            
+            <BlurredBackground variant="404"/>
+
             <div className="bg-blob-404"></div>
             <div className="text-center" style={{ maxWidth: '400px' }}>
                 

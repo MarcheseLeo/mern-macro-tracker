@@ -1,21 +1,25 @@
 import { useContext } from "react"
 import { Navigate, Outlet } from 'react-router-dom';
-import { jwtDecode } from "jwt-decode";
+import { AuthContext } from "../../context/AuthContext";
+
 
 export const ProtectedRoute = () => {
-    const token = localStorage.getItem('token');
+    const { isAuthorized,isLoading } = useContext(AuthContext)
 
-    try {
-        if (!token) throw new Error("No token");
+    return (
+        <>
+            {isLoading ? (
+                <></>
+            ) : (
+                <>
+                    {isAuthorized ? (
+                    <Outlet/>
+                ) : (
+                    <Navigate to="/login" replace />
+                )}
+                </>
+            )}
+        </>
+    )
 
-        const decoded = jwtDecode(token);
-        const isExpired = decoded.exp * 1000 < Date.now();
-
-        if (isExpired) throw new Error("Token expired");
-
-        return <Outlet />;
-    } catch (e) {
-        console.log(e)
-        return <Navigate to="/login" replace />;
-    }
 }
