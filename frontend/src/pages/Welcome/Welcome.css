@@ -1,6 +1,4 @@
-.text-primary-custom {
-    color: var(--primary);
-}
+
 main{
     background: var(--background);
 }
@@ -40,7 +38,3 @@ main{
     }
 }
 
-
-.pointer-events-none {
-    pointer-events: none;
-}
