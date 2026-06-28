@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthContext"
 import { Navigate } from "react-router-dom"
 import { Loader2 } from "lucide-react"
 import { CalorieCard } from "../../components/dashboard/calorieCard/CalorieCard"
+import { MacroCards } from "../../components/dashboard/macroCards/MacroCards"
 
 
 const Home = () => {
@@ -50,8 +51,11 @@ const Home = () => {
                 </h1>
                 <p className="text-muted small">This is your dashboard</p>
                 {!isSummaryLoading && dailySummary && (
-                    <CalorieCard dailyGoal={user.dailyKcalGoal} totalEaten={dailySummary.kcal} />
-
+                    <>
+                        <CalorieCard dailyGoal={user.dailyKcalGoal} totalEaten={dailySummary.kcal} />
+                        <MacroCards userGoals={user.macroGoals} summary={dailySummary}/>
+                    </>
+                    
                 )}
             </div>
 
