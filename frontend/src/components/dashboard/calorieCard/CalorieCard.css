@@ -1,0 +1,32 @@
+.calorie-card {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    padding: 1.5rem;
+}
+
+.goal-kcal-badge {
+    background-color: #fafbff38;
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+}
+
+.kcal-left {
+    font-size: 2.25rem;
+    font-weight: 800;
+}
+
+.kcal-left+span {
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.33;
+}
+
+.line {
+    height: 1px;
+    background-color: #fafbff38;
+}
+
+.calorie-card-label{
+    font-size: 0.87rem;
+}
