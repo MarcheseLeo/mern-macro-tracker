@@ -10,7 +10,12 @@ const Home = () => {
             {!user ? (
                 <div>Caricamento </div>
             ) : (
-                <div>Benvenuto nella Home {user.firstName}</div>
+                <div className="container py-4">
+                    <h1 className="h4 fw-bold font-heading">
+                        Ciao, {user?.firstName || 'Utente'}! 👋
+                    </h1>
+                    <p className="text-muted small">This is your dashboard</p>
+                </div>
             )}
         </>
     )

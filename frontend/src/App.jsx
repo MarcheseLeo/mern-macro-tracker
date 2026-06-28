@@ -8,6 +8,9 @@ import { NotFound } from './pages/NotFound/NotFound';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { OauthSuccessPage } from './pages/OauthSuccessPage/OauthSuccessPage';
 import { GuestRoute } from './components/auth/GuestRoute';
+import { MainLayout } from './components/layout/MainLayout';
+
+
 const App = () => {
 
   return (
@@ -17,7 +20,7 @@ const App = () => {
         {/* Public routes */}
         <Route path="/" element={<Welcome />} />
 
-        <Route element={<GuestRoute/>}>
+        <Route element={<GuestRoute />}>
           <Route path="/login" element={<Login />} />
 
           <Route path='/register' element={<Register />} />
@@ -27,7 +30,9 @@ const App = () => {
 
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path='/home' element={<Home />} />
+          <Route element={<MainLayout />}>
+            <Route path='/home' element={<Home />} />
+          </Route>
         </Route>
 
 
