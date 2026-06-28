@@ -1,0 +1,12 @@
+
+.main-wrapper {
+    padding-left: 0;
+    transition: padding-left 0.2s ease;
+}
+
+
+@media (min-width: 992px) {
+    .main-wrapper {
+        padding-left: 16rem; 
+    }
+}
