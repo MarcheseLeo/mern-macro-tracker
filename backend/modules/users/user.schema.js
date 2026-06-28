@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema({
         enum: ['male', 'female', 'not specified'],
         default: 'not specified'
     },
-    weight:{
+    weight: {
         type: Number
     },
     height: {
@@ -45,7 +45,24 @@ const UserSchema = new mongoose.Schema({
         required: true,
         default: 2000
     },
-    avatar:{
+    macroGoals: {
+        carbs: {
+            type: Number,
+            required: true,
+            default: 250
+        },
+        proteins: {
+            type: Number,
+            required: true,
+            default: 120
+        },
+        fats: {
+            type: Number,
+            required: true,
+            default: 65
+        }
+    },
+    avatar: {
         type: String,
         required: false,
         default: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
@@ -60,7 +77,7 @@ const UserSchema = new mongoose.Schema({
 }, {
     timestamps: true,
     strict: true,
-    toObject: {virtuals: true},
+    toObject: { virtuals: true },
     toJSON: {
         virtuals: true,
         transform: function (doc, ret) {
@@ -70,8 +87,8 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
-UserSchema.virtual('age').get(function(){
-    if(!this.dob){
+UserSchema.virtual('age').get(function () {
+    if (!this.dob) {
         return null
     }
 

@@ -52,6 +52,18 @@ const userBodyValidation = [
         .optional()
         .isInt({ min: 1 })
         .withMessage('dailyKcalGoal must be a positive integer'),
+    body('macroGoals.carbs')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('macroGoals.carbs must be a positive integer in grams'),
+    body('macroGoals.proteins')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('macroGoals.protein must be a positive integer in grams'),
+    body('macroGoals.fats')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('macroGoals.fat must be a positive integer in grams'),
     body('avatar')
         .optional()
         .isString()
@@ -118,6 +130,18 @@ const editUserValidation = [
         .optional()
         .isInt({ min: 1 })
         .withMessage('dailyKcalGoal must be a positive integer'),
+    body('macroGoals.carbs')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('macroGoals.carbs must be a positive integer in grams'),
+    body('macroGoals.proteins')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('macroGoals.protein must be a positive integer in grams'),
+    body('macroGoals.fats')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('macroGoals.fat must be a positive integer in grams'),
     body('avatar')
         .optional()
         .isString()
