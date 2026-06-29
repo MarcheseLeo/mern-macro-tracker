@@ -4,6 +4,7 @@ import './Welcome.css'
 import { Logo } from '../../components/logo/Logo';
 import Button from '../../components/ui/button/Button';
 import { BlurredBackground } from '../../components/ui/blurredBackground/BlurredBackground';
+import { AppFooter } from '../../components/layout/appFooter/AppFooter';
 
 const floaties = [
     { emoji: '🥑', top: '18%', left: '6%', rotate: '-8deg', delay: '0s' },
@@ -122,16 +123,7 @@ export const Welcome = () => {
             </section>
 
             {/* FOOTER */}
-            <footer className=' container position-relative z-1 border-top py-4'>
-                <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 text-muted small">
-                    <p className="mb-0">© {new Date().getFullYear()} Macro Tracker</p>
-                    <nav className="d-flex gap-4">
-                        <Link to="#" className="text-muted text-decoration-none hover-dark">About</Link>
-                        <Link to="#" className="text-muted text-decoration-none hover-dark">Privacy</Link>
-                        <Link to="#" className="text-muted text-decoration-none hover-dark">Terms</Link>
-                    </nav>
-                </div>
-            </footer>
+            <AppFooter/>
         </main>
     )
 }

@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { BottomNav, Sidebar } from './appNav/AppNav';
 import './MainLayout.css'
+import { AppFooter } from './appFooter/AppFooter';
 export const MainLayout = () => {
     return (
         <div className="d-flex flex-column min-vh-100 bg-light">
@@ -17,9 +18,8 @@ export const MainLayout = () => {
 
                 {/* NAVBAR MOBILE */}
                 <BottomNav />
-
+                <AppFooter />
             </div>
-
         </div>
     )
 }
