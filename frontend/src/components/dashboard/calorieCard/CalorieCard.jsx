@@ -1,8 +1,11 @@
 import React from 'react'
 import './CalorieCard.css'
-import { Flame } from 'lucide-react';
+import { Flame, Trophy } from 'lucide-react';
 
 export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
+
+    const isGoalReached = totalEaten >= dailyGoal
+    const overCalories = isGoalReached ? totalEaten - dailyGoal : 0
 
     const remaining = Math.max(0, dailyGoal - totalEaten)
     const percentage = Math.min(100, Math.round((totalEaten / dailyGoal) * 100))
@@ -23,9 +26,11 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
                 </span>
             </div>
 
-            <div className='d-flex align-items-center  mt-4 gap-4'>
+            <div className='d-flex flex-column flex-md-row align-items-md-center mt-4 gap-4'>
+
                 <div className='position-relative d-flex justify-content-center align-items-center'>
-                    <svg width="200" height='200'   viewBox="0 0 200 200"  style={{ transform: 'rotate(-90deg)' }} >
+                    {/* CIRCLE */}
+                    <svg width="200" height='200' viewBox="0 0 200 200" style={{ transform: 'rotate(-90deg)' }} >
                         <circle cx="100" cy="100" r={radius} fill='none' stroke="rgba(255,255,255,0.2)" strokeWidth="16" />
                         <circle
                             cx="100" cy="100" r={radius}
@@ -39,16 +44,33 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
                         />
                     </svg>
 
-                    <div className='position-absolute text-center d-flex flex-column'>
-                        <span className='font-heading kcal-left lh-1'>{remaining}</span>
-                        <span className='opacity-75'>kcal left</span>
+                    <div className='position-absolute text-center d-flex flex-column align-items-center justify-content-center' style={{ animation: 'fadeIn 0.5s ease-in' }}>
+                        {isGoalReached ? (
+                            <>
+                                <Trophy size={32} className="mb-1" style={{ animation: 'popIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)' }} />
+                                <span className='font-heading fw-bold lh-1' style={{ fontSize: '1.25rem' }}>Goal<br />Reached!</span>
+                            </>
+                        ) : (
+                            <>
+                                <span className='font-heading kcal-left lh-1'>{remaining}</span>
+                                <span className='opacity-75'>kcal left</span>
+                            </>
+                        )}
                     </div>
+
                 </div>
-                <div className="d-flex flex-column flex-grow-1 gap-3">
+                {/* STATS */}
+                <div className="d-flex flex-column flex-grow-1 gap-3 w-100">
                     <Stat label="Eaten" value={`${totalEaten} kcal`} />
-                    <div className="line" />
-                    <Stat label="Remaining" value={`${remaining} kcal`} />
-                    <div className="line" />
+                    <div className="line" style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.2)' }} />
+                    
+                    {isGoalReached && overCalories > 0 ? (
+                        <Stat label="Over" value={`+${overCalories} kcal`} />
+                    ) : (
+                        <Stat label="Remaining" value={`${remaining} kcal`} />
+                    )}
+                    
+                    <div className="line" style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.2)' }} />
                     <Stat label="Progress" value={`${percentage}%`} />
                 </div>
             </div>

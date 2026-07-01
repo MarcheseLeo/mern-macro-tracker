@@ -1,5 +1,6 @@
 
-import './MacroCards.css';
+import './MacroCards.css'
+import { BadgeCheck } from 'lucide-react'
 
 export const MacroCards = ({ summary, userGoals }) => {
     const macros = [
@@ -31,23 +32,29 @@ export const MacroCards = ({ summary, userGoals }) => {
 
     return (
         <section className='row g-3 mt-1'>
-            {macros.map((m) =>{
+            {macros.map((m) => {
                 const target = m.target > 0 ? m.target : 1
-                const pct = Math.min(100, Math.round((m.value / target) * 100))
+                const isGoalReached = m.value >= target
 
+                const pct = Math.min(100, Math.round((m.value / target) * 100))
                 return (
                     <div key={m.key} className='col-4'>
-                        <article className='card border-0 shadow-sm radius-3xl h-100 macro-card'>
+                        <article className='card border-0 shadow-sm radius-3xl h-100 macro-card text-nowrap'>
 
                             <span className={`macro-icon-box d-flex justify-content-center align-items-center rounded-circle bg-${m.theme}-soft`}>
                                 {m.emoji}
                             </span>
 
-                            <p className="mt-3 mb-0 fw-medium">{m.label}</p>
+                            <div className="d-flex align-items-center gap-1 mt-3 mb-1">
+                                <p className="mb-0 fw-medium text-muted small">{m.label}</p>
+                                {isGoalReached && (
+                                    <BadgeCheck size={16} className="text-success" style={{ animation: 'popIn 0.3s ease-out' }} />
+                                )}
+                            </div>
 
-                            <p className="font-heading fs-5 fw-bold lh-sm mb-2">
+                            <p className="font-heading fs-5 fw-bold lh-sm mb-2" style={{color: 'var(--foreground'}}>
                                 {m.value}
-                                <span className="small fw-medium text-muted ms-1">/{m.target}g</span>
+                                <span className="small fw-medium text-muted ms-1" style={{ fontSize: '0.75rem' }}>/{m.target}g</span>
                             </p>
 
                             <div className={`progress macro-progress bg-${m.theme}-soft`}>

@@ -59,3 +59,9 @@
 .bg-fat-soft {
     background-color: var(--fat-soft);
 }
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}

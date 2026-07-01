@@ -5,49 +5,71 @@ import { Loader2 } from "lucide-react"
 import { CalorieCard } from "../../components/dashboard/calorieCard/CalorieCard"
 import { MacroCards } from "../../components/dashboard/macroCards/MacroCards"
 import { DashboardHeader } from "../../components/dashboard/dashboardHeader/DashboardHeader"
+import { MealSection } from "../../components/dashboard/mealSection/MealSection"
 
 
 const Home = () => {
     const { user, isLoading } = useContext(AuthContext)
-    const today = new Date().toISOString().split('T')[0]
     const token = localStorage.getItem('token')
-    const [dailySummary, setDailySummary] = useState(null)
-    const [isSummaryLoading, setIsSummaryLoading] = useState(false)
-    const [errors, setErrors] = useState()
+
+    const today = new Date().toISOString().split('T')[0]
     const [selectedDate, setSelectedDate] = useState(today)
+
+    const [dailySummary, setDailySummary] = useState(null)
+    const [dailyMeals, setDailyMeals] = useState([])
+    const [isDashboardLoading, setIsDashboardLoading] = useState(false)
+    const [errors, setErrors] = useState()
+
 
     const onDatechange = (date) => {
         setSelectedDate(date)
     }
 
-    const getDailySummary = async (date = today) => {
-        setIsSummaryLoading(true)
+    const fetchDashboardData = async (date = today) => {
+        setIsDashboardLoading(true)
+        setErrors(null)
+
         try {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/meals/summary/daily/?date=${date}`, {
+            const summaryReq = fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/meals/summary/daily/?date=${date}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
 
-            if (response.ok) {
-                const data = await response.json()
-                setDailySummary(data.summary)
+            const mealsReq = fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/meals/?date=${date}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+
+            const [summaryRes, mealsRes] = await Promise.all([summaryReq, mealsReq])
+
+            if (!summaryRes.ok || !mealsRes.ok) {
+                throw new Error("Error in loading dashboard data");
             }
+
+            const [summaryData, mealsData] = await Promise.all([
+                summaryRes.json(),
+                mealsRes.json()
+            ])
+
+            setDailySummary(summaryData.summary)
+            setDailyMeals(mealsData.meals)
         } catch (e) {
-            console.error(e)
-            setErrors(e)
+            console.error("Fetch Dashboard Error: ", e)
+            setErrors("Not possible to to load data. Please try again later.")
         } finally {
-            setIsSummaryLoading(false)
+            setIsDashboardLoading(false)
         }
     }
 
     useEffect(() => {
-        getDailySummary(selectedDate)
+        fetchDashboardData(selectedDate)
 
     }, [selectedDate])
 
-    if (dailySummary)
-        console.log(dailySummary.kcal)
+    // if (dailySummary)
+    //     console.log(dailySummary.kcal)
 
-    console.log(user)
+    if (dailyMeals)
+        console.log(dailyMeals)
+    // console.log(user)
     return (
         <div className="container py-3">
             <DashboardHeader
@@ -56,21 +78,22 @@ const Home = () => {
                 onDateChange={onDatechange}
             />
 
+            {errors && (
+                <div className="alert alert-danger radius-2xl small py-2 mb-3">
+                    {errors}
+                </div>
+            )}
 
-            <div style={{ opacity: isSummaryLoading ? 0.5 : 1, transition: 'opacity 0.2s ease' }}>
-
+            <div>
                 <CalorieCard
                     dailyGoal={user?.dailyKcalGoal || 2000}
-                    // Se dailySummary è null (es. nessun pasto), passiamo 0
                     totalEaten={dailySummary?.kcal || 0}
                 />
-
                 <MacroCards
                     userGoals={user?.macroGoals}
-                    // Se dailySummary è null, passiamo un oggetto vuoto di sicurezza
                     summary={dailySummary || { carbs: { total: 0 }, proteins: 0, fats: { total: 0 } }}
                 />
-
+                <MealSection mealsData={dailyMeals} onFoodDeleted={() => fetchDashboardData(selectedDate)} />
             </div>
         </div>
     )

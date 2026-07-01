@@ -5,10 +5,10 @@ const getMeals = async (userId, dateString = null) => {
 
     if (dateString) {
         const startOfDay = new Date(dateString)
-        startOfDay.setHours(0, 0, 0, 0)
+        startOfDay.setUTCHours(0, 0, 0, 0)
 
         const endOfDay = new Date(dateString)
-        endOfDay.setHours(23, 59, 59, 999)
+        endOfDay.setUTCHours(23, 59, 59, 999)
 
         filter.date = { $gte: startOfDay, $lte: endOfDay }
     }
@@ -32,7 +32,34 @@ const getMealById = async (mealId, userId) => {
 }
 
 const createMeal = async (body) => {
-    const newMeal = new MealSchema(body)
+    const { user, mealType, date, items } = body
+
+    const targetDate = date ? new Date(date) : new Date()
+    const startOfDay = new Date(targetDate)
+    startOfDay.setUTCHours(0, 0, 0, 0)
+    const endOfDay = new Date(targetDate)
+    endOfDay.setUTCHours(23, 59, 59, 999)
+
+    let existingMeal = await MealSchema.findOne({
+        user: user,
+        mealType: mealType,
+        date: { $gte: startOfDay, $lte: endOfDay }
+    })
+
+    if (existingMeal) {
+        existingMeal.items.push(...items)
+        await existingMeal.save()
+
+        return await existingMeal.populate({
+            path: 'items.foodId',
+            select: 'name brand servingSize servingUnit nutritionalValues'
+        })
+    } 
+
+    const newMeal = new MealSchema({
+        ...body,
+        date: startOfDay
+    })
     await newMeal.save()
 
     return await newMeal.populate([
@@ -93,17 +120,17 @@ const getDailySummary = async (userId, dateString) => {
     const targetDate = dateString ? new Date(dateString) : new Date()
 
     const startOfDay = new Date(targetDate)
-    startOfDay.setHours(0,0,0,0)
+    startOfDay.setUTCHours(0, 0, 0, 0)
 
     const endOfDay = new Date(targetDate)
-    endOfDay.setHours(23,59,59,999)
+    endOfDay.setUTCHours(23, 59, 59, 999)
 
     const meals = await MealSchema.find({
         user: userId,
-        date: {$gte: startOfDay, $lte: endOfDay}
+        date: { $gte: startOfDay, $lte: endOfDay }
     }).populate('items.foodId')
 
-    const summary = meals.reduce((acc, meal)=>{
+    const summary = meals.reduce((acc, meal) => {
         acc.kcal += meal.totalMealKcal
         acc.proteins += meal.totalMealProteins
         acc.fibers += meal.totalMealFibers
@@ -111,18 +138,18 @@ const getDailySummary = async (userId, dateString) => {
 
         acc.carbs.total += meal.totalMealCarbs.total
         acc.carbs.sugars += meal.totalMealCarbs.sugars
-        
+
         acc.fats.total += meal.totalMealFats.total
         acc.fats.saturated += meal.totalMealFats.saturated
 
         return acc
-    },{
+    }, {
         kcal: 0, proteins: 0, fibers: 0, salt: 0,
         carbs: { total: 0, sugars: 0 },
         fats: { total: 0, saturated: 0 }
     })
 
-    return{
+    return {
         kcal: Math.round(summary.kcal),
         proteins: Number(summary.proteins.toFixed(1)),
         fibers: Number(summary.fibers.toFixed(1)),

@@ -30,3 +30,8 @@
 .calorie-card-label{
     font-size: 0.87rem;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
