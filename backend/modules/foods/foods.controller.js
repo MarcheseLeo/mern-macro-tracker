@@ -3,21 +3,14 @@ const FoodNotFoundException = require('../../exceptions/foods/FoodNotFoundExcept
 
 const getFoods = async (req, res, next) => {
     try {
-        const { name } = req.query
-        const foods = await FoodService.getFoods(name)
+        const { name, category, page = 1, limit = 15 } = req.query
+        const result = await FoodService.getFoods({ name, category, page, limit })
 
-        if (foods.length === 0) {
-            return res.status(200)
-                .send({
-                    statusCode: 200,
-                    foods: []
-                })
-        }
 
         res.status(200)
             .send({
                 statusCode: 200,
-                foods
+                ...result
             })
     } catch (e) {
         next(e)

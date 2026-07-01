@@ -1,10 +1,22 @@
 const FoodSchema = require('./foods.schema')
 
-const getFoods = async (searchQuery='') =>{
+const getFoods = async ({ name = '', category = '', page = 1, limit = 15 }) =>{
     const filter = { isActive: true }
 
-    if (searchQuery) {
-        filter.name = { $regex: searchQuery, $options: 'i' }
+    if (name) {
+        filter.name = { $regex: name, $options: 'i' };
+    }
+    const skip = (page - 1) * limit
+    const [foods, totalItems] = await Promise.all([
+        FoodSchema.find(filter).skip(skip).limit(Number(limit)),
+        FoodSchema.countDocuments(filter)
+    ])
+    const totalPages = Math.ceil(totalItems / limit)
+    return { 
+        foods, 
+        totalPages, 
+        currentPage: Number(page),
+        totalItems
     }
     return await FoodSchema.find(filter)
 }
