@@ -13,7 +13,11 @@ const MealSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now
+        default: () => {
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+            return now;
+        }
     },
     items: {
         type: [{

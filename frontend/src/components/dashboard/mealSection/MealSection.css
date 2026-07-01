@@ -1,0 +1,34 @@
+.meals-title {
+    font-style: 1.12rem
+}
+
+.meal-container {
+    background-color: var(--card)
+}
+
+.meal-emoji {
+    width: 2.75rem;
+    height: 2.75rem;
+    background-color: var(--muted);
+    font-size: 1.25rem;
+}
+
+.meal-label{
+    font-size: 0.87rem
+}
+
+.meal-label + span{
+    font-size: 0.75rem
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.transition-transform {
+    transition: transform 0.3s ease-in-out;
+}
+
+.delete-food-btn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+}
