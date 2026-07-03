@@ -16,7 +16,7 @@ const getMeals = async (userId, dateString = null) => {
     return await MealSchema.find(filter).populate([
         {
             path: 'items.foodId',
-            select: 'name brand servingSize servingUnit nutritionalValues '
+            select: 'name brand servingSize servingUnit nutritionalValues category'
         }
     ])
         .sort({ date: -1 })
@@ -26,7 +26,7 @@ const getMealById = async (mealId, userId) => {
     return await MealSchema.findOne({ _id: mealId, user: userId }).populate([
         {
             path: 'items.foodId',
-            select: 'name brand servingSize servingUnit nutritionalValues'
+            select: 'name brand servingSize servingUnit nutritionalValues category'
         }
     ])
 }
@@ -52,7 +52,7 @@ const createMeal = async (body) => {
 
         return await existingMeal.populate({
             path: 'items.foodId',
-            select: 'name brand servingSize servingUnit nutritionalValues'
+            select: 'name brand servingSize servingUnit nutritionalValues category'
         })
     } 
 
@@ -65,7 +65,7 @@ const createMeal = async (body) => {
     return await newMeal.populate([
         {
             path: 'items.foodId',
-            select: 'name brand servingSize servingUnit nutritionalValues'
+            select: 'name brand servingSize servingUnit nutritionalValues category'
         }
     ])
 
@@ -86,7 +86,7 @@ const addMealItem = async (mealId, userId, itemData) => {
 
     return await meal.populate({
         path: 'items.foodId',
-        select: 'name brand servingSize servingUnit nutritionalValues'
+        select: 'name brand servingSize servingUnit nutritionalValues category'
     })
 }
 
@@ -98,7 +98,7 @@ const editMeal = async (mealId, userId, body) => {
     return updatedMeal.populate([
         {
             path: 'items.foodId',
-            select: 'name brand servingSize servingUnit nutritionalValues'
+            select: 'name brand servingSize servingUnit nutritionalValues category'
         }
     ])
 }
@@ -110,7 +110,7 @@ const removeMealItem = async (mealId, itemId, userId) => {
         { new: true }
     ).populate({
         path: 'items.foodId',
-        select: 'name brand servingSize servingUnit nutritionalValues'
+        select: 'name brand servingSize servingUnit nutritionalValues category'
     })
 
     return meal

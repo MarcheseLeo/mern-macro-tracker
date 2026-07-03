@@ -1,0 +1,32 @@
+.cat-pills {
+    font-size: 0.85rem;
+    transition: all 0.2s ease-in;
+    min-height: 35px;
+}
+
+.btn-chart-3 {
+    background-color: var(--chart-3) !important;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.btn-chart-3:hover {
+    filter: brightness(0.8);
+}
+
+.input-field {
+    background-color: var(--background);
+}
+
+.input-field:focus {
+    box-shadow: 0 0 0 0.15rem var(--dynamic-focus);
+}
+
+.add-to-diary-btn, .add-custom-food-btn {
+    height: 56px
+}
+
+label:has(+ .input-field:focus) {
+    color: var(--dynamic-focus) !important;
+    transition: color 0.2s ease-in;
+}

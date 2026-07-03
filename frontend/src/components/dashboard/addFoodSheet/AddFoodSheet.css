@@ -1,0 +1,21 @@
+.food-sheet-bg {
+    z-index: 1050;
+    margin: 0 auto;
+}
+
+.food-sheet-container {
+    min-height: 50vh;
+    max-width: 600px;
+}
+
+.meal-pill {
+    font-size: 0.85rem;
+    min-height: 35px;
+}
+
+@media screen and (max-width: 575px) {
+    .food-sheet-container {
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+}

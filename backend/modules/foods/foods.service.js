@@ -6,6 +6,11 @@ const getFoods = async ({ name = '', category = '', page = 1, limit = 15 }) =>{
     if (name) {
         filter.name = { $regex: name, $options: 'i' };
     }
+
+    if (category && category !== 'All') {
+        filter.category = category;
+    }
+    
     const skip = (page - 1) * limit
     const [foods, totalItems] = await Promise.all([
         FoodSchema.find(filter).skip(skip).limit(Number(limit)),

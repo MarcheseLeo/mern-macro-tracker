@@ -40,6 +40,7 @@ passport.use(
     
                         user = new User({
                             googleId: profile.id, 
+                            isVerified: true,
                             firstName: profile.name.givenName,
                             lastName: profile.name.familyName || 'User',
                             email: profile.emails[0].value,
