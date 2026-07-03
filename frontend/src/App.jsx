@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from "./pages/Home/Home"
-import VerifyEmail from "./pages/VerifyEmail/VerifyEmail"
 import { Welcome } from './pages/Welcome/Welcome';
 import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register'
