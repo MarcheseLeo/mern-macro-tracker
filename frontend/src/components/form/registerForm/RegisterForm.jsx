@@ -3,8 +3,7 @@ import { Mail, Lock, User, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../ui/button/Button';
 import { Form, InputGroup } from 'react-bootstrap';
-import { VerifyEmailModal } from '../../verifyEmailModal/VerifyEmailModal';
-
+import { InfoModal } from '../../infoModal/Infomodal';
 import '../loginForm/LoginForm.css';
 
 export const RegisterForm = () => {
@@ -12,6 +11,7 @@ export const RegisterForm = () => {
     const [error, setError] = useState(null)
     const [registerForm, setRegisterForm] = useState({})
     const [showModal, setShowModal] = useState(false)
+
 
     const navigate = useNavigate();
 
@@ -21,6 +21,12 @@ export const RegisterForm = () => {
             ...registerForm,
             [name]: value
         });
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+
+        navigate('/login');
     };
 
     const handleSubmit = async (e) => {
@@ -66,10 +72,15 @@ export const RegisterForm = () => {
 
     return (
         <div className='mt-4'>
-            <VerifyEmailModal 
-                show={showModal} 
-                onHide={() => navigate('/login')} 
-                email={registerForm.email} 
+            <InfoModal
+                show={showModal}
+                onHide={handleModalClose}
+                icon={Mail}
+                title="Verify your email"
+                description="
+                    We`ve sent a verification link to your email.
+                    Please check your inbox and click the link to activate your account.
+                "
             />
             {error && (
                 <div className='alert alert-danger py-2 small rounded-3'>

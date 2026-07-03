@@ -32,13 +32,14 @@ export const MacroCards = ({ summary, userGoals }) => {
 
     return (
         <section className='row g-3 mt-1'>
-            {macros.map((m) => {
+            {macros.map((m, index) => {
                 const target = m.target > 0 ? m.target : 1
                 const isGoalReached = m.value >= target
+                const indexClass = index === 2 ? 'col-12' : 'col-6'
 
                 const pct = Math.min(100, Math.round((m.value / target) * 100))
                 return (
-                    <div key={m.key} className='col-4'>
+                    <div key={m.key} className={`col-md-4 ${indexClass}`}>
                         <article className='card border-0 shadow-sm radius-3xl h-100 macro-card text-nowrap'>
 
                             <span className={`macro-icon-box d-flex justify-content-center align-items-center rounded-circle bg-${m.theme}-soft`}>
@@ -52,7 +53,7 @@ export const MacroCards = ({ summary, userGoals }) => {
                                 )}
                             </div>
 
-                            <p className="font-heading fs-5 fw-bold lh-sm mb-2" style={{color: 'var(--foreground'}}>
+                            <p className="font-heading fs-5 fw-bold lh-sm mb-2" style={{ color: 'var(--foreground' }}>
                                 {m.value}
                                 <span className="small fw-medium text-muted ms-1" style={{ fontSize: '0.75rem' }}>/{m.target}g</span>
                             </p>

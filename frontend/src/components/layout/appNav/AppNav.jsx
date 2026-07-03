@@ -2,8 +2,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { Home, BarChart3, CalendarDays, User, Plus } from 'lucide-react';
 import { Logo } from '../../logo/Logo';
 import './AppNav.css';
+import { DashboardContext } from '../../../context/DashboardContext';
+import { useContext } from 'react';
 
-// Questo array contiene le voci del menu
+
 const navItems = [
     { href: '/home', label: 'Home', icon: Home },
     { href: '/statistics', label: 'Stats', icon: BarChart3 },
@@ -13,6 +15,7 @@ const navItems = [
 
 export const BottomNav = () => {
     const location = useLocation();
+    const { setIsAddFoodOpen, setTargetMeal } = useContext(DashboardContext)
 
     const leftItems = navItems.slice(0, 2);
     const rightItems = navItems.slice(2);
@@ -20,14 +23,14 @@ export const BottomNav = () => {
     return (
         <nav className="fixed-bottom d-lg-none z-3">
             <div className="bottom-nav-container d-flex justify-content-between align-items-center shadow-soft-lg mx-auto px-3">
-                
+
                 {/* LEFT ITEMS */}
                 {leftItems.map((item) => {
                     const isActive = location.pathname === item.href;
                     return (
-                        <Link 
-                            key={item.href} 
-                            to={item.href} 
+                        <Link
+                            key={item.href}
+                            to={item.href}
                             className={`nav-link-item ${isActive ? 'active' : ''}`}
                         >
                             <item.icon size={22} className="mb-1" fill={`${isActive ? '#4f4fde31' : 'transparent'}`} />
@@ -37,10 +40,13 @@ export const BottomNav = () => {
                 })}
 
                 {/* ADD FOOD BUTTON */}
-                <button 
+                <button
                     className="btn  btn-primary-custom  add-food-btn shadow-soft rounded-circle d-flex justify-content-center align-items-center"
                     aria-label="Add food"
-                    onClick={() => console.log("Opening food menu")}
+                    onClick={() => {
+                    setTargetMeal('breakfast');
+                    setIsAddFoodOpen(true);
+                }}
                 >
                     <Plus size={28} />
                 </button>
@@ -49,9 +55,9 @@ export const BottomNav = () => {
                 {rightItems.map((item) => {
                     const isActive = location.pathname === item.href;
                     return (
-                        <Link 
-                            key={item.href} 
-                            to={item.href} 
+                        <Link
+                            key={item.href}
+                            to={item.href}
                             className={`nav-link-item ${isActive ? 'active' : ''}`}
                         >
                             <item.icon size={22} className="mb-1" fill={`${isActive ? '#4f4fde31' : 'transparent'}`} />
@@ -67,19 +73,23 @@ export const BottomNav = () => {
 
 export const Sidebar = () => {
     const location = useLocation();
+    const { setIsAddFoodOpen, setTargetMeal } = useContext(DashboardContext)
 
     return (
         <aside className="sidebar-container d-none d-lg-flex flex-column border-end  p-4">
-            
+
             {/* LOGO */}
             <div className="mb-4 ms-2">
-                <Logo  position='left'/>
+                <Logo position='left' />
             </div>
 
             {/* ADD FOOD BUTTON */}
-            <button 
+            <button
                 className="btn btn-primary-custom radius-2xl d-flex justify-content-center align-items-center gap-2  py-2 shadow-soft sidebar-add-food-btn"
-                onClick={() => console.log("Apro il menu per aggiungere cibo!")}
+                onClick={() => {
+                    setTargetMeal('breakfast');
+                    setIsAddFoodOpen(true);
+                }}
             >
                 <Plus size={20} />
                 <span className="fw-semibold">Add food</span>
@@ -91,14 +101,14 @@ export const Sidebar = () => {
                     const isActive = location.pathname === item.href;
                     return (
                         <li className="nav-item" key={item.href}>
-                            <Link 
-                                to={item.href} 
+                            <Link
+                                to={item.href}
                                 className={`sidebar-link ${isActive ? 'active' : ''} radius-2xl`}
                             >
-                                <item.icon 
-                                    size={20} 
-                                    className="me-3" 
-                                    fill={isActive ? '#4f4fde31' : 'transparent'} 
+                                <item.icon
+                                    size={20}
+                                    className="me-3"
+                                    fill={isActive ? '#4f4fde31' : 'transparent'}
                                 />
                                 {item.label}
                             </Link>

@@ -1,4 +1,4 @@
-/* Importiamo Inter e Poppins da Google Fonts */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap');
 
 :root {
@@ -133,6 +133,36 @@ h1, h2, h3, h4, h5, h6,
 
 .tracking-tight {
     letter-spacing: -0.025em;
+}
+
+.text-carbs {
+    color: var(--carbs) !important;
+}
+.text-protein {
+    color: var(--protein) !important;
+}
+.text-fat {
+    color: var(--fat) !important;
+}
+
+.text-carbs-soft {
+    color: var(--carbs-soft) !important;
+}
+.text-protein-soft {
+    color: var(--protein-soft) !important;
+}
+.text-fat-soft {
+    color: var(--fat-soft) !important;
+}
+
+.text-carbs-foreground {
+    color: var(--carbs-foreground) !important;
+}
+.text-protein-foreground {
+    color: var(--protein-foreground) !important;
+}
+.text-fat-foreground {
+    color: var(--fat-foreground) !important;
 }
 
 .pointer-events-none {

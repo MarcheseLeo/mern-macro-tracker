@@ -2,6 +2,9 @@ import './MealSection.css'
 import React, { useState } from 'react';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { CATEGORY_EMOJIS } from '../../../lib/costants';
+import { deleteFoodFromMeal } from '../../../services/MealService';
+
 
 const MEAL_META = {
     breakfast: { label: 'Breakfast', emoji: '☕', time: 'Recommended 07:00 - 09:00' },
@@ -10,7 +13,7 @@ const MEAL_META = {
     snack: { label: 'Snack', emoji: '🍎', time: 'Anytime' }
 }
 
-export const MealSection = ({ mealsData, onFoodDeleted }) => {
+export const MealSection = ({ mealsData, onFoodDeleted, onAddFoodClick }) => {
 
     const [openMeal, setOpenMeal] = useState('breakfast')
     return (
@@ -33,6 +36,7 @@ export const MealSection = ({ mealsData, onFoodDeleted }) => {
                         onToggle={() => setOpenMeal(openMeal === mealKey ? null : mealKey)}
                         mealId={mealId}
                         onFoodDeleted={onFoodDeleted}
+                        onAddFoodClick={onAddFoodClick}
                     />
                 )
 
@@ -41,7 +45,7 @@ export const MealSection = ({ mealsData, onFoodDeleted }) => {
     )
 }
 
-const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, onFoodDeleted }) => {
+const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, onFoodDeleted, onAddFoodClick }) => {
     const [parentRef] = useAutoAnimate()
     const [animationParent] = useAutoAnimate()
     return (
@@ -70,7 +74,9 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
                     style={{ width: '40px', height: '40px' }}
                     onClick={(e) => {
                         e.stopPropagation();
-                        console.log(`Oppen modal to add food: ${mealType}`);
+                        if (onAddFoodClick) {
+                            onAddFoodClick(mealType)
+                        }
                     }}
                 >
                     <Plus size={20} />
@@ -99,7 +105,6 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
 
 const FoodRow = ({ item, mealId, onFoodDeleted }) => {
     const food = item.foodId
-    console.log(food)
     const foodId = item?.id
 
     const [startX, setStartX] = useState(null)
@@ -116,18 +121,10 @@ const FoodRow = ({ item, mealId, onFoodDeleted }) => {
     const actualFats = calcMacro(food.nutritionalValues.fats.total)
 
     const handleDelete = async () => {
-        const token = localStorage.getItem('token')
+
         try {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/meals/${mealId}/items/${item._id}`, {
-                method: "DELETE",
-                headers: { Authorization: `Bearer ${token}` }
-            });
 
-            if (!response.ok) {
-                throw new Error('Error during food delete');
-            }
-
-            console.log("Food deleted");
+            await deleteFoodFromMeal(mealId, item._id)
 
             if (onFoodDeleted) {
                 onFoodDeleted();
@@ -156,7 +153,7 @@ const FoodRow = ({ item, mealId, onFoodDeleted }) => {
 
             <div
                 className="position-absolute top-0 bottom-0 end-0 bg-danger d-flex align-items-center justify-content-end px-4 radius-3xl "
-                style={{ width: '98%',height: '90%', zIndex: 1, transform: "translate(-1%, 2%)" }}
+                style={{ width: '98%', height: '90%', zIndex: 1, transform: "translate(-1%, 2%)" }}
             >
 
                 <Trash2 size={24} className="text-white" />
@@ -188,7 +185,7 @@ const FoodRow = ({ item, mealId, onFoodDeleted }) => {
                 }}
             >
                 <span className="d-flex justify-content-center align-items-center bg-white shadow-soft-sm" style={{ width: '40px', height: '40px', borderRadius: '1rem' }}>
-                    🍽️
+                    {CATEGORY_EMOJIS[food.category]}
                 </span>
 
                 <div className="flex-grow-1">
