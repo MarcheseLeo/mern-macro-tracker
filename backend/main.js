@@ -1,7 +1,7 @@
+require('dotenv').config()
 const express = require('express')
 const startServer = require('./config/db')
 const cors = require('cors')
-require('dotenv').config()
 
 const port = process.env.PORT || 3000
 //Dichiarazione Middlewares
@@ -18,6 +18,7 @@ const meals = require('./modules/meals/meals.route')
 
 const server = express()
 
+server.set('trust proxy', 1)
 
 server.use(cors({
     origin: process.env.FRONTEND_URL
