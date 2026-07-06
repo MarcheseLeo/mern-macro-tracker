@@ -1,4 +1,5 @@
 const MealSchema = require('./meals.schema')
+const UserSchema = require('../users/user.schema')
 
 const getMeals = async (userId, dateString = null) => {
     const filter = { user: userId }
@@ -34,11 +35,31 @@ const getMealById = async (mealId, userId) => {
 const createMeal = async (body) => {
     const { user, mealType, date, items } = body
 
+    const userToUpdate = await UserSchema.findById(user)
+
     const targetDate = date ? new Date(date) : new Date()
     const startOfDay = new Date(targetDate)
     startOfDay.setUTCHours(0, 0, 0, 0)
     const endOfDay = new Date(targetDate)
     endOfDay.setUTCHours(23, 59, 59, 999)
+
+    if (userToUpdate) {
+        const todayMs = startOfDay.getTime()
+        const lastActiveMs = userToUpdate.lastActiveDate ? userToUpdate.lastActiveDate.getTime() : 0
+
+        const diffTime = Math.abs(todayMs - lastActiveMs)
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+
+        if (diffDays === 1) {
+            userToUpdate.currentStreak += 1;
+        } else if (diffDays > 1 || lastActiveMs === 0) {
+            userToUpdate.currentStreak = 1;
+        }
+
+        userToUpdate.lastActiveDate = startOfDay;
+        await userToUpdate.save()
+    }
+
 
     let existingMeal = await MealSchema.findOne({
         user: user,
@@ -54,7 +75,7 @@ const createMeal = async (body) => {
             path: 'items.foodId',
             select: 'name brand servingSize servingUnit nutritionalValues category'
         })
-    } 
+    }
 
     const newMeal = new MealSchema({
         ...body,

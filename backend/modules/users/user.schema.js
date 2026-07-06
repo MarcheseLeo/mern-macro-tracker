@@ -34,9 +34,13 @@ const UserSchema = new mongoose.Schema({
         enum: ['male', 'female', 'not specified'],
         default: 'not specified'
     },
-    weight: {
-        type: Number
-    },
+    weightHistory: [{
+        weight: { type: Number, required: true },
+        date: { type: Date, default: Date.now }
+    }],
+    goalWeight: { type: Number },
+    currentStreak: { type: Number, default: 0 },
+    lastActiveDate: { type: Date },
     height: {
         type: Number
     },

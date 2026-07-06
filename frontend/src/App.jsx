@@ -9,6 +9,7 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { OauthSuccessPage } from './pages/OauthSuccessPage/OauthSuccessPage';
 import { GuestRoute } from './components/auth/GuestRoute';
 import { MainLayout } from './components/layout/MainLayout';
+import { Profile } from './pages/Profile/Profile';
 
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path='/home' element={<Home />} />
+            <Route path='/profile' element={<Profile/>}/>
           </Route>
         </Route>
 

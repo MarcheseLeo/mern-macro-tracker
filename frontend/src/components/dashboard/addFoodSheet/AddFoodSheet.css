@@ -4,7 +4,8 @@
 }
 
 .food-sheet-container {
-    min-height: 50vh;
+    min-height: 50dvh;
+    max-height: 80dvh;
     max-width: 600px;
 }
 
