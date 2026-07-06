@@ -12,7 +12,17 @@ const getUserById = async (id) => {
 }
 
 const editUser = async (id, body) => {
-    const updatedUser = await UserSchema.findByIdAndUpdate(id, body, { returnDocument: 'after' })
+    const updateQuery = { ...body }
+    if (body.weight) {
+        delete updateQuery.weight
+        updateQuery.$push = {
+            weightHistory: {
+                weight: body.weight,
+                date: new Date()
+            }
+        }
+    }
+    const updatedUser = await UserSchema.findByIdAndUpdate(id, updateQuery, { returnDocument: 'after' })
     return updatedUser
 }
 

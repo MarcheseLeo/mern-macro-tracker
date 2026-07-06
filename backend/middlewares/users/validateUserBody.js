@@ -153,6 +153,19 @@ const editUserValidation = [
     body('verificationToken')
         .not().exists()
         .withMessage('Cannot update verificationToken from this route'),
+    body('goalWeight')
+        .optional()
+        .isFloat({ min: 0 })
+        .withMessage('goalWeight must be a positive number'),
+    body('currentStreak')
+        .not().exists()
+        .withMessage('Cannot manually update streak from this route'),
+    body('lastActiveDate')
+        .not().exists()
+        .withMessage('Cannot manually update active date from this route'),
+    body('weightHistory')
+        .not().exists()
+        .withMessage('Cannot manually modify weight history array directly')
 ]
 
 const changePasswordValidation = [
