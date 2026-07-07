@@ -1,3 +1,5 @@
+const FoodService= require('../foods/foods.service')
+
 const getProductByBarcode = async (barcode) => {
     try {
         const response = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`, {
@@ -37,7 +39,8 @@ const getProductByBarcode = async (barcode) => {
             source: 'openfoodfacts'
         }
 
-        return mappedFood
+        const food = await FoodService.createFood(body)
+        return food
 
     } catch (e) {
         console.error("Errore durante la chiamata a OpenFoodFacts:", e)

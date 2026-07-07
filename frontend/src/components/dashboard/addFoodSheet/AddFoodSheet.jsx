@@ -43,12 +43,12 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
             let foods = await getFoods(url)
 
             if (foods.length > 0) {
-                setSelectedFood(foods)
-                setMode('custom')
+                setSelectedFood(foods[0])
+                setMode('details')
             } else {
                 const food = await getFoodByBarcode(barcode)
                 setSelectedFood(food)
-                setMode('custom')
+                setMode('details')
             }
         } catch (e) {
             alert("Product non found in database.");
