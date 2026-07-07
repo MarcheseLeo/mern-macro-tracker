@@ -11,6 +11,20 @@ export const getDashboardData = async (date) => {
         meals: mealsRes.data.meals
     }
 }
+export const getAllMealsForCalendar = async () => {
+    const res = await api.get('/meals');
+    const mealsList = res.data.meals || res.data
+
+    const summaryByDate = {};
+    
+    mealsList.forEach(meal => {
+        const dateKey = meal.date.split('T')[0]
+        if (!summaryByDate[dateKey]) summaryByDate[dateKey] = 0;
+        summaryByDate[dateKey] += meal.totalMealKcal;
+    });
+
+    return summaryByDate
+}
 
 export const addFoodToMeal = async (mealType, date, foodId, quantity) => {
     const body = {
