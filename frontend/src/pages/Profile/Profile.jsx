@@ -260,6 +260,7 @@ export const Profile = () => {
 
     return (
         <div className="profile-page container py-3 pb-5">
+            {/* HEADER */}
             <header className="profile-topbar d-flex align-items-center justify-content-between mb-4">
                 <div className="d-flex align-items-center gap-2">
                     <div className="profile-brand-mark d-flex align-items-center justify-content-center">
@@ -268,6 +269,7 @@ export const Profile = () => {
                     <h1 className="font-heading fs-5 fw-bold mb-0">Macro</h1>
                 </div>
 
+                {/* AVATAR */}
                 <button
                     type="button"
                     className="profile-mini-avatar border-0 p-0"
@@ -276,15 +278,18 @@ export const Profile = () => {
                 >
                     {user?.avatar ? <img src={user.avatar} alt={fullName} /> : <span>{getInitials()}</span>}
                 </button>
-            </header>
+            </header>   
 
+            {/* ALERT */}
             {feedback && (
                 <div className={`alert alert-${feedback.type} profile-feedback-toast shadow-soft-lg small`} role="alert">
                     {feedback.message}
                 </div>
             )}
 
+            {/* GENERAL INFO */}
             <section className="profile-hero text-center mb-4">
+                {/* AVATAR */}
                 <div className="profile-avatar-wrap mx-auto mb-3">
                     <div className="profile-avatar d-flex align-items-center justify-content-center">
                         {user?.avatar ? <img src={user.avatar} alt={fullName} /> : <span>{getInitials()}</span>}
@@ -313,6 +318,7 @@ export const Profile = () => {
                 </p>
             </section>
 
+            {/* GOALS & TARGETS */}
             <section className="mb-4">
                 <h3 className="profile-section-title">Goals & Targets</h3>
                 <div className="row g-3">
@@ -332,6 +338,7 @@ export const Profile = () => {
                 </div>
             </section>
 
+            {/* PERSOANL INFO FORM */}
             <section className="profile-card mb-4">
                 <div className="d-flex align-items-center justify-content-between gap-3 mb-3">
                     <div>
@@ -407,6 +414,7 @@ export const Profile = () => {
                 </form>
             </section>
 
+            {/* GENERATED AVATAR */}
             <section className="profile-card mb-4">
                 <div className="d-flex align-items-center justify-content-between gap-3 mb-3">
                     <div>
@@ -431,6 +439,7 @@ export const Profile = () => {
                 </div>
             </section>
 
+            {/* PASSWORD FORM */}
             <section className="profile-card mb-4">
                 <div className="d-flex align-items-center justify-content-between gap-3 mb-3">
                     <div>
@@ -446,7 +455,7 @@ export const Profile = () => {
                             <label className="form-label small fw-semibold">Current password</label>
                             <div className="input-group">
                                 <span className="input-group-text profile-input-icon"><KeyRound size={16} /></span>
-                                <input type="password" className="form-control profile-input" name="oldPassword" value={passwordForm.oldPassword} onChange={handlePasswordChange} />
+                                <input type="password" className="form-control profile-input" name="oldPassword" value={passwordForm.oldPassword} onChange={handlePasswordChange}   placeholder='••••••••'/>
                             </div>
                         </div>
                         <div>
@@ -466,6 +475,8 @@ export const Profile = () => {
                 </form>
             </section>
 
+
+            {/* ACCOUNT STATUS */}
             <section className="profile-card mb-4">
                 <div className="d-flex align-items-start gap-3">
                     <Info size={18} className="text-primary-custom mt-1" />
@@ -478,6 +489,7 @@ export const Profile = () => {
                 </div>
             </section>
 
+            {/* LOGOUT */}
             <button
                 type="button"
                 onClick={handleLogout}

@@ -1,5 +1,6 @@
 import './DashboardHeader.css'
 import { Bell } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
     const getGreetings = () => {
@@ -35,6 +36,12 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
 
     const weekDays = generateWeek(selectedDate)
 
+    const navigate = useNavigate()
+
+    const handleRedirectToProfile = () =>{
+        navigate('/profile')
+    }
+
     return (
         <header className='d-flex flex-column gap-4 mb-2'>
 
@@ -58,11 +65,9 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
                     </button>
 
                     {/* AVATAR */}
-                    <span
-                        className='radius-2xl fw-bold shadow-sm font-heading d-flex  justify-content-center align-items-center avatar'
-                    >
-                        {getInitials()}
-                    </span>
+                    <div className='profile-avatar-medium border-0 p-0 cursor-pointer' onClick={handleRedirectToProfile}>
+                        {user?.avatar ? <img src={user.avatar} /> : <span>{getInitials()}</span>}
+                    </div>
                 </div>
             </div>
 
@@ -87,7 +92,7 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
                                 style={{
                                     width: '0.4rem',
                                     height: '0.4rem',
-                                    backgroundColor: day.isToday? (isActive ? 'var(--primary-foreground)' : 'var(--primary)') : 'transparent'
+                                    backgroundColor: day.isToday ? (isActive ? 'var(--primary-foreground)' : 'var(--primary)') : 'transparent'
                                 }}
                             ></span>
                         </button>

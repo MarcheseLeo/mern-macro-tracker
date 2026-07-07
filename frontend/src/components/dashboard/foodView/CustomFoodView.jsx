@@ -68,7 +68,7 @@ export const CustomFoodView = ({ onFoodCreated }) => {
                 {/* UNIT SELECT */}
                 <div className="d-flex flex-row align-items-center justify-content-between gap-4" style={{ '--dynamic-focus': 'var(--primary-muted)'}}>
                     <label htmlFor="servingUnit" className="small text-muted-foreground fw-bold ms-1">Unit</label>
-                    <select id="servingUnit" name="servingUnit" value={formData.servingUnit} onChange={handleChange} className="form-select form-select-lg bg-light  radius-2xl input-field" style={{ maxWidth: '7rem' }}>
+                    <select id="servingUnit" name="servingUnit" value={formData.servingUnit} onChange={handleChange} className="form-select profile-input form-select-lg bg-light input-field" style={{ maxWidth: '7rem' }}>
                         <option value="g">g</option>
                         <option value="ml">ml</option>
                     </select>
@@ -149,7 +149,7 @@ const SelectField = ({ id, label, name, value, onChange, maxWidth, focusColor}) 
                 name={name}
                 value={value}
                 onChange={onChange}
-                className="form-select form-select-lg  radius-2xl px-3 text-capitalize input-field"
+                className="form-select form-select-lg profile-input px-3 text-capitalize input-field"
                 style={{ maxWidth: maxWidth }}
             >
                 {CATEGORY_OPTIONS.map(cat => (
@@ -174,7 +174,7 @@ const Field = ({ id, label, name, value, onChange, placeholder, type = 'number',
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                className="form-control form-control-lg  radius-2xl px-3 input-field"
+                className="form-control form-control-lg  profile-imputpx-3 input-field"
                 required={required}
                 min={min}
                 style={{ maxWidth: maxWidth }}

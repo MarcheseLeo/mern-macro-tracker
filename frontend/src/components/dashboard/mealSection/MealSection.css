@@ -1,9 +1,9 @@
 .meals-title {
-    font-style: 1.12rem
+    font-size: 1.12rem;
 }
 
 .meal-container {
-    background-color: var(--card)
+    background-color: var(--card);
 }
 
 .meal-emoji {
@@ -13,22 +13,62 @@
     font-size: 1.25rem;
 }
 
-.meal-label{
-    font-size: 0.87rem
+.meal-label {
+    font-size: 0.9rem;
 }
 
-.meal-label + span{
-    font-size: 0.75rem
-}
-
-.cursor-pointer {
-    cursor: pointer;
+.meal-label + span {
+    font-size: 0.75rem;
 }
 
 .transition-transform {
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.25s ease-in-out;
+}
+
+.food-row {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    max-height: 4.75rem;
+    transition: max-height 0.28s ease, opacity 0.2s ease, margin 0.28s ease;
+}
+
+.food-row-deleting {
+    max-height: 0;
+    margin: 0 !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.food-delete-bg {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.food-row-content {
+    min-height: 4.25rem;
+}
+
+.food-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.1rem;
+}
+
+.food-name {
+    color: var(--foreground);
+    font-size: 0.9rem;
+}
+
+.food-meta {
+    font-size: 0.75rem;
+}
+
+.food-kcal-label {
+    font-size: 0.7rem;
 }
 
 .delete-food-btn:hover {
-    background-color: rgba(239, 68, 68, 0.1);
+    background-color: rgba(241, 39, 78, 0.1);
 }
