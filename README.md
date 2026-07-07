@@ -3,7 +3,7 @@
 ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat&logo=node-dot-js&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=flat&logo=mongodb&logoColor=white)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](/LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
 **MacroMuse** è un'applicazione web Full Stack progettata per rendere il tracciamento dei macronutrienti e delle calorie semplice, veloce e intuitivo. 
 
@@ -105,7 +105,7 @@ npm run dev
 ```
 
 ## 📄 License
-Distribuito sotto licenza MIT. Sentiti libero di usare, modificare e distribuire questo codice.
+Distributed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.txt).
 
 ---
 
