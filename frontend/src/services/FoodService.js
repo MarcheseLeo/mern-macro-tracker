@@ -33,7 +33,9 @@ export const createFood = async (formData) => {
             },
             fibers: Number(formData.fibers) || 0,
             salt: Number(formData.salt) || 0
-        }
+        },
+        barcode: formData.barcode,
+        source: formData.source
     }
 
     const res = await api.post('/foods', body)

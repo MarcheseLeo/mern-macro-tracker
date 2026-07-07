@@ -39,8 +39,7 @@ const getProductByBarcode = async (barcode) => {
             source: 'openfoodfacts'
         }
 
-        const food = await FoodService.createFood(body)
-        return food
+        return mappedFood
 
     } catch (e) {
         console.error("Errore durante la chiamata a OpenFoodFacts:", e)

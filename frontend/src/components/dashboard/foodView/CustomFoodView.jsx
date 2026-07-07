@@ -15,12 +15,12 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
         servingUnit: food?.servingUnit || 'g',
         kcal: food?.nutritionalValues.kcal || '',
         carbsTotal: food?.nutritionalValues.carbs.total || '',
-        carbsSugars:  food?.nutritionalValues.carbs.sugars || '',
-        proteins:  food?.nutritionalValues.proteins ||'',
-        fatsTotal:  food?.nutritionalValues.fats.total || '',
-        fatsSaturated:  food?.nutritionalValues.fats.saturated || '',
-        fibers:  food?.nutritionalValues.fibers || '',
-        salt:  food?.nutritionalValues.salt || '',
+        carbsSugars: food?.nutritionalValues.carbs.sugars || '',
+        proteins: food?.nutritionalValues.proteins || '',
+        fatsTotal: food?.nutritionalValues.fats.total || '',
+        fatsSaturated: food?.nutritionalValues.fats.saturated || '',
+        fibers: food?.nutritionalValues.fibers || '',
+        salt: food?.nutritionalValues.salt || '',
         barcode: food?.barcode || undefined,
         source: food?.source || 'user'
     });
@@ -33,7 +33,7 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
         e.preventDefault();
         setIsLoading(true);
         setError(null);
-
+        console.log(formData)
         try {
             const data = await createFood(formData)
 
@@ -52,7 +52,6 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
     return (
         <form onSubmit={handleSubmit} className="d-flex flex-column gap-2 p-2">
             {error && <div className="alert alert-danger radius-2xl small py-2">{error}</div>}
-            <input type="text" name="" id="" value={food?.barcode} />
             <p className=" mt-4 mb-0 fw-bold text-primary-custom">General Info</p>
             <div className="d-flex flex-column gap-3 mb-2">
                 {/* FOOD NAME */}
@@ -60,6 +59,8 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
 
                 {/* FOOD BRAND */}
                 <Field id="foodBrand" name="brand" type="text" label="Brand" value={formData.brand} onChange={handleChange} placeholder="Generic" maxWidth={'15rem'} />
+                {/* FOOD BARCODE */}
+                <Field id="foodBarcode" name="barcode" type="text" label="Barcode" value={formData?.barcode || ''} onChange={handleChange}  maxWidth={'15rem'} disabled={formData.barcode ? true : false} />
             </div>
 
             <div className="d-flex flex-column gap-3">
@@ -162,7 +163,7 @@ const SelectField = ({ id, label, name, value, onChange, maxWidth, focusColor })
     );
 }
 
-const Field = ({ id, label, name, value, onChange, placeholder, type = 'number', required = false, min, maxWidth, focusColor }) => {
+const Field = ({ id, label, name, value, onChange, placeholder, type = 'number', required = false, min, maxWidth, focusColor, disabled = false}) => {
     return (
         <div className="d-flex flex-row align-items-center justify-content-between gap-4" style={{ '--dynamic-focus': focusColor || 'var(--primary-muted)' }}>
             <label htmlFor={id} className="small text-muted-foreground fw-bold ms-1 text-nowrap">
@@ -181,6 +182,7 @@ const Field = ({ id, label, name, value, onChange, placeholder, type = 'number',
                 required={required}
                 min={min}
                 style={{ maxWidth: maxWidth }}
+                disabled={disabled}
             />
         </div>
     );
