@@ -6,7 +6,8 @@ import { CustomFoodView } from '../foodView/CustomFoodView';
 import { InfoModal } from '../../infoModal/Infomodal'
 import { addFoodToMeal } from '../../../services/MealService';
 import './AddFoodSheet.css'
-
+import { BarcodeScanner } from '../foodView/BarcodeScanner';
+import { getFoodByBarcode } from '../../../services/FoodService';
 
 const MEAL_META = {
     breakfast: { label: 'Breakfast', emoji: '☕' },
@@ -36,6 +37,18 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
         }
     }
 
+    const onScanSuccess = async (barcode) => {
+        try {
+            const food = await getFoodByBarcode(barcode)
+
+            setSelectedFood(food)
+            setMode('details')
+        } catch (e) {
+            alert("Product non found in database.");
+            setMode('choices');
+        }
+    }
+
     useEffect(() => {
         if (open) {
             setMode('choices')
@@ -49,7 +62,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
     const choices = [
         { mode: 'search', icon: Search, label: 'Search food', desc: 'Find from our database', color: 'primary' },
         { mode: 'custom', icon: PlusCircle, label: 'Create custom food', desc: 'Add your own recipe', color: 'warning' },
-        { mode: 'scan', icon: ScanLine, label: 'Scan barcode', desc: 'Arriving soon...', color: 'secondary', disabled: true },
+        { mode: 'scan', icon: ScanLine, label: 'Scan barcode', desc: 'Find products by using barcode scan', color: 'success' },
     ]
 
     return (
@@ -159,6 +172,14 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                                 setSelectedFood(newFood);
                                 setMode('details');
                             }}
+                        />
+                    )}
+
+                    {/* SCAN BARCIDE VIEW */}
+                    {mode === 'scan' && (
+                        <BarcodeScanner
+                            onClose={() => setMode('choices')}
+                            onScanSuccess={onScanSuccess}
                         />
                     )}
 
