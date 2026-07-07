@@ -7,8 +7,6 @@
 
 **MacroMuse** è un'applicazione web Full Stack progettata per rendere il tracciamento dei macronutrienti e delle calorie semplice, veloce e intuitivo. 
 
-Nata come progetto Capstone, unisce un'interfaccia moderna e "mobile-first" a un backend solido per aiutare gli utenti a raggiungere i propri obiettivi nutrizionali tenendo traccia dei propri pasti, delle serie di successi giornalieri (streak) e importando cibi tramite codice a barre.
-
 ## ✨ Funzionalità Principali
 
 * **Autenticazione Sicura:** Login tradizionale con Email/Password (criptata con bcrypt e protetta da JWT) o tramite **Google OAuth2.0**.
