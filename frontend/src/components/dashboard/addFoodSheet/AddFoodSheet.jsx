@@ -40,13 +40,13 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
     const onScanSuccess = async (barcode) => {
         try {
             const url = `/foods/?barcode=${barcode}`
-            let food = await getFoods(url)
+            let foods = await getFoods(url)
 
-            if (food.length > 0) {
-                setSelectedFood(food)
+            if (foods.length > 0) {
+                setSelectedFood(foods)
                 setMode('custom')
             } else {
-                food = await getFoodByBarcode(barcode)
+                const food = await getFoodByBarcode(barcode)
                 setSelectedFood(food)
                 setMode('custom')
             }
