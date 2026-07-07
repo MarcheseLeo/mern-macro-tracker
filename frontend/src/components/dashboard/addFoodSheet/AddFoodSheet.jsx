@@ -76,7 +76,6 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
         <div
             className="position-fixed top-0 bottom-0 start-0 end-0 bg-dark bg-opacity-50 d-flex flex-column justify-content-end justify-content-md-center  food-sheet-bg"
         >
-            <p>{food.source} ciao</p>
             <div
                 className="bg-white radius-3xl w-100 p-4 shadow-lg d-flex flex-column mx-auto food-sheet-container"
             >

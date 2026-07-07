@@ -52,7 +52,7 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
     return (
         <form onSubmit={handleSubmit} className="d-flex flex-column gap-2 p-2">
             {error && <div className="alert alert-danger radius-2xl small py-2">{error}</div>}
-
+                        <p>{food.source} ciao</p>
             <p className=" mt-4 mb-0 fw-bold text-primary-custom">General Info</p>
             <div className="d-flex flex-column gap-3 mb-2">
                 {/* FOOD NAME */}
