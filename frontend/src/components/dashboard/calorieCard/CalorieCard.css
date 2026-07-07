@@ -1,5 +1,6 @@
 .calorie-card {
     background-color: var(--primary);
+    box-shadow: 0 10px 26px -10px rgba(42, 96, 221, 0.658) !important;
     color: var(--primary-foreground);
     padding: 1.5rem;
 }
@@ -27,11 +28,17 @@
     background-color: #fafbff38;
 }
 
-.calorie-card-label{
+.calorie-card-label {
     font-size: 0.87rem;
+
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

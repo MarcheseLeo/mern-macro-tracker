@@ -54,7 +54,7 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
                     {meta.emoji}
                 </span>
 
-                <div className="flex-grow-1 min-w-0">
+                <div className="flex-grow-1 min-w-0 overflow-hidden">
                     <span className="d-block font-heading fw-bold meal-label text-truncate">{meta.label}</span>
                     <span className="d-block small text-muted-foreground text-truncate">
                         {items.length > 0

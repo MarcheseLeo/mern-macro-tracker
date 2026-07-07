@@ -39,7 +39,7 @@ export const MacroCards = ({ summary, userGoals }) => {
                 const pct = Math.min(100, Math.round((m.value / target) * 100))
                 return (
                     <div key={m.key} className={`col-4`}>
-                        <article className='app-card h-100 macro-card text-nowrap'>
+                        <article className='app-card h-100 macro-card overflow-hidden'>
 
                             <span className={`macro-icon-box d-flex justify-content-center align-items-center rounded-circle bg-${m.theme}-soft`}>
                                 {m.emoji}
@@ -52,7 +52,7 @@ export const MacroCards = ({ summary, userGoals }) => {
                                 )}
                             </div>
 
-                            <p className="font-heading fs-5 fw-bold lh-sm mb-2" style={{ color: 'var(--foreground' }}>
+                            <p className="font-heading fs-6 fw-bold lh-sm mb-2" style={{ color: 'var(--foreground)' }}>
                                 {m.value}
                                 <span className="small fw-medium text-muted ms-1" style={{ fontSize: '0.75rem' }}>/{m.target}g</span>
                             </p>

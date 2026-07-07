@@ -1,0 +1,24 @@
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+}
+
+.hover-bg-light:hover {
+    background-color: var(--muted) !important;
+}
+
+.transition-colors {
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bg-success-subtle {
+    background-color: #d1e7dd !important;
+}
+.border-success-subtle {
+    border-color: #badbcc !important;
+}
+.text-success {
+    color: #198754 !important;
+}

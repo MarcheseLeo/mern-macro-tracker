@@ -10,6 +10,8 @@ import { OauthSuccessPage } from './pages/OauthSuccessPage/OauthSuccessPage';
 import { GuestRoute } from './components/auth/GuestRoute';
 import { MainLayout } from './components/layout/MainLayout';
 import { Profile } from './pages/Profile/Profile';
+import { Calendar } from './pages/Calendar/Calendar';
+
 
 
 const App = () => {
@@ -33,6 +35,7 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path='/home' element={<Home />} />
+            <Route path='/calendar' element={<Calendar/>}/>
             <Route path='/profile' element={<Profile/>}/>
           </Route>
         </Route>

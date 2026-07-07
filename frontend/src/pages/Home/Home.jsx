@@ -46,7 +46,9 @@ const Home = () => {
             setDailyMeals([])
         } finally {
 
-            setIsDashboardLoading(false)
+            setTimeout(() =>{
+                setIsDashboardLoading(false)
+            }, 500)
 
         }
     }
