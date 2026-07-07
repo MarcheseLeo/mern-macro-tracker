@@ -35,12 +35,11 @@ export const MacroCards = ({ summary, userGoals }) => {
             {macros.map((m, index) => {
                 const target = m.target > 0 ? m.target : 1
                 const isGoalReached = m.value >= target
-                const indexClass = index === 2 ? 'col-12' : 'col-6'
 
                 const pct = Math.min(100, Math.round((m.value / target) * 100))
                 return (
-                    <div key={m.key} className={`col-md-4 ${indexClass}`}>
-                        <article className='card border-0 shadow-sm radius-3xl h-100 macro-card text-nowrap'>
+                    <div key={m.key} className={`col-4`}>
+                        <article className='app-card h-100 macro-card text-nowrap'>
 
                             <span className={`macro-icon-box d-flex justify-content-center align-items-center rounded-circle bg-${m.theme}-soft`}>
                                 {m.emoji}

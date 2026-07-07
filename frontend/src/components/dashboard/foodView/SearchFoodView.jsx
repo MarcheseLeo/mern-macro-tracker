@@ -14,7 +14,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
     const [selectedCategory, setSelectedCategory] = useState('All')
 
     const [foods, setFoods] = useState([])
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null)
 
     const [currentPage, setCurrentPage] = useState(1)
@@ -91,10 +91,10 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
     }
 
     return (
-        <div className="d-flex flex-column h-100">
+        <div className="d-flex flex-column h-100 ">
 
             {/* SEARCH BAR */}
-            <div className="d-flex align-items-center gap-2 px-3 py-2 border rounded-4 mb-3">
+            <div className="d-flex align-items-center gap-2 px-3 py-2 border rounded-4">
                 <Search size={20} className="text-muted" />
                 <input
                     type="text"
@@ -107,7 +107,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
             </div>
 
             {/* CATEGORY PILLS*/}
-            <div className="d-flex gap-2 overflow-x-auto pb-4 no-scrollbar flex-md-wrap">
+            <div className="d-flex align-items-center gap-2 overflow-x-auto overflow-y-hidden  overflow-scroll" style={{ minHeight: '90px' }}>
                 {CATEGORIES.map(cat => (
                     <button
                         key={cat}
@@ -121,54 +121,62 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
             </div>
 
             {/* RESULT LIST */}
-            <div className="flex-grow-1 overflow-y-auto">
+            <div className="flex-grow-1 overflow-y-auto mt-2">
                 {error && <p className="text-danger text-center small">{error}</p>}
 
-                {foods.length === 0 && !isLoading && !error ? (
-                    <div className="text-center text-muted mt-5">
-                        <p>No food found {query ? `for ${query}` : ''}.</p>
-                    </div>
+                {isLoading ? (
+                    <ListSkeleton />
                 ) : (
-                    <ul className="list-unstyled d-flex flex-column gap-2 mb-0 ">
-                        {foods.map(f => {
-                            const calculatedKcal = Math.round((f.nutritionalValues.kcal / 100) * f.servingSize);
+                    <>
+                        {foods.length === 0 ? (
+                            <div className="text-center text-muted mt-5">
+                                <p>No food found {query ? `for ${query}` : ''}.</p>
+                            </div>
+                        ) : (
+                            <ul className="list-unstyled d-flex flex-column gap-2 mb-0 ">
+                                {foods.map(f => {
+                                    const calculatedKcal = Math.round((f.nutritionalValues.kcal / 100) * f.servingSize);
 
-                            return (
-                                <li key={f._id}>
-                                    <div
-                                        className="d-flex align-items-center gap-3 p-2 bg-light rounded-4 cursor-pointer"
-                                        onClick={() => onFoodSelect(f)}
-                                    >
-                                        <span className="d-flex justify-content-center align-items-center bg-white rounded-3 shadow-sm" style={{ width: '48px', height: '48px', fontSize: '1.2rem' }}>
-                                            {CATEGORY_EMOJIS[f.category] || '🍽️'}
-                                        </span>
+                                    return (
+                                        <li key={f._id}>
+                                            <div
+                                                className="d-flex align-items-center gap-3 p-2 bg-light  cursor-pointer"
+                                                onClick={() => onFoodSelect(f)}
+                                                style={{ border: "1px solid rgba(227, 228, 233, 0.72)", borderRadius: " var(--radius-xl)" }}
+                                            >
+                                                <span className="d-flex justify-content-center align-items-center bg-white rounded-3 shadow-sm" style={{ width: '48px', height: '48px', fontSize: '1.2rem' }}>
+                                                    {CATEGORY_EMOJIS[f.category] || '🍽️'}
+                                                </span>
 
-                                        <div className="flex-grow-1">
-                                            <span className="d-block fw-bold text-dark">{f.name}</span>
-                                            <span className="d-block small text-muted">
-                                                {f.servingSize}{f.servingUnit} · {f.brand}
-                                            </span>
-                                        </div>
+                                                <div className="flex-grow-1">
+                                                    <span className="d-block fw-bold text-dark">{f.name}</span>
+                                                    <span className="d-block small text-muted">
+                                                        {f.servingSize}{f.servingUnit} · {f.brand}
+                                                    </span>
+                                                </div>
 
-                                        <div className="text-end">
-                                            <span className="d-block font-heading fw-bold text-primary">{calculatedKcal}</span>
-                                            <span className="small text-muted">kcal</span>
-                                        </div>
+                                                <div className="text-end">
+                                                    <span className="d-block font-heading fw-bold text-primary">{calculatedKcal}</span>
+                                                    <span className="small text-muted">kcal</span>
+                                                </div>
 
-                                        {/* QUICK ADD BUTTON*/}
-                                        <button
-                                            disabled={addedFoodId === f._id}
-                                            className={`btn btn-sm ms-2 rounded-circle d-flex justify-content-center align-items-center p-1 transition-colors text-white ${addedFoodId === f._id ? 'btn-success' : 'btn-primary'} `}
-                                            onClick={(e) => handleQuickAdd(e, f)}
-                                        >
-                                            {addedFoodId === f._id ? <Check size={20} /> : <Plus size={24} />}
-                                        </button>
-                                    </div>
-                                </li>
-                            )
-                        })}
-                    </ul>
+                                                {/* QUICK ADD BUTTON*/}
+                                                <button
+                                                    disabled={addedFoodId === f._id}
+                                                    className={`btn btn-sm ms-2 rounded-circle d-flex justify-content-center align-items-center p-1 transition-colors text-white ${addedFoodId === f._id ? 'btn-success' : 'btn-primary'} `}
+                                                    onClick={(e) => handleQuickAdd(e, f)}
+                                                >
+                                                    {addedFoodId === f._id ? <Check size={20} /> : <Plus size={24} />}
+                                                </button>
+                                            </div>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        )}
+                    </>
                 )}
+
 
                 {/* ADD MORE BUTTON */}
                 {isLoading && (
@@ -198,3 +206,38 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
         </div>
     )
 }
+
+
+const ListSkeleton = () => {
+
+    return (
+        <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
+            {[1, 2, 3, 4, 5, 6].map((item) => (
+                <li
+                    key={item}
+                    className="d-flex align-items-center gap-3 p-2 bg-light bg-opacity-50"
+                    style={{ border: "1px solid rgba(227, 228, 233, 0.72)", borderRadius: " var(--radius-xl)" }}>
+                    <span className="skeleton skeleton-circle d-flex justify-content-center align-items-center rounded-3 shadow-sm" style={{ width: '48px', height: '48px' }}>
+                    </span>
+
+                    <div className="flex-grow-1">
+                        <span className="d-block my-2 skeleton skeleton-line" style={{ width: "40%" }}></span>
+                        <span className="d-block skeleton skeleton-line" style={{ width: "30%" }}>
+                        </span>
+                    </div>
+                    <div className="text-end">
+                        <span className="d-block  skeleton skeleton-line" ></span>
+                        <span className="small  skeleton-line"></span>
+                    </div>
+
+                    <button
+                        className={`btn btn-sm ms-2 rounded-circle d-flex justify-content-center align-items-center p-1 skeleton skeleton-circle`}
+                        style={{ width: "2rem", height: "2rem" }}
+                    >
+                    </button>
+                </li>
+            ))}
+        </ul>
+    )
+}
+

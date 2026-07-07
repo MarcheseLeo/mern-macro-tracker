@@ -1,8 +1,6 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap');
 
 :root {
-    /* macro-tracker theme v2 */
     --background: #f9fafc;
     --foreground: #121826;
     --card: #ffffff;
@@ -10,7 +8,6 @@
     --popover: #ffffff;
     --popover-foreground: #121826;
 
-    /* Indigo primary */
     --primary: #4f50de;
     --primary-foreground: #fafbff;
     --primary-muted: #7474db;
@@ -26,7 +23,6 @@
     --input: #e3e4e9;
     --ring: #4f50de;
 
-    /* Macro colors */
     --carbs: rgb(0, 158, 218);
     --carbs-foreground: rgb(0, 68, 105);
     --carbs-soft: rgb(207, 237, 255);
@@ -46,19 +42,30 @@
     --chart-4: rgb(244, 164, 55);
     --chart-5: rgb(197, 78, 190);
 
-    --radius: 1.5rem;
+    --radius: 1rem;
+    --radius-sm: 0.65rem;
+    --radius-md: 0.85rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.25rem;
+    --radius-2xl: 1.5rem;
 
     --sidebar: rgb(255, 255, 255);
     --sidebar-foreground: rgb(18, 24, 38);
     --sidebar-primary: rgb(79, 80, 222);
-    --sidebar-primary-foreground: oklch(0.99 0.01 276);
+    --sidebar-primary-foreground: #fafbff;
     --sidebar-accent: rgb(233, 237, 255);
     --sidebar-accent-foreground: rgb(56, 62, 135);
-    --sidebar-border: oklch(0.92 0.006 270);
+    --sidebar-border: #e3e4e9;
     --sidebar-ring: rgb(79, 80, 222);
 
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
+
+    --bs-primary: var(--primary);
+    --bs-primary-rgb: 79, 80, 222;
+    --bs-body-bg: var(--background);
+    --bs-body-color: var(--foreground);
+    --bs-border-color: var(--border);
 }
 
 body {
@@ -71,11 +78,63 @@ h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: var(--font-heading) !important;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
 }
 
 .font-heading {
     font-family: var(--font-heading);
+}
+
+.tracking-tight {
+    letter-spacing: 0;
+}
+
+.app-card {
+    background: var(--card);
+    border: 1px solid rgba(227, 228, 233, 0.72);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 10px 26px -18px rgba(18, 24, 38, 0.38);
+}
+
+.surface-soft {
+    background: var(--muted) !important;
+    border: 1px solid rgba(227, 228, 233, 0.65);
+}
+
+.soft-control,
+.form-control.soft-control,
+.form-select.soft-control {
+    min-height: 3rem;
+    color: var(--foreground);
+    background-color: var(--background);
+    border-color: var(--border);
+    border-radius: var(--radius-md);
+}
+
+.soft-control:focus,
+.form-control.soft-control:focus,
+.form-select.soft-control:focus {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 0.18rem rgba(79, 80, 222, 0.14);
+}
+
+.btn-primary-custom {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+}
+
+.btn-primary-custom:hover,
+.btn-primary-custom:focus {
+    background-color: var(--primary-muted) !important;
+    border-color: var(--primary-muted) !important;
+    color: var(--primary-foreground) !important;
+}
+
+.btn-soft-custom {
+    color: var(--secondary-foreground) !important;
+    background: var(--secondary) !important;
+    border-color: transparent !important;
 }
 
 .shadow-soft {
@@ -99,72 +158,71 @@ h1, h2, h3, h4, h5, h6,
     scrollbar-width: none;
 }
 
-.radius-sm {
-    border-radius: calc(var(--radius) - 6px) !important
-}
-
-.radius-md {
-    border-radius: (var(--radius) - 4px) !important
-}
-
-.radius-lg {
-    border-radius: var(--radius) !important
-}
-
-.radius-xl {
-    border-radius: calc(var(--radius) + 6px) !important
-}
-
-.radius-2xl {
-    border-radius: calc(var(--radius) + 12px) !important
-}
-
-.radius-3xl {
-    border-radius: calc(var(--radius) + 18px) !important
-}
+.radius-sm { border-radius: var(--radius-sm) !important; }
+.radius-md { border-radius: var(--radius-md) !important; }
+.radius-lg { border-radius: var(--radius-lg) !important; }
+.radius-xl { border-radius: var(--radius-xl) !important; }
+.radius-2xl { border-radius: var(--radius-2xl) !important; }
+.radius-3xl { border-radius: var(--radius-2xl) !important; }
 
 .text-muted-foreground {
-    color: var(--muted-foreground) !important
+    color: var(--muted-foreground) !important;
 }
 
 .text-primary-custom {
-    color: var(--primary);
+    color: var(--primary) !important;
 }
 
-.tracking-tight {
-    letter-spacing: -0.025em;
-}
-
-.text-carbs {
-    color: var(--carbs) !important;
-}
-.text-protein {
-    color: var(--protein) !important;
-}
-.text-fat {
-    color: var(--fat) !important;
-}
-
-.text-carbs-soft {
-    color: var(--carbs-soft) !important;
-}
-.text-protein-soft {
-    color: var(--protein-soft) !important;
-}
-.text-fat-soft {
-    color: var(--fat-soft) !important;
-}
-
-.text-carbs-foreground {
-    color: var(--carbs-foreground) !important;
-}
-.text-protein-foreground {
-    color: var(--protein-foreground) !important;
-}
-.text-fat-foreground {
-    color: var(--fat-foreground) !important;
-}
+.text-carbs { color: var(--carbs) !important; }
+.text-protein { color: var(--protein) !important; }
+.text-fat { color: var(--fat) !important; }
+.text-carbs-soft { color: var(--carbs-soft) !important; }
+.text-protein-soft { color: var(--protein-soft) !important; }
+.text-fat-soft { color: var(--fat-soft) !important; }
+.text-carbs-foreground { color: var(--carbs-foreground) !important; }
+.text-protein-foreground { color: var(--protein-foreground) !important; }
+.text-fat-foreground { color: var(--fat-foreground) !important; }
 
 .pointer-events-none {
     pointer-events: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, var(--muted) 0%, #ffffff 48%, var(--muted) 100%);
+    background-size: 220% 100%;
+    animation: skeleton-shimmer 1.15s ease-in-out infinite;
+}
+
+.skeleton-line {
+    height: 0.75rem;
+    border-radius: 999px;
+}
+
+.skeleton-circle {
+    border-radius: 50%;
+}
+
+.skeleton-card {
+    min-height: 7rem;
+    border-radius: var(--radius-xl);
+}
+
+@keyframes skeleton-shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
