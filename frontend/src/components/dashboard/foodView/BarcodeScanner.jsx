@@ -8,10 +8,10 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
         const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
         scanner.render(
             (decodedText) => {
-                scanner.clear(); // Fermiamo lo scanner una volta letto
+                scanner.clear()
                 onScanSuccess(decodedText);
             },
-            (error) => { /* Ignore errori di scansione continui */ }
+            (error) => { /* Errori */ }
         );
         return () => scanner.clear();
     }, [onScanSuccess]);
