@@ -42,7 +42,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
             const food = await getFoodByBarcode(barcode)
 
             setSelectedFood(food)
-            setMode('details')
+            setMode('custom')
         } catch (e) {
             alert("Product non found in database.");
             setMode('choices');
@@ -172,6 +172,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                                 setSelectedFood(newFood);
                                 setMode('details');
                             }}
+                            food={selectedFood}
                         />
                     )}
 

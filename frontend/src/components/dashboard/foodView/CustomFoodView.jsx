@@ -2,25 +2,25 @@ import React, { useState } from 'react';
 import { Save, Loader2, ChevronDown, ChevronUpCircle, ChevronDownCircle } from 'lucide-react';
 import { createFood } from '../../../services/FoodService';
 
-export const CustomFoodView = ({ onFoodCreated }) => {
+export const CustomFoodView = ({ onFoodCreated, food }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [showOptionals, setShowOptionals] = useState(false)
 
     const [formData, setFormData] = useState({
-        name: '',
-        brand: 'Generic',
-        category: 'other',
-        servingSize: 100,
-        servingUnit: 'g',
-        kcal: '',
-        carbsTotal: '',
-        carbsSugars: '',
-        proteins: '',
-        fatsTotal: '',
-        fatsSaturated: '',
-        fibers: '',
-        salt: ''
+        name: food?.name || '',
+        brand: food?.brand || 'Generic',
+        category: food?.category || 'other',
+        servingSize: food?.servingSize || 100,
+        servingUnit: food?.servingUnit || 'g',
+        kcal: food?.nutritionalValues.kcal || '',
+        carbsTotal: food?.nutritionalValues.carbs.total || '',
+        carbsSugars:  food?.nutritionalValues.carbs.sugars || '',
+        proteins:  food?.nutritionalValues.preoteins ||'',
+        fatsTotal:  food?.nutritionalValues.fats.total || '',
+        fatsSaturated:  food?.nutritionalValues.fats.saturated || '',
+        fibers:  food?.nutritionalValues.fibers || '',
+        salt:  food?.nutritionalValues.salt || ''
     });
 
     const handleChange = (e) => {
@@ -66,7 +66,7 @@ export const CustomFoodView = ({ onFoodCreated }) => {
                 {/* PORTION SIZE */}
                 <Field id="servingSize" name="servingSize" type="number" label="Portion Size *" value={formData.servingSize} onChange={handleChange} placeholder="100" required={true} maxWidth={'7rem'} />
                 {/* UNIT SELECT */}
-                <div className="d-flex flex-row align-items-center justify-content-between gap-4" style={{ '--dynamic-focus': 'var(--primary-muted)'}}>
+                <div className="d-flex flex-row align-items-center justify-content-between gap-4" style={{ '--dynamic-focus': 'var(--primary-muted)' }}>
                     <label htmlFor="servingUnit" className="small text-muted-foreground fw-bold ms-1">Unit</label>
                     <select id="servingUnit" name="servingUnit" value={formData.servingUnit} onChange={handleChange} className="form-select profile-input form-select-lg bg-light input-field" style={{ maxWidth: '7rem' }}>
                         <option value="g">g</option>
@@ -83,11 +83,11 @@ export const CustomFoodView = ({ onFoodCreated }) => {
                 {/* KCAL */}
                 <Field id="foodKcal" name="kcal" label="Calories (kcal) *" value={formData.kcal} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor={'var(--water)'} />
                 {/* CARBS */}
-                <Field id="foodCarbsTotal" name="carbsTotal" label="Carbs (g) *" value={formData.carbsTotal} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor={'var(--carbs)'}/>
+                <Field id="foodCarbsTotal" name="carbsTotal" label="Carbs (g) *" value={formData.carbsTotal} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor={'var(--carbs)'} />
                 {/* PROTEIN */}
-                <Field id="foodProteins" name="proteins" label="Proteins (g) *" value={formData.proteins} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor={'var(--protein)'}/>
+                <Field id="foodProteins" name="proteins" label="Proteins (g) *" value={formData.proteins} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor={'var(--protein)'} />
                 {/* FATS */}
-                <Field id="foodFatsTotal" name="fatsTotal" label="Fats (g) *" value={formData.fatsTotal} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor={'var(--fat)'}/>
+                <Field id="foodFatsTotal" name="fatsTotal" label="Fats (g) *" value={formData.fatsTotal} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor={'var(--fat)'} />
             </div>
 
             <p
@@ -113,14 +113,14 @@ export const CustomFoodView = ({ onFoodCreated }) => {
             {/* OPTIONALS */}
             <div className={`d-flex flex-column gap-3 ${showOptionals ? '' : 'd-none'}`}>
                 {/* SUGARS */}
-                <Field id="foodCarbsSugars" name="carbsSugars" label="Sugars (g)" value={formData.carbsSugars} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor="var(--carbs-foreground)"/>
+                <Field id="foodCarbsSugars" name="carbsSugars" label="Sugars (g)" value={formData.carbsSugars} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor="var(--carbs-foreground)" />
                 {/* SATURATED FATS */}
-                <Field id="foodFatsSaturated" name="fatsSaturated" label="Sat. Fat (g)" value={formData.fatsSaturated} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor="var(--fat-foreground)"/>
+                <Field id="foodFatsSaturated" name="fatsSaturated" label="Sat. Fat (g)" value={formData.fatsSaturated} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor="var(--fat-foreground)" />
 
                 {/* FIBERS */}
-                <Field id="foodFibers" name="fibers" label="Fibers (g)" value={formData.fibers} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor="var(--protein-foreground)"/>
+                <Field id="foodFibers" name="fibers" label="Fibers (g)" value={formData.fibers} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor="var(--protein-foreground)" />
                 {/* SALT */}
-                <Field id="foodSalt" name="salt" label="Salt (g)" value={formData.salt} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor="var(--accent-foreground)"/>
+                <Field id="foodSalt" name="salt" label="Salt (g)" value={formData.salt} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor="var(--accent-foreground)" />
             </div>
 
             {/* SAVE BUTTON */}
@@ -138,9 +138,9 @@ export const CustomFoodView = ({ onFoodCreated }) => {
 
 const CATEGORY_OPTIONS = ['fruit', 'vegetable', 'meat', 'dairy', 'cereal', 'snack', 'beverage', 'other'];
 
-const SelectField = ({ id, label, name, value, onChange, maxWidth, focusColor}) => {
+const SelectField = ({ id, label, name, value, onChange, maxWidth, focusColor }) => {
     return (
-        <div className="d-flex flex-row align-items-center gap-1" style={{ '--dynamic-focus': focusColor || 'var(--primary-muted)'}}>
+        <div className="d-flex flex-row align-items-center gap-1" style={{ '--dynamic-focus': focusColor || 'var(--primary-muted)' }}>
             <label htmlFor={id} className="small text-muted-foreground fw-bold ms-1 w-100">
                 {label}
             </label>
@@ -162,7 +162,7 @@ const SelectField = ({ id, label, name, value, onChange, maxWidth, focusColor}) 
 
 const Field = ({ id, label, name, value, onChange, placeholder, type = 'number', required = false, min, maxWidth, focusColor }) => {
     return (
-        <div className="d-flex flex-row align-items-center justify-content-between gap-4" style={{ '--dynamic-focus': focusColor || 'var(--primary-muted)'}}>
+        <div className="d-flex flex-row align-items-center justify-content-between gap-4" style={{ '--dynamic-focus': focusColor || 'var(--primary-muted)' }}>
             <label htmlFor={id} className="small text-muted-foreground fw-bold ms-1 text-nowrap">
                 {label}
             </label>
