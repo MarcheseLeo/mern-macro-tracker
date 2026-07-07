@@ -16,7 +16,7 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
         kcal: food?.nutritionalValues.kcal || '',
         carbsTotal: food?.nutritionalValues.carbs.total || '',
         carbsSugars:  food?.nutritionalValues.carbs.sugars || '',
-        proteins:  food?.nutritionalValues.preoteins ||'',
+        proteins:  food?.nutritionalValues.proteins ||'',
         fatsTotal:  food?.nutritionalValues.fats.total || '',
         fatsSaturated:  food?.nutritionalValues.fats.saturated || '',
         fibers:  food?.nutritionalValues.fibers || '',
