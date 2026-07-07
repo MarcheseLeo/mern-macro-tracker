@@ -20,7 +20,9 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
         fatsTotal:  food?.nutritionalValues.fats.total || '',
         fatsSaturated:  food?.nutritionalValues.fats.saturated || '',
         fibers:  food?.nutritionalValues.fibers || '',
-        salt:  food?.nutritionalValues.salt || ''
+        salt:  food?.nutritionalValues.salt || '',
+        barcode: food?.barcode || undefined,
+        source: food?.source || 'user'
     });
 
     const handleChange = (e) => {
