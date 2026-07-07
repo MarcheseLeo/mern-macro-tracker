@@ -51,7 +51,7 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
         <form onSubmit={handleSubmit} className="d-flex flex-column gap-2 p-2">
             {error && <div className="alert alert-danger radius-2xl small py-2">{error}</div>}
 
-            <p className=" mt-4 mb-0 fw-bold text-primary-custom">General Info1</p>
+            <p className=" mt-4 mb-0 fw-bold text-primary-custom">General Info</p>
             <div className="d-flex flex-column gap-3 mb-2">
                 {/* FOOD NAME */}
                 <Field id="foodName" name="name" type="text" label="Food Name *" value={formData.name} onChange={handleChange} placeholder="e.g. Lasagna" required={true} maxWidth={'20rem'} />
@@ -172,6 +172,7 @@ const Field = ({ id, label, name, value, onChange, placeholder, type = 'number',
                 type={type}
                 inputMode={type === 'number' ? 'numeric' : undefined}
                 value={value}
+                step={type === 'number' ? 'any' : undefined}
                 onChange={onChange}
                 placeholder={placeholder}
                 className="form-control form-control-lg  profile-imputpx-3 input-field"
