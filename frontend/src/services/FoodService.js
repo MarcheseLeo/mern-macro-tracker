@@ -7,6 +7,11 @@ export const getFoods = async (url) => {
     return res.data
 }
 
+export const getFoodByBarcode = async (barcode) =>{
+    const res = await api.get(`/foods/import/barcode/${barcode}`)
+    return res.data.food
+}
+
 export const createFood = async (formData) => {
     const body = {
         name: formData.name,
