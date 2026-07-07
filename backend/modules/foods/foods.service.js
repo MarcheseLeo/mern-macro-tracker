@@ -1,6 +1,6 @@
 const FoodSchema = require('./foods.schema')
 
-const getFoods = async ({ name = '', category = '', page = 1, limit = 15 }) =>{
+const getFoods = async ({ name = '', category = '',barcode = '', page = 1, limit = 15 }) =>{
     const filter = { isActive: true }
 
     if (name) {
@@ -9,6 +9,10 @@ const getFoods = async ({ name = '', category = '', page = 1, limit = 15 }) =>{
 
     if (category && category !== 'All') {
         filter.category = category;
+    }
+
+    if(barcode){
+        filter.barcode = barcode
     }
     
     const skip = (page - 1) * limit

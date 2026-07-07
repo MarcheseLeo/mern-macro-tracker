@@ -7,7 +7,7 @@ import { InfoModal } from '../../infoModal/Infomodal'
 import { addFoodToMeal } from '../../../services/MealService';
 import './AddFoodSheet.css'
 import { BarcodeScanner } from '../foodView/BarcodeScanner';
-import { getFoodByBarcode } from '../../../services/FoodService';
+import { getFoodByBarcode, getFoods } from '../../../services/FoodService';
 
 const MEAL_META = {
     breakfast: { label: 'Breakfast', emoji: '☕' },
@@ -39,10 +39,17 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
 
     const onScanSuccess = async (barcode) => {
         try {
-            const food = await getFoodByBarcode(barcode)
+            const url = `/foods/?barcode=${barcode}`
+            const food = await getFoods(url)
 
-            setSelectedFood(food)
-            setMode('custom')
+            if (food.length > 0) {
+                setSelectedFood(food)
+                setMode('custom')
+            } else {
+                food = await getFoodByBarcode(barcode)
+                setSelectedFood(food)
+                setMode('custom')
+            }
         } catch (e) {
             alert("Product non found in database.");
             setMode('choices');
