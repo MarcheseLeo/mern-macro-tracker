@@ -51,7 +51,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                 setMode('custom')
             }
         } catch (e) {
-            alert("Product non found in database.");
+            
             setMode('choices');
         }
     }
