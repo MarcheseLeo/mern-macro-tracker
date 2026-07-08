@@ -13,8 +13,9 @@ const getProductByBarcode = async (req, res, next) => {
             if (!newFood) {
                 return res.status(404)
                     .send({
-                        statusCode: 404,
-                        message: "Product not found on OpenFoodFacts"
+                        statusCode: 200,
+                        message: "No product found on OpenFoodFacts or in database",
+                        food: null
                     })
             }
 
