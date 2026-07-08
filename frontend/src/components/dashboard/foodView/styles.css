@@ -76,11 +76,14 @@ label:has(+ .input-field:focus) {
     justify-content: center;
     align-items: center;
     pointer-events: none; 
+    color: transparent !important;
 }
-
-#reader__dashboard_section_csr button,
-#reader__dashboard_section_csr select {
+#reader__dashboard_section_csr button {
     pointer-events: auto;
+    color: white !important;
+}
+#reader select {
+    display: none !important;
 }
 
 #html5-qrcode-button-camera-stop,
