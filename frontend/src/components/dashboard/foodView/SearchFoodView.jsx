@@ -133,7 +133,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
                                 <p>No food found {query ? `for ${query}` : ''}.</p>
                             </div>
                         ) : (
-                            <ul className="list-unstyled d-flex flex-column gap-2 mb-0 ">
+                            <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
                                 {foods.map(f => {
                                     const calculatedKcal = Math.round((f.nutritionalValues.kcal / 100) * f.servingSize);
 
@@ -144,12 +144,12 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
                                                 onClick={() => onFoodSelect(f)}
                                                 style={{ border: "1px solid rgba(227, 228, 233, 0.72)", borderRadius: " var(--radius-xl)" }}
                                             >
-                                                <span className="d-flex justify-content-center align-items-center bg-white rounded-3 shadow-sm" style={{ width: '48px', height: '48px', fontSize: '1.2rem' }}>
+                                                <span className="d-flex justify-content-center align-items-center bg-white rounded-3 shadow-sm" style={{ width: '48px', height: '48px', fontSize: '1.2rem' , minWidth: '40px', minHeight: '40px'}}>
                                                     {CATEGORY_EMOJIS[f.category] || '🍽️'}
                                                 </span>
 
-                                                <div className="flex-grow-1">
-                                                    <span className="d-block fw-bold text-dark">{f.name}</span>
+                                                <div className="flex-grow-1 text-truncate" >
+                                                    <span className="d-inline-block fw-bold text-dark text-truncate" style={{maxWidth: '100%'}} title={f.name}>{f.name}</span>
                                                     <span className="d-block small text-muted">
                                                         {f.servingSize}{f.servingUnit} · {f.brand}
                                                     </span>

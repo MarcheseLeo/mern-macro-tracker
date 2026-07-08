@@ -77,6 +77,8 @@ export const Calendar = () => {
     
     const kcalGoal = user?.dailyKcalGoal || 2000;
     const isTarget = summary.kcal >= (kcalGoal * 0.85); 
+    const targetClass = selectedDate <= today ? `${summary.kcal >= (kcalGoal * 0.85) ? "text-success" : `${summary.kcal >= (kcalGoal * 0.40) ? "text-warning" : "text-danger"}`}` : "text-secondary"
+    const targetStr = selectedDate <= today ? `${summary.kcal >= (kcalGoal * 0.85) ? "On target" : `${summary.kcal >= (kcalGoal * 0.40) ? "Partial" : "Missed"}`}` : "Arriving"
     const loggedMealTypes = dailyMeals.map(meal => meal.mealType);
 
     
@@ -184,8 +186,8 @@ export const Calendar = () => {
                 <section className="app-card p-4">
                     <div className="d-flex justify-content-between align-items-center mb-4">
                         <h2 className="font-heading fs-5 fw-bold mb-0">{summaryDateStr} Summary</h2>
-                        <span className={`small fw-bold ${isTarget ? 'text-success' : 'text-danger'}`}>
-                            {isTarget ? 'On Target' : 'Missed'}
+                        <span className={`small fw-bold ${targetClass}`}>
+                            {targetStr}
                         </span>
                     </div>
 
