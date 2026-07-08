@@ -21,8 +21,7 @@ const server = express()
 server.set('trust proxy', 1)
 
 const allowedOrigins = [
-    process.env.FRONTEND_URL,
-    "https://outlying-confound-punctured.ngrok-free.dev"
+    process.env.FRONTEND_URL
 ].filter(Boolean)
 
 server.use(cors({
