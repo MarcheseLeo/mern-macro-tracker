@@ -26,9 +26,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
 
     const saveFoodToMeal = async (foodId, quantity, shouldClose = true) => {
         try {
-
             await addFoodToMeal(meal, selectedDate, foodId, quantity)
-
 
             if (shouldClose) onClose()
             if (onFoodAdded) onFoodAdded()
@@ -40,8 +38,16 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
     const onScanSuccess = async (barcode) => {
         try {
             const food = await getFoodByBarcode(barcode)
-            setSelectedFood(food)
-            setMode('details')
+            if (food) {
+                setSelectedFood(food)
+                setMode('details')
+            } else {
+                const newFood = {
+                    barcode: barcode
+                }
+                setSelectedFood(newFood)
+                setMode('custom')
+            }
         } catch (e) {
             setMode('choices');
         }
@@ -75,7 +81,11 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                     <div className="d-flex align-items-center gap-2">
                         {mode !== 'choices' && (
                             <button
-                                onClick={() => setMode(mode === 'details' ? 'search' : 'choices')}
+                                onClick={() => {
+                                    setSelectedFood(null)
+                                    setMode(mode === 'details' ? 'search' : 'choices')
+                                }
+                                }
                                 className="btn btn-light rounded-circle p-2 d-flex justify-content-center align-items-center"
                             >
                                 <ArrowLeft size={20} />

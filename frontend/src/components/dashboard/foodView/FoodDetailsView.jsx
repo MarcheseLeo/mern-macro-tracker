@@ -41,7 +41,7 @@ export const FoodDetailsView = ({ food, onConfirm }) => {
     const currentKcal = Math.round((macros.kcal / 100) * quantity)
 
     return (
-        <div className="d-flex flex-column h-100 a" style={{minHeight: "90dvh"}}>
+        <div className="d-flex flex-column">
 
             {/* HEADER */}
             <div className="text-center mb-4 mt-2">
