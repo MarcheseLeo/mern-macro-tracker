@@ -15,9 +15,9 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
         const html5QrCode = new Html5Qrcode("reader");
         html5QrCodeRef.current = html5QrCode;
 
+
         const config = { 
-            fps: 10,
-            aspectRatio: 1.0 
+            fps: 10
         };
 
         html5QrCode.start(
@@ -30,11 +30,9 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
                     onScanSuccessRef.current(decodedText);
                 }
             },
-            (errorMessage) => { }
+            (errorMessage) => {  }
         ).catch((err) => {
-
             console.error("Errore fotocamera:", err);
-            
             const errMsg = typeof err === 'string' ? err : (err?.message || "Errore sconosciuto fotocamera");
             setCamError(errMsg);
         });
@@ -42,12 +40,11 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
         return () => {
             if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
                 html5QrCodeRef.current.stop().then(() => {
-                    html5QrCodeRef.current.clear();
-                }).catch((err) => console.error("Failed to clear scanner.", err));
+                    html5QrCodeRef.current.clear()
+                }).catch((err) => console.error("Failed to clear scanner.", err))
             }
-        };
-    }, []);
-
+        }
+    }, [])
     return (
         <div className="p-3 d-flex flex-column h-100 align-items-center justify-content-center">
             
