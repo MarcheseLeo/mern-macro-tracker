@@ -1,29 +1,47 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 
 export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
-    const scannerRef = useRef(false);
+
+    const scanHandledRef = useRef(false);
+    
+    const onScanSuccessRef = useRef(onScanSuccess);
+    useEffect(() => {
+        onScanSuccessRef.current = onScanSuccess;
+    }, [onScanSuccess]);
 
     useEffect(() => {
-        const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 }, false);
+
+        const scanner = new Html5QrcodeScanner(
+            "reader", 
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            false
+        );
+
         scanner.render(
             (decodedText) => {
                 if (!scanHandledRef.current) {
                     scanHandledRef.current = true
-                    onScanSuccess(decodedText)
+                    scanner.pause(true)
+                    onScanSuccessRef.current(decodedText);
                 }
             },
             (error) => { }
         );
+
         return () => {
-            scanner.clear().catch(error => console.error("Failed to clear scanner", error));
+            scanner.clear().catch(error => {
+                console.error("Failed to clear html5QrcodeScanner. ", error);
+            })
         }
-    }, [onScanSuccess]);
+    }, []);
 
     return (
-        <div className="p-3">
-            <div id="reader" style={{ width: '100%' }}></div>
-            <button className="btn btn-secondary w-100 mt-3" onClick={onClose}>Chiudi Scanner</button>
+        <div className="p-3 d-flex flex-column h-100">
+            <div id="reader" style={{ width: '100%', borderRadius: '1rem', overflow: 'hidden' }}></div>
+            <button className="btn btn-light w-100 mt-auto fw-bold" onClick={onClose}>
+                Cancel Scan
+            </button>
         </div>
     );
 };
