@@ -12,6 +12,7 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
     }, [onScanSuccess]);
 
     useEffect(() => {
+        let isMounted = true; 
         const html5QrCode = new Html5Qrcode("reader");
         html5QrCodeRef.current = html5QrCode;
 
@@ -29,39 +30,65 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
             }
         };
 
-        html5QrCode.start(
-            { facingMode: "environment" }, 
-            config, 
-            (decodedText) => {
-                if (!scanHandledRef.current) {
-                    scanHandledRef.current = true;
-                    html5QrCode.pause();
-                    onScanSuccessRef.current(decodedText);
+        Html5Qrcode.getCameras().then(devices => {
+            if (!isMounted) return;
+
+            if (devices && devices.length > 0) {
+
+                console.log("Found cams:", devices);
+
+                let cameraId = devices[0].id; 
+                const mainBackCamera = devices.find(device => 
+                    device.label.toLowerCase().includes('back') && device.label.includes('0')
+                ) || devices.find(device => 
+                    device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('posteriore')
+                );
+
+                if (mainBackCamera) {
+                    cameraId = mainBackCamera.id;
+                } else if (devices.length > 1) {
+                    cameraId = devices[devices.length - 1].id;
                 }
-            },
-            (errorMessage) => { }
-        ).catch((err) => {
-            console.error("Errore fotocamera:", err);
-            const errMsg = typeof err === 'string' ? err : (err?.message || "Unknown camera error");
-            setCamError(errMsg);
-        })
+                html5QrCode.start(
+                    cameraId, 
+                    config,
+                    (decodedText) => {
+                        if (!scanHandledRef.current) {
+                            scanHandledRef.current = true;
+                            html5QrCode.pause();
+                            onScanSuccessRef.current(decodedText);
+                        }
+                    },
+                    (errorMessage) => { }
+                ).catch(handleCamError);
+
+            } else {
+                setCamError("No cam found on device");
+            }
+        }).catch(handleCamError);
+
+        function handleCamError(err) {
+            console.error("Cam error:", err);
+            const errMsg = typeof err === 'string' ? err : (err?.message || "Unknown cam error");
+            if (isMounted) setCamError(errMsg);
+        }
 
         return () => {
+            isMounted = false;
             if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
                 html5QrCodeRef.current.stop().then(() => {
-                    html5QrCodeRef.current.clear()
-                }).catch((err) => console.error("Failed to clear scanner.", err))
+                    html5QrCodeRef.current.clear();
+                }).catch((err) => console.error("Failed to clear scanner.", err));
             }
-        }
-    }, [])
-
+        };
+    }, []);
 
     return (
         <div className="p-3 d-flex flex-column h-100 align-items-center justify-content-center gap-3">
-
+            
             <div className="scanner-container mt-4 mb-3">
                 <div id="reader"></div>
-
+                
                 {!camError && (
                     <div className="scanner-overlay">
                         <div className="scanner-reticle">
@@ -74,7 +101,7 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
 
             {camError ? (
                 <div className="alert alert-danger w-100 text-center small radius-2xl mb-auto">
-                    <strong>Not possible to start camera</strong><br />
+                    <strong>Impossibile avviare la fotocamera:</strong><br/>
                 </div>
             ) : (
                 <p className="text-muted small text-center mb-auto px-4">
