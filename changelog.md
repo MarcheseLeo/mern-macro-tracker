@@ -2,6 +2,14 @@
 # Changelog
 Tutte le modifiche di rilievo a questo progetto saranno documentate in questo file.
 
+
+## [1.1.0] - 2026-07-08
+
+### ✨ Funzioni aggiunte
+- **Sezione Scan Barcode :** 
+    -  Ricerca veloce alimento con Barcode.
+    -  Importazione automatica  da *OpenFoodFacts*.
+
 ## [1.0.0] - 2026-07-07
 
 ### ✨ Funzioni aggiunte

@@ -12,7 +12,7 @@
 * **Autenticazione Sicura:** Login tradizionale con Email/Password (criptata con bcrypt e protetta da JWT) o tramite **Google OAuth2.0**.
 * **Dashboard Interattiva:** Riepilogo giornaliero di calorie e macro, con calcolo automatico dei progressi rispetto agli obiettivi personali.
 * **Diario Alimentare:** Ricerca, aggiunta e rimozione di cibi organizzati per tipologia di pasto (Colazione, Pranzo, Cena, Snack).
-<!-- * **Scanner Barcode:** Integrazione con *OpenFoodFacts* per importare automaticamente i valori nutrizionali tramite la scansione del codice a barre. -->
+* **Scanner Barcode:** Integrazione con *OpenFoodFacts* per importare automaticamente i valori nutrizionali tramite la scansione del codice a barre.
 * **Calendario Storico:** Visualizzazione rapida delle giornate a target, parziali o mancate, con percentuale settimanale di successo.
 * **Profilo Utente:** Gestione obiettivi, dati personali e upload di Avatar tramite *Cloudinary*.
 
