@@ -41,16 +41,16 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
             if (food) {
                 setSelectedFood(food)
                 setMode('details')
-            } else {
-                const newFood = {
-                    barcode: barcode
-                }
-                setSelectedFood(newFood)
-                setMode('custom')
-            }
+            } 
         } catch (e) {
             console.log(e)
-            setMode('choices');
+            const newFoodTemplate = {
+                barcode: barcode,
+                source: 'user' 
+            }
+
+            setSelectedFood(newFoodTemplate)
+            setMode('custom')
         }
     }
 
