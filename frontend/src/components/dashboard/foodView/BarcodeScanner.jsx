@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Html5Qrcode } from 'html5-qrcode';
+import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode';
 
 export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
     const scanHandledRef = useRef(false);
     const html5QrCodeRef = useRef(null);
-    const [camError, setCamError] = useState(null); 
-    
+    const [camError, setCamError] = useState(null);
+
     const onScanSuccessRef = useRef(onScanSuccess);
     useEffect(() => {
         onScanSuccessRef.current = onScanSuccess;
@@ -15,14 +15,23 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
         const html5QrCode = new Html5Qrcode("reader");
         html5QrCodeRef.current = html5QrCode;
 
-
-        const config = { 
-            fps: 10
+        const config = {
+            fps: 15,
+            formatsToSupport: [
+                Html5QrcodeSupportedFormats.EAN_13,
+                Html5QrcodeSupportedFormats.EAN_8,
+                Html5QrcodeSupportedFormats.UPC_A,
+                Html5QrcodeSupportedFormats.UPC_E,
+            ],
+            videoConstraints: {
+                width: { ideal: 1280, min: 640 },
+                advanced: [{ focusMode: "continuous" }]
+            }
         };
 
         html5QrCode.start(
             { facingMode: "environment" }, 
-            config,
+            config, 
             (decodedText) => {
                 if (!scanHandledRef.current) {
                     scanHandledRef.current = true;
@@ -30,12 +39,12 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
                     onScanSuccessRef.current(decodedText);
                 }
             },
-            (errorMessage) => {  }
+            (errorMessage) => { }
         ).catch((err) => {
             console.error("Errore fotocamera:", err);
-            const errMsg = typeof err === 'string' ? err : (err?.message || "Errore sconosciuto fotocamera");
+            const errMsg = typeof err === 'string' ? err : (err?.message || "Unknown camera error");
             setCamError(errMsg);
-        });
+        })
 
         return () => {
             if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
@@ -45,12 +54,14 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
             }
         }
     }, [])
+
+
     return (
-        <div className="p-3 d-flex flex-column h-100 align-items-center justify-content-center">
-            
+        <div className="p-3 d-flex flex-column h-100 align-items-center justify-content-center gap-3">
+
             <div className="scanner-container mt-4 mb-3">
                 <div id="reader"></div>
-                
+
                 {!camError && (
                     <div className="scanner-overlay">
                         <div className="scanner-reticle">
@@ -63,8 +74,7 @@ export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
 
             {camError ? (
                 <div className="alert alert-danger w-100 text-center small radius-2xl mb-auto">
-                    <strong>Impossibile avviare la fotocamera:</strong><br/>
-                    {camError}
+                    <strong>Not possible to start camera</strong><br />
                 </div>
             ) : (
                 <p className="text-muted small text-center mb-auto px-4">
