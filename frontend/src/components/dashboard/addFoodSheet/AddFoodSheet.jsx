@@ -39,7 +39,6 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
 
     const onScanSuccess = async (barcode) => {
         try {
-
             const food = await getFoodByBarcode(barcode)
             setSelectedFood(food)
             setMode('details')
