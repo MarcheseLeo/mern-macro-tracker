@@ -127,3 +127,40 @@ label:has(+ .input-field:focus) {
     85% { opacity: 1; }
     100% { top: 95%; opacity: 0; }
 }
+
+.camera-select-wrapper {
+    width: 100%;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.custom-camera-select {
+    width: 100%;
+    appearance: none;
+    background-color: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 1rem;
+    padding: 0.75rem 1rem;
+    padding-right: 2.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #495057;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.custom-camera-select:focus {
+    outline: none;
+    border-color: #7b5eea;
+    box-shadow: 0 0 0 4px rgba(123, 94, 234, 0.15);
+}
+
+.camera-select-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #6c757d;
+}
