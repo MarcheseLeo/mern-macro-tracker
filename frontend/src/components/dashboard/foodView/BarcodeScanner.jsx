@@ -2,18 +2,22 @@ import { useEffect, useRef } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 
 export const BarcodeScanner = ({ onScanSuccess, onClose }) => {
-    const scannerRef = useRef(null);
+    const scannerRef = useRef(false);
 
     useEffect(() => {
-        const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+        const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 }, false);
         scanner.render(
             (decodedText) => {
-                scanner.clear()
-                onScanSuccess(decodedText);
+                if (!scanHandledRef.current) {
+                    scanHandledRef.current = true
+                    onScanSuccess(decodedText)
+                }
             },
-            (error) => { /* Errori */ }
+            (error) => { }
         );
-        return () => scanner.clear();
+        return () => {
+            scanner.clear().catch(error => console.error("Failed to clear scanner", error));
+        }
     }, [onScanSuccess]);
 
     return (
