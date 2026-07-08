@@ -60,7 +60,7 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
                 {/* FOOD BRAND */}
                 <Field id="foodBrand" name="brand" type="text" label="Brand" value={formData.brand} onChange={handleChange} placeholder="Generic" maxWidth={'15rem'} />
                 {/* FOOD BARCODE */}
-                <Field id="foodBarcode" name="barcode" type="text" label="Barcode" value={formData?.barcode || ''} onChange={handleChange}  maxWidth={'15rem'} disabled={formData.barcode ? true : false} />
+                <Field id="foodBarcode" name="barcode" type="text" label="Barcode" value={formData?.barcode || ''} onChange={handleChange}  maxWidth={'15rem'} />
             </div>
 
             <div className="d-flex flex-column gap-3">

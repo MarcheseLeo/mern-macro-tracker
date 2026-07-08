@@ -49,6 +49,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                 setMode('custom')
             }
         } catch (e) {
+            console.log(e)
             setMode('choices');
         }
     }
