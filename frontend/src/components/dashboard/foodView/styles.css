@@ -30,3 +30,100 @@ label:has(+ .input-field:focus) {
     color: var(--dynamic-focus) !important;
     transition: color 0.2s ease-in;
 }
+
+
+.scanner-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+    border-radius: 2rem;
+    overflow: hidden;
+    background-color: #242731; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+#reader {
+    width: 100%;
+    height: 100%;
+}
+#reader video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+.scanner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.scanner-reticle {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+
+.scanner-reticle::before,
+.scanner-reticle::after,
+.reticle-bottom-corners::before,
+.reticle-bottom-corners::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-color: rgba(220, 220, 225, 0.9);
+    border-style: solid;
+    border-width: 0;
+}
+
+.scanner-reticle::before {
+    top: 0; left: 0;
+    border-top-width: 4px; border-left-width: 4px;
+    border-top-left-radius: 12px;
+}
+
+.scanner-reticle::after {
+    top: 0; right: 0;
+    border-top-width: 4px; border-right-width: 4px;
+    border-top-right-radius: 12px;
+}
+
+.reticle-bottom-corners::before {
+    bottom: 0; left: 0;
+    border-bottom-width: 4px; border-left-width: 4px;
+    border-bottom-left-radius: 12px;
+}
+
+.reticle-bottom-corners::after {
+    bottom: 0; right: 0;
+    border-bottom-width: 4px; border-right-width: 4px;
+    border-bottom-right-radius: 12px;
+}
+
+.scanner-laser {
+    position: absolute;
+    left: -35%;
+    width: 170%;
+    height: 2px;
+    background-color: #7b5eea;
+    box-shadow: 0 0 10px 2px rgba(123, 94, 234, 0.6);
+    animation: scan-laser 2s ease-in-out infinite alternate;
+}
+
+@keyframes scan-laser {
+    0% { top: 5%; opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { top: 95%; opacity: 0; }
+}
