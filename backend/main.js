@@ -15,6 +15,8 @@ const googleOauth = require('./modules/oauth/oauth.route')
 const users = require('./modules/users/users.route')
 const foods = require('./modules/foods/foods.route')
 const meals = require('./modules/meals/meals.route')
+const dailyMetrics = require('./modules/daily-metrics/dailyMetrics.route')
+
 
 const server = express()
 
@@ -40,6 +42,8 @@ server.use(verifyToken)
 server.use('/users', users)
 server.use('/foods', foods)
 server.use('/meals', meals)
+server.use('/metrics', dailyMetrics)
+
 //Error Handler middleware
 server.use(errorHandler)
 
