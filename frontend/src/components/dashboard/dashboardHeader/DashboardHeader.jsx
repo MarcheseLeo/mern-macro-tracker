@@ -72,7 +72,7 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
             </div>
 
             {/* CALENDAR */}
-            <div className='d-flex gap-2 overflow-x-auto pb-2 mx-n2 px-2 no-scrollbar'>
+            <div className='d-flex gap-2 overflow-x-auto pb-md-3 mx-2 px-2 no-scrollbar'>
                 {weekDays.map((day) => {
                     const isActive = day.key === selectedDate
                     return (

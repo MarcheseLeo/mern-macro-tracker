@@ -3,7 +3,7 @@
     color: var(--muted-foreground)
 }
 
-.dashboard-greetins+ h1 {
+.dashboard-greetins+h1 {
     font-size: 1.5rem;
 }
 
@@ -37,9 +37,11 @@
     flex: 1;
     min-width: 3rem;
     color: var(--muted-foreground);
+    box-shadow: 0 10px 26px -18px rgba(18, 24, 38, 0.363);
     transition: all 0.2s ease;
 }
 
+/* Calendar */
 .calendar-btn>span:first-child {
     font-size: 0.75rem;
 }
@@ -51,7 +53,7 @@
     line-height: 1.5;
 }
 
-.calendar-btn>span:nth-child(2).active{
+.calendar-btn>span:nth-child(2).active {
     color: var(--primary-foreground);
 }
 
@@ -63,11 +65,51 @@
 .calendar-btn.active {
     background-color: var(--primary);
     color: var(--primary-foreground);
-
 }
 
 
 .calendar-btn:focus, .calendar-btn:active {
     outline: none !important;
     box-shadow: none !important;
+    border: 0;
+}
+
+@media screen and (max-width: 576px) {
+    .calendar-btn {
+        box-shadow: none;
+        background-color: var(--background);
+        border-radius: 0 !important;
+    }
+
+    .calendar-btn.active {
+        background-color: transparent;
+    }
+
+    .calendar-btn.active>span:first-child {
+        color: var(--foreground);
+        font-weight: 600 !important;
+        font-size: 0.82rem;
+    }
+
+    .calendar-btn>span:first-child.active {
+        color: red !important
+    }
+
+    .calendar-btn>span:nth-child(2) {
+        background-color: var(--card);
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        box-shadow: 0 10px 26px -18px rgba(18, 24, 38, 0.575);
+        color: var(--foreground);
+    }
+
+
+    .calendar-btn>span:nth-child(2).active {
+        color: var(--primary-foreground);
+        background-color: var(--primary)
+    }
 }
