@@ -1,5 +1,6 @@
 const MealSchema = require('./meals.schema')
 const UserSchema = require('../users/user.schema')
+const DailyMetricSchema = require('../daily-metrics/dailyMetrics.schema')
 
 const getMeals = async (userId, dateString = null) => {
     const filter = { user: userId }
@@ -151,6 +152,11 @@ const getDailySummary = async (userId, dateString) => {
         date: { $gte: startOfDay, $lte: endOfDay }
     }).populate('items.foodId')
 
+    const dailyMetrics = await DailyMetricSchema.findOne({
+        user: userId,
+        date: startOfDay
+    })
+
     const summary = meals.reduce((acc, meal) => {
         acc.kcal += meal.totalMealKcal
         acc.proteins += meal.totalMealProteins
@@ -182,7 +188,8 @@ const getDailySummary = async (userId, dateString) => {
         fats: {
             total: Number(summary.fats.total.toFixed(1)),
             saturated: Number(summary.fats.saturated.toFixed(1))
-        }
+        },
+        water: dailyMetrics ? Number(dailyMetrics.waterAmount.toFixed(2)) : 0
     }
 }
 

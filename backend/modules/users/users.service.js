@@ -1,5 +1,6 @@
 const UserSchema = require('./user.schema')
 const MealSchema = require('../meals/meals.schema')
+const DailyMetricSchema = require('../daily-metrics/dailyMetrics.schema')
 const bcrypt = require('bcrypt')
 const InvalidCredentialExcpetion = require('../../exceptions/auth/InvalidCredentialsException')
 
@@ -49,6 +50,7 @@ const updatePassword = async (id, oldPassword, newPassword) => {
 
 const deleteUser = async (id) => {
     await MealSchema.deleteMany({ user: id })
+    await DailyMetricSchema.deleteMany({ user: id })
     return await UserSchema.findByIdAndDelete(id)
 }
 
