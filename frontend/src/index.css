@@ -182,6 +182,8 @@ h1, h2, h3, h4, h5, h6,
 .text-carbs-foreground { color: var(--carbs-foreground) !important; }
 .text-protein-foreground { color: var(--protein-foreground) !important; }
 .text-fat-foreground { color: var(--fat-foreground) !important; }
+.text-water { color: var(--water) !important;}
+.text-water-foreground{color: var(--water-foreground) !important}
 
 .pointer-events-none {
     pointer-events: none;

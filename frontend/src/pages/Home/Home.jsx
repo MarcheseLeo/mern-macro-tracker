@@ -5,12 +5,15 @@ import { MacroCards } from "../../components/dashboard/macroCards/MacroCards"
 import { DashboardHeader } from "../../components/dashboard/dashboardHeader/DashboardHeader"
 import { MealSection } from "../../components/dashboard/mealSection/MealSection"
 import { DashboardContext } from '../../context/DashboardContext'
-import { getDashboardData } from "../../services/MealService"
+import { getDashboardData } from '../../services/Dashboard';
+import { DailyMetricsCards } from "../../components/dashboard/dailyMetricsCards/DailyMetricsCards"
+import { updateWater } from "../../services/DailyMetrics"
+import {editMe} from '../../services/UserService'
 
 const emptySummary = { carbs: { total: 0 }, proteins: 0, fats: { total: 0 }, kcal: 0 }
 
 const Home = () => {
-    const { user } = useContext(AuthContext)
+    const { user, refreshUser } = useContext(AuthContext)
 
     const today = new Date().toISOString().split('T')[0]
 
@@ -46,10 +49,29 @@ const Home = () => {
             setDailyMeals([])
         } finally {
 
-            setTimeout(() =>{
+            setTimeout(() => {
                 setIsDashboardLoading(false)
-            }, 500)
+            },0)
 
+        }
+    }
+
+    const handleUpdateWater = async (amount) => {
+        try {
+            await updateWater(selectedDate, amount)
+            fetchDashboardData(selectedDate)
+        } catch (e) {
+            console.error('Failed to upload water', e)
+        }
+    }
+
+    const handleUpdateWeight = async (newWeight) => {
+        try {
+            await editMe({ weight: newWeight, date: selectedDate })
+            fetchDashboardData(selectedDate)
+            await refreshUser()
+        } catch (e) {
+            console.error("Failed to update weight", e)
         }
     }
 
@@ -82,6 +104,13 @@ const Home = () => {
                     <MacroCards
                         userGoals={user?.macroGoals}
                         summary={dailySummary || emptySummary}
+                    />
+                    <DailyMetricsCards
+                        summary={dailySummary}
+                        user={user}
+                        selectedDate={selectedDate}
+                        onUpdateWater={handleUpdateWater}
+                        onUpdateWeight={handleUpdateWeight}
                     />
                     <MealSection
                         mealsData={dailyMeals}

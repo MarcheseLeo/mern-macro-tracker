@@ -1,0 +1,72 @@
+.metrics-icon-box {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+
+.metrics-water-icon-box{
+    background-color: var(--water-soft);
+}
+
+.metrics-weight-icon-box{
+    background-color: var(--accent);
+}
+
+.metrics-btn {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    border: none;
+    display: grid;
+    place-items: center;
+    transition: all 0.2s ease;
+}
+
+.metrics-btn:active {
+    transform: scale(0.95);
+}
+
+.btn-water-minus {
+    background-color: var(--muted);
+    color: var(--foreground);
+}
+
+.btn-water-plus {
+    background-color: var(--water);
+    color: var(--primary-foreground);
+}
+.btn-weight-plus {
+    background-color: var(--accent-foreground);
+    color: var(--primary-foreground);
+}
+
+.water-glass-container {
+    height: 3rem;
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background-color: var(--muted);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.water-glass-container.filled {
+    border-color: var(--water);
+    background-color: var(--water-soft);
+}
+
+.water-glass-fill {
+    width: 100%;
+    background-color: var(--water);
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 0%;
+}
+
+.water-glass-fill.filled {
+    height: 66%; 
+}

@@ -39,7 +39,7 @@ export const MacroCards = ({ summary, userGoals }) => {
                 const pct = Math.min(100, Math.round((m.value / target) * 100))
                 return (
                     <div key={m.key} className={`col-4`}>
-                        <article className='app-card h-100 macro-card overflow-hidden'>
+                        <article className='app-card h-100 p-3 p-md-4 macro-card overflow-hidden'>
 
                             <span className={`macro-icon-box d-flex justify-content-center align-items-center rounded-circle bg-${m.theme}-soft`}>
                                 {m.emoji}

@@ -13,18 +13,37 @@ const getUserById = async (id) => {
 }
 
 const editUser = async (id, body) => {
-    const updateQuery = { ...body }
+    const user = await UserSchema.findById(id);
+    if (!user) return null;
+
     if (body.weight) {
-        delete updateQuery.weight
-        updateQuery.$push = {
-            weightHistory: {
+        const targetDate = body.date ? new Date(body.date) : new Date();
+        const startOfDay = new Date(targetDate);
+        startOfDay.setUTCHours(0, 0, 0, 0);
+        const endOfDay = new Date(targetDate);
+        endOfDay.setUTCHours(23, 59, 59, 999);
+
+        const existingEntryIndex = user.weightHistory.findIndex(entry => 
+            entry.date >= startOfDay && entry.date <= endOfDay
+        )
+
+        if (existingEntryIndex !== -1) {
+            user.weightHistory[existingEntryIndex].weight = body.weight;
+        } else {
+            user.weightHistory.push({
                 weight: body.weight,
-                date: new Date()
-            }
+                date: targetDate
+            })
         }
+
+        delete body.weight;
+        delete body.date;
     }
-    const updatedUser = await UserSchema.findByIdAndUpdate(id, updateQuery, { returnDocument: 'after' })
-    return updatedUser
+
+    Object.assign(user, body);
+    await user.save();
+    
+    return user;
 }
 
 const updatePassword = async (id, oldPassword, newPassword) => {

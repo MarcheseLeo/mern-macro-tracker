@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Flame, PieChart, Check } from 'lucide-react';
 import { DashboardContext } from '../../context/DashboardContext';
 import { AuthContext } from '../../context/AuthContext';
-import { getDashboardData, getAllMealsForCalendar } from '../../services/MealService';
+import { getAllMealsForCalendar } from '../../services/MealService';
+import { getDashboardData } from '../../services/Dashboard';
 import './Calendar.css';
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

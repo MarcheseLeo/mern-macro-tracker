@@ -1,6 +1,5 @@
 .macro-card {
     background-color: var(--card);
-    padding: 1rem;
 }
 
 .macro-icon-box {

@@ -16,7 +16,7 @@ const users = require('./modules/users/users.route')
 const foods = require('./modules/foods/foods.route')
 const meals = require('./modules/meals/meals.route')
 const dailyMetrics = require('./modules/daily-metrics/dailyMetrics.route')
-
+const dashboard = require('./modules/dashboard/dashboard.route')
 
 const server = express()
 
@@ -43,6 +43,7 @@ server.use('/users', users)
 server.use('/foods', foods)
 server.use('/meals', meals)
 server.use('/metrics', dailyMetrics)
+server.use('/dashboard', dashboard)
 
 //Error Handler middleware
 server.use(errorHandler)
