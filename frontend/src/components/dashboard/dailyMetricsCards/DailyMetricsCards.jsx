@@ -11,8 +11,9 @@ export const DailyMetricsCards = ({
     onUpdateWeight
 }) => {
     const [showFutureModal, setShowFutureModal] = useState(false)
-    const today = new Date().toISOString().split('T')[0]
-
+    const d = new Date();
+    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    
     const GLASS_SIZE = 0.25
     const GOAL_GLASSES = 8
     const currentWaterLiters = summary?.water || 0

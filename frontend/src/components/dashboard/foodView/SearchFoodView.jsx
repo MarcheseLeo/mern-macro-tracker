@@ -105,8 +105,9 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
     const handleQuickAdd = async (e, f) => {
         e.stopPropagation()
 
-        const today = new Date().toISOString().split('T')[0]
-
+        const d = new Date();
+        const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        
         if (selectedDate > today) {
             setShowFutureModal(true)
             return

@@ -14,18 +14,26 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
         if (!user) return 'U'
         return `${user.firstName?.charAt(0) || ''}${user.lastName?.charAt(0) || ''}`.toUpperCase()
     }
+    const getLocalDateString = (d) => {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0')
+        const day = String(d.getDate()).padStart(2, '0')
+        return `${year}-${month}-${day}`
+    }
 
     const generateWeek = (currentDateStr) => {
-        const current = new Date(currentDateStr)
+        const [y, m, d] = currentDateStr.split('-')
+        const current = new Date(y, m - 1, d)
+        
         const week = []
-        const todayStr = new Date().toDateString().split('T')[0]
-        const today = new Date().toISOString().split('T')[0]
+        const today = getLocalDateString(new Date())
+        
 
         for (let i = -3; i <= 3; i++) {
             const date = new Date(current)
             date.setDate(current.getDate() + i)
 
-            const key = date.toISOString().split('T')[0]
+            const key = getLocalDateString(date)
             const label = new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(date)
             const number = date.getDate()
 
@@ -38,7 +46,7 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
 
     const navigate = useNavigate()
 
-    const handleRedirectToProfile = () =>{
+    const handleRedirectToProfile = () => {
         navigate('/profile')
     }
 

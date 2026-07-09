@@ -110,7 +110,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                 </div>
 
                 {/* NAV PILLS */}
-                <div className="d-flex gap-2 overflow-x-auto pt-1 pb-2 mb-2 no-scrollbar" style={{minHeight: '50px'}}>
+                <div className="d-flex gap-2 overflow-x-auto pt-1 pb-2 mb-2 no-scrollbar" style={{ minHeight: '50px' }}>
                     {Object.keys(MEAL_META).map((m) => (
                         <button
                             key={m}
@@ -166,8 +166,9 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                         <FoodDetailsView
                             food={selectedFood}
                             onConfirm={(quantity) => {
-                                const today = new Date().toISOString().split('T')[0]
-
+                                const d = new Date();
+                                const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                                
                                 if (selectedDate > today) {
                                     setShowFutureModal(true)
                                     return

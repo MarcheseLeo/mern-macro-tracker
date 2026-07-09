@@ -203,7 +203,7 @@ export const Calendar = () => {
                         <div className="col-6">
                             <div className="bg-light rounded-4 p-3 h-100">
                                 <p className="small text-muted fw-semibold mb-1">Water</p>
-                                <p className="font-heading fs-4 fw-bold mb-1 lh-1">{summary.water.toLocaleString()}</p>
+                                <p className="font-heading fs-4 fw-bold mb-1 lh-1">{summary.water ? summary.water.toLocaleString() : 0 }</p>
                                 <p className="small text-success fw-medium mb-0" style={{ fontSize: '0.75rem' }}>of  2.0L goal</p>
                             </div>
                         </div>
