@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { AuthContext } from "../../context/AuthContext"
 import { CalorieCard } from "../../components/dashboard/calorieCard/CalorieCard"
 import { MacroCards } from "../../components/dashboard/macroCards/MacroCards"
@@ -8,13 +8,12 @@ import { DashboardContext } from '../../context/DashboardContext'
 import { getDashboardData } from '../../services/Dashboard';
 import { DailyMetricsCards } from "../../components/dashboard/dailyMetricsCards/DailyMetricsCards"
 import { updateWater } from "../../services/DailyMetrics"
-import {editMe} from '../../services/UserService'
+import { editMe } from '../../services/UserService'
 
 const emptySummary = { carbs: { total: 0 }, proteins: 0, fats: { total: 0 }, kcal: 0 }
 
 const Home = () => {
     const { user, refreshUser } = useContext(AuthContext)
-
     const today = new Date().toISOString().split('T')[0]
 
     const {
@@ -28,12 +27,24 @@ const Home = () => {
     const [isDashboardLoading, setIsDashboardLoading] = useState(true)
     const [errors, setErrors] = useState()
 
+    const prevDateRef = useRef(selectedDate)
+
     const onDatechange = (date) => {
         setSelectedDate(date)
     }
 
-    const fetchDashboardData = async (date = today) => {
-        setIsDashboardLoading(true)
+    const fetchDashboardData = async (date = today, silent = false) => {
+        let loadingTimeout
+
+        if (!silent) {
+            if (!dailySummary) {
+                setIsDashboardLoading(true)
+            } else {
+                loadingTimeout = setTimeout(() => {
+                    setIsDashboardLoading(true)
+                }, 300)
+            }
+        }
         setErrors(null)
 
         try {
@@ -48,18 +59,17 @@ const Home = () => {
             setDailySummary(emptySummary)
             setDailyMeals([])
         } finally {
-
-            setTimeout(() => {
+            if (!silent) {
+                clearTimeout(loadingTimeout)
                 setIsDashboardLoading(false)
-            },0)
-
+            }
         }
     }
 
     const handleUpdateWater = async (amount) => {
         try {
             await updateWater(selectedDate, amount)
-            fetchDashboardData(selectedDate)
+            fetchDashboardData(selectedDate, true)
         } catch (e) {
             console.error('Failed to upload water', e)
         }
@@ -68,15 +78,20 @@ const Home = () => {
     const handleUpdateWeight = async (newWeight) => {
         try {
             await editMe({ weight: newWeight, date: selectedDate })
-            fetchDashboardData(selectedDate)
-            await refreshUser()
+            fetchDashboardData(selectedDate, true)
+
         } catch (e) {
             console.error("Failed to update weight", e)
         }
     }
 
     useEffect(() => {
-        fetchDashboardData(selectedDate)
+        const isDateChange = prevDateRef.current !== selectedDate
+        prevDateRef.current = selectedDate
+
+        const isSilent = !isDateChange && dailySummary !== null
+
+        fetchDashboardData(selectedDate, isSilent)
     }, [selectedDate, refreshTrigger])
 
     return (
@@ -114,7 +129,7 @@ const Home = () => {
                     />
                     <MealSection
                         mealsData={dailyMeals}
-                        onFoodDeleted={() => fetchDashboardData(selectedDate)}
+                        onFoodDeleted={() => fetchDashboardData(selectedDate, true)}
                         onAddFoodClick={(mealType) => {
                             setTargetMeal(mealType)
                             setIsAddFoodOpen(true)
