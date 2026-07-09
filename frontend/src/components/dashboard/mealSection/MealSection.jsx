@@ -49,7 +49,7 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
 
     return (
         <article ref={parentRef} className="app-card overflow-hidden meal-container">
-            <div className="d-flex align-items-center gap-3 p-3 cursor-pointer" onClick={onToggle}>
+            <div className="d-flex align-items-center gap-3 p-3 p-md-4 cursor-pointer" onClick={onToggle}>
                 <span className="d-flex justify-content-center align-items-center radius-xl meal-emoji">
                     {meta.emoji}
                 </span>
@@ -82,7 +82,7 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
             </div>
 
             {isOpen && (
-                <div className="px-3 pb-3">
+                <div className="px-3 px-md-4 pb-3 pb-md-4">
                     {items.length === 0 ? (
                         <div className="surface-soft radius-xl p-4 text-center">
                             <p className="small text-muted-foreground mb-0">Nothing logged yet. Tap + to add food.</p>

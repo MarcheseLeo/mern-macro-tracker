@@ -165,7 +165,11 @@ const editUserValidation = [
         .withMessage('Cannot manually update active date from this route'),
     body('weightHistory')
         .not().exists()
-        .withMessage('Cannot manually modify weight history array directly')
+        .withMessage('Cannot manually modify weight history array directly'),
+    body('date')
+        .optional()
+        .isISO8601().toDate()
+        .withMessage('Date must be a valid date')
 ]
 
 const changePasswordValidation = [

@@ -5,7 +5,6 @@ const meals = express.Router()
 
 //GET
 meals.get('/', MealsController.getMeals)
-meals.get('/summary/daily', MealsController.getDailySummary)
 meals.get('/:id', MealsController.getMealById)
 
 //POST

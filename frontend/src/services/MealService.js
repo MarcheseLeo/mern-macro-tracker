@@ -1,16 +1,5 @@
 import api from "./api"
 
-export const getDashboardData = async (date) => {
-    const summaryReq = api.get(`/meals/summary/daily/?date=${date}`)
-    const mealsReq = api.get(`/meals/?date=${date}`)
-
-    const [summaryRes, mealsRes] = await Promise.all([summaryReq, mealsReq])
-
-    return {
-        summary: summaryRes.data.summary,
-        meals: mealsRes.data.meals
-    }
-}
 export const getAllMealsForCalendar = async () => {
     const res = await api.get('/meals');
     const mealsList = res.data.meals || res.data

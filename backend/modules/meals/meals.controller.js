@@ -129,24 +129,6 @@ const removeMealItem = async (req, res, next) => {
     }
 }
 
-const getDailySummary = async (req, res, next) => {
-    try {
-        const { id } = req.user
-        const { date } = req.query
-
-        const summary = await MealService.getDailySummary(id, date)
-
-        res.status(200)
-            .send({
-                statusCode: 200,
-                message: 'Daily summary fetched successfully',
-                summary
-            })
-    } catch (e) {
-        next(e)
-    }
-}
-
 const deleteMeal = async (req, res, next) => {
     try {
         const { id: userId } = req.user
@@ -174,6 +156,5 @@ module.exports = {
     addMealItem,
     editMeal,
     removeMealItem,
-    getDailySummary,
     deleteMeal
 }

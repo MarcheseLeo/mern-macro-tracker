@@ -278,7 +278,7 @@ export const Profile = () => {
                 >
                     {user?.avatar ? <img src={user.avatar} alt={fullName} /> : <span>{getInitials()}</span>}
                 </button>
-            </header>   
+            </header>
 
             {/* ALERT */}
             {feedback && (
@@ -379,15 +379,15 @@ export const Profile = () => {
                         </div>
                         <div className="col-6 col-md-3">
                             <label className="form-label small fw-semibold">Height</label>
-                            <input type="number" min="0" className="form-control profile-input" name="height" value={profileForm.height} onChange={handleProfileChange} />
+                            <input type="number" min="0" step={'any'} className="form-control profile-input" name="height" value={profileForm.height} onChange={handleProfileChange} />
                         </div>
                         <div className="col-6 col-md-3">
                             <label className="form-label small fw-semibold">Weight</label>
-                            <input type="number" min="0" className="form-control profile-input" name="weight" value={profileForm.weight} onChange={handleProfileChange} />
+                            <input type="number" min="0" step={'any'} className="form-control profile-input" name="weight" value={profileForm.weight} onChange={handleProfileChange} />
                         </div>
                         <div className="col-6 col-md-3">
                             <label className="form-label small fw-semibold">Goal weight</label>
-                            <input type="number" min="0" className="form-control profile-input" name="goalWeight" value={profileForm.goalWeight} onChange={handleProfileChange} />
+                            <input type="number" min="0" step={'any'} className="form-control profile-input" name="goalWeight" value={profileForm.goalWeight} onChange={handleProfileChange} />
                         </div>
                         <div className="col-6 col-md-3">
                             <label className="form-label small fw-semibold">Daily kcal</label>
@@ -395,15 +395,15 @@ export const Profile = () => {
                         </div>
                         <div className="col-4">
                             <label className="form-label small fw-semibold">Carbs</label>
-                            <input type="number" min="1" className="form-control profile-input" name="carbs" value={profileForm.carbs} onChange={handleProfileChange} />
+                            <input type="number" min="1" step={'any'} className="form-control profile-input" name="carbs" value={profileForm.carbs} onChange={handleProfileChange} />
                         </div>
                         <div className="col-4">
                             <label className="form-label small fw-semibold">Protein</label>
-                            <input type="number" min="1" className="form-control profile-input" name="proteins" value={profileForm.proteins} onChange={handleProfileChange} />
+                            <input type="number" min="1" step={'any'} className="form-control profile-input" name="proteins" value={profileForm.proteins} onChange={handleProfileChange} />
                         </div>
                         <div className="col-4">
                             <label className="form-label small fw-semibold">Fats</label>
-                            <input type="number" min="1" className="form-control profile-input" name="fats" value={profileForm.fats} onChange={handleProfileChange} />
+                            <input type="number" min="1" step={'any'} className="form-control profile-input" name="fats" value={profileForm.fats} onChange={handleProfileChange} />
                         </div>
                     </div>
 
@@ -455,7 +455,7 @@ export const Profile = () => {
                             <label className="form-label small fw-semibold">Current password</label>
                             <div className="input-group">
                                 <span className="input-group-text profile-input-icon"><KeyRound size={16} /></span>
-                                <input type="password" className="form-control profile-input" name="oldPassword" value={passwordForm.oldPassword} onChange={handlePasswordChange}   placeholder='••••••••'/>
+                                <input type="password" className="form-control profile-input" name="oldPassword" value={passwordForm.oldPassword} onChange={handlePasswordChange} placeholder='••••••••' />
                             </div>
                         </div>
                         <div>
