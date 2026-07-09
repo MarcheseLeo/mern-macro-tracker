@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Droplets, Minus, Plus, Scale } from 'lucide-react'
+import { Droplets, Minus, Plus, Scale, CalendarX } from 'lucide-react'
+import { InfoModal } from '../../infoModal/Infomodal'
 import './DailyMetricsCards.css'
 
 export const DailyMetricsCards = ({
@@ -9,12 +10,19 @@ export const DailyMetricsCards = ({
     onUpdateWater,
     onUpdateWeight
 }) => {
+    const [showFutureModal, setShowFutureModal] = useState(false)
+    const today = new Date().toISOString().split('T')[0]
+
     const GLASS_SIZE = 0.25
     const GOAL_GLASSES = 8
     const currentWaterLiters = summary?.water || 0
     const glassesDrunk = Math.floor(currentWaterLiters / GLASS_SIZE)
 
     const handleWaterChange = (amount) => {
+        if (selectedDate > today) {
+            setShowFutureModal(true)
+            return
+        }
         if (amount < 0 && currentWaterLiters <= 0) return
         onUpdateWater(amount)
     }
@@ -24,25 +32,33 @@ export const DailyMetricsCards = ({
 
 
     const handleWeightChange = (amount) => {
+        if (selectedDate > today) {
+            setShowFutureModal(true)
+            return
+        }
         const newWeight = Number((currentWeight + amount).toFixed(1))
         if (newWeight > 0) {
             onUpdateWeight(newWeight)
         }
     }
 
-    const handleGlassClick = (index) =>{
+    const handleGlassClick = (index) => {
+        if (selectedDate > today) {
+            setShowFutureModal(true)
+            return
+        }
         let targetGlasses
 
-        if(index >= glassesDrunk){
+        if (index >= glassesDrunk) {
             targetGlasses = index + 1
-        }else{
+        } else {
             targetGlasses = index
         }
 
         const targetLiters = targetGlasses * GLASS_SIZE
         const amountToChange = targetLiters - currentWaterLiters
 
-        if(amountToChange != 0){
+        if (amountToChange != 0) {
             onUpdateWater(amountToChange)
         }
     }
@@ -69,7 +85,7 @@ export const DailyMetricsCards = ({
                         <div className="d-flex align-items-center gap-2">
                             <button
                                 onClick={() => handleWaterChange(-GLASS_SIZE)}
-                                className="metrics-btn btn-water-minus"
+                                className="metrics-btn btn-water-minus cursor-pointer"
                                 disabled={glassesDrunk === 0}
                             >
                                 <Minus size={16} />
@@ -88,7 +104,7 @@ export const DailyMetricsCards = ({
                         {[...Array(GOAL_GLASSES)].map((_, i) => (
                             <div
                                 key={i}
-                                onClick={()=>handleGlassClick(i)}
+                                onClick={() => handleGlassClick(i)}
                                 className={`water-glass-container cursor-pointer ${i < glassesDrunk ? 'filled' : ''}`}
                             >
                                 <div className={`water-glass-fill ${i < glassesDrunk ? 'filled' : ''}`}></div>
@@ -137,6 +153,14 @@ export const DailyMetricsCards = ({
                     </div>
                 </article>
             </div>
+
+            <InfoModal
+                show={showFutureModal}
+                onHide={() => setShowFutureModal(false)}
+                title="Future Date"
+                description="You cannot track water or weight for a future date. Please select today date."
+                icon={CalendarX}
+            />
         </div>
     )
 }

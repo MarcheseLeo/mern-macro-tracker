@@ -110,7 +110,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                 </div>
 
                 {/* NAV PILLS */}
-                <div className="d-flex gap-2 overflow-x-auto pb-4 mb-2 no-scrollbar">
+                <div className="d-flex gap-2 overflow-x-auto pt-1 pb-2 mb-2 no-scrollbar" style={{minHeight: '50px'}}>
                     {Object.keys(MEAL_META).map((m) => (
                         <button
                             key={m}
@@ -125,7 +125,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
 
 
                 {/* VIEW SELECTOR */}
-                <div className="flex-grow-1 overflow-y-auto overflow-x-hidden">
+                <div className="flex-grow-1 d-flex flex-column  overflow-y-scroll no-scrollbar">
 
                     {mode === 'choices' && (
                         <div className="d-flex flex-column gap-3">

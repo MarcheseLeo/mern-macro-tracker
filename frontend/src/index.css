@@ -151,19 +151,48 @@ h1, h2, h3, h4, h5, h6,
 
 .no-scrollbar::-webkit-scrollbar {
     display: none;
+    width: 0 !important;
+    height: 0 !important;
 }
 
 .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+
 }
 
-.radius-sm { border-radius: var(--radius-sm) !important; }
-.radius-md { border-radius: var(--radius-md) !important; }
-.radius-lg { border-radius: var(--radius-lg) !important; }
-.radius-xl { border-radius: var(--radius-xl) !important; }
-.radius-2xl { border-radius: var(--radius-2xl) !important; }
-.radius-3xl { border-radius: var(--radius-2xl) !important; }
+.drag-scroll-container {
+    cursor: grab;
+    user-select: none;
+}
+
+.drag-scroll-container.active-grabbing {
+    cursor: grabbing;
+}
+
+.radius-sm {
+    border-radius: var(--radius-sm) !important;
+}
+
+.radius-md {
+    border-radius: var(--radius-md) !important;
+}
+
+.radius-lg {
+    border-radius: var(--radius-lg) !important;
+}
+
+.radius-xl {
+    border-radius: var(--radius-xl) !important;
+}
+
+.radius-2xl {
+    border-radius: var(--radius-2xl) !important;
+}
+
+.radius-3xl {
+    border-radius: var(--radius-2xl) !important;
+}
 
 .text-muted-foreground {
     color: var(--muted-foreground) !important;
@@ -173,17 +202,49 @@ h1, h2, h3, h4, h5, h6,
     color: var(--primary) !important;
 }
 
-.text-carbs { color: var(--carbs) !important; }
-.text-protein { color: var(--protein) !important; }
-.text-fat { color: var(--fat) !important; }
-.text-carbs-soft { color: var(--carbs-soft) !important; }
-.text-protein-soft { color: var(--protein-soft) !important; }
-.text-fat-soft { color: var(--fat-soft) !important; }
-.text-carbs-foreground { color: var(--carbs-foreground) !important; }
-.text-protein-foreground { color: var(--protein-foreground) !important; }
-.text-fat-foreground { color: var(--fat-foreground) !important; }
-.text-water { color: var(--water) !important;}
-.text-water-foreground{color: var(--water-foreground) !important}
+.text-carbs {
+    color: var(--carbs) !important;
+}
+
+.text-protein {
+    color: var(--protein) !important;
+}
+
+.text-fat {
+    color: var(--fat) !important;
+}
+
+.text-carbs-soft {
+    color: var(--carbs-soft) !important;
+}
+
+.text-protein-soft {
+    color: var(--protein-soft) !important;
+}
+
+.text-fat-soft {
+    color: var(--fat-soft) !important;
+}
+
+.text-carbs-foreground {
+    color: var(--carbs-foreground) !important;
+}
+
+.text-protein-foreground {
+    color: var(--protein-foreground) !important;
+}
+
+.text-fat-foreground {
+    color: var(--fat-foreground) !important;
+}
+
+.text-water {
+    color: var(--water) !important;
+}
+
+.text-water-foreground {
+    color: var(--water-foreground) !important
+}
 
 .pointer-events-none {
     pointer-events: none;
@@ -220,11 +281,21 @@ h1, h2, h3, h4, h5, h6,
 }
 
 @keyframes skeleton-shimmer {
-    0% { background-position: 100% 0; }
-    100% { background-position: -100% 0; }
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: -100% 0;
+    }
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
