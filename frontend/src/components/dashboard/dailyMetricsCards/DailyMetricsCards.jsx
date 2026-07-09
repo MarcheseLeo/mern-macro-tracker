@@ -89,7 +89,7 @@ export const DailyMetricsCards = ({
                             <div
                                 key={i}
                                 onClick={()=>handleGlassClick(i)}
-                                className={`water-glass-container ${i < glassesDrunk ? 'filled' : ''}`}
+                                className={`water-glass-container cursor-pointer ${i < glassesDrunk ? 'filled' : ''}`}
                             >
                                 <div className={`water-glass-fill ${i < glassesDrunk ? 'filled' : ''}`}></div>
                             </div>
