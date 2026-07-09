@@ -75,14 +75,14 @@ export const Calendar = () => {
         fetchMonthly()
     }, [refreshTrigger])
 
-    
+
     const kcalGoal = user?.dailyKcalGoal || 2000;
-    const isTarget = summary.kcal >= (kcalGoal * 0.85); 
+    const isTarget = summary.kcal >= (kcalGoal * 0.85);
     const targetClass = selectedDate <= today ? `${summary.kcal >= (kcalGoal * 0.85) ? "text-success" : `${summary.kcal >= (kcalGoal * 0.40) ? "text-warning" : "text-danger"}`}` : "text-secondary"
     const targetStr = selectedDate <= today ? `${summary.kcal >= (kcalGoal * 0.85) ? "On target" : `${summary.kcal >= (kcalGoal * 0.40) ? "Partial" : "Missed"}`}` : "Arriving"
     const loggedMealTypes = dailyMeals.map(meal => meal.mealType);
 
-    
+
     const summaryDateObj = new Date(selectedDate);
     const summaryDateStr = `${MONTHS[summaryDateObj.getMonth()].slice(0, 3)} ${summaryDateObj.getDate()}`
 
@@ -203,7 +203,8 @@ export const Calendar = () => {
                         <div className="col-6">
                             <div className="bg-light rounded-4 p-3 h-100">
                                 <p className="small text-muted fw-semibold mb-1">Water</p>
-                                <p className="font-heading fs-5 fw-bold mb-1 lh-1 text-muted">Arriving<br />soon</p>
+                                <p className="font-heading fs-4 fw-bold mb-1 lh-1">{summary.water.toLocaleString()}</p>
+                                <p className="small text-success fw-medium mb-0" style={{ fontSize: '0.75rem' }}>of  2.0L goal</p>
                             </div>
                         </div>
                     </div>
@@ -246,7 +247,7 @@ export const Calendar = () => {
                     </div>
                 </section>
 
-                
+
                 <div className="row g-3">
                     <div className="col-6">
                         <div className="app-card p-4 text-center d-flex flex-column align-items-center h-100">
