@@ -21,9 +21,9 @@ const App = () => {
       <Routes>
 
         {/* Public routes */}
-        <Route path="/" element={<Welcome />} />
 
         <Route element={<GuestRoute />}>
+          <Route path="/" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
 
           <Route path='/register' element={<Register />} />
@@ -35,8 +35,8 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path='/home' element={<Home />} />
-            <Route path='/calendar' element={<Calendar/>}/>
-            <Route path='/profile' element={<Profile/>}/>
+            <Route path='/calendar' element={<Calendar />} />
+            <Route path='/profile' element={<Profile />} />
           </Route>
         </Route>
 

@@ -37,7 +37,7 @@ const Home = () => {
     const fetchDashboardData = async (date = today, silent = false) => {
         let loadingTimeout
 
-        if (silent) {
+        if (!silent) {
             if (!dailySummary) {
                 setIsDashboardLoading(true)
             } else {
