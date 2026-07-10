@@ -37,7 +37,7 @@ const Home = () => {
     const fetchDashboardData = async (date = today, silent = false) => {
         let loadingTimeout
 
-        if (!silent) {
+        if (silent) {
             if (!dailySummary) {
                 setIsDashboardLoading(true)
             } else {
@@ -172,6 +172,47 @@ const DashboardSkeleton = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div className="row g-3">
+                <div className="col-12 col-md-7">
+                    <div className="app-card p-3 h-100">
+                        <div className="d-flex align-items-center gap-3">
+                            <div className="skeleton skeleton-circle mb-3" style={{ width: '2.25rem', height: '2.25rem' }}></div>
+                            <div className="d-flex flex-column justify-content-center w-100">
+                                <div className="skeleton skeleton-line mb-2" style={{ width: '25%' }}></div>
+                                <div className="skeleton skeleton-line mb-2" style={{ width: '35%' }}></div>
+                            </div>
+                        </div>
+                        <div className="d-flex gap-2 w-100 mt-3">
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+                                <div
+                                    key={item}
+                                    className="skeleton"
+                                    style={{ borderRadius: '15px', height: '3rem', width: '100%' }}
+                                >
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className="col-12 col-md-5">
+                    <div className="app-card p-3 h-100">
+                        <div className="d-flex flex-column">
+                            <div className="d-flex align-items-center gap-3">
+                                <div className="skeleton skeleton-circle mb-3" style={{ width: '2.25rem', height: '2.25rem' }}></div>
+                                <div className="d-flex flex-column justify-content-center w-100">
+                                    <div className="skeleton skeleton-line mb-2" style={{ width: '30%' }}></div>
+                                    <div className="skeleton skeleton-line mb-2" style={{ width: '45%' }}></div>
+                                </div>
+                            </div>
+                            <div className="skeleton skeleton-line mb-2 mt-5 ms-2" style={{ width: '40%' }}></div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
             <div className="d-flex flex-column gap-3 mt-2">
