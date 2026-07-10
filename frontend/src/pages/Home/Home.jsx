@@ -43,7 +43,7 @@ const Home = () => {
             } else {
                 loadingTimeout = setTimeout(() => {
                     setIsDashboardLoading(true)
-                }, 300)
+                }, 500)
             }
         }
         setErrors(null)

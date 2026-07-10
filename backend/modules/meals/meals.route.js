@@ -13,6 +13,7 @@ meals.post('/:id/items', [mealItemValidation, mealBodyValidator], MealsControlle
 
 //PATCH       
 meals.patch('/:id', [editMealValidation, mealBodyValidator], MealsController.editMeal)
+meals.patch('/:id/items/:itemId', [editMealValidation, mealBodyValidator], MealsController.editMealItem)
 
 //DELETE
 meals.delete('/:id', MealsController.deleteMeal)
