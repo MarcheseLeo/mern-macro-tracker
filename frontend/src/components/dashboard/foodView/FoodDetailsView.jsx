@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Plus, Info} from 'lucide-react'
+import { Plus, Info } from 'lucide-react'
 import { InfoModal } from '../../infoModal/Infomodal'
 
 
-export const FoodDetailsView = ({ food, onConfirm }) => {
+export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing }) => {
 
-    const [quantity, setQuantity] = useState(100);
-    const [selectMode, setSelectMode] = useState('100')
+    const [quantity, setQuantity] = useState(initialQuantity || 100);
+    const [selectMode, setSelectMode] = useState(initialQuantity ? 'custom' : '100')
 
     const unit = food.servingUnit || 'g'
 
@@ -74,7 +74,7 @@ export const FoodDetailsView = ({ food, onConfirm }) => {
             {/* FULL MACRO TABLE */}
             <div className="flex-grow-1 overflow-y-auto mb-4 px-1">
                 <h6 className="font-heading fw-bold mb-3 px-2 text-dark ">Nutritional Values</h6>
-               <div className="bg-white border rounded-4 p-3 shadow-sm">
+                <div className="bg-white border rounded-4 p-3 shadow-sm">
                     {/* Calories */}
                     <div className="d-flex justify-content-between align-items-center pb-2 border-bottom">
                         <span className="fw-bold text-dark">Calories</span>
@@ -169,14 +169,16 @@ export const FoodDetailsView = ({ food, onConfirm }) => {
                 </div>
             </div>
 
-            {/* ADD BUTTON */}
+            {/* ADD/UPDATE BUTTON */}
             <button
                 className="btn btn-primary-custom btn-lg radius-2xl d-flex justify-content-center align-items-center gap-2 shadow-soft m-auto add-to-diary-btn"
                 onClick={() => onConfirm(quantity)}
 
             >
                 <Plus size={22} />
-                <span className="font-heading fw-bold">Add to Diary</span>
+                <span className="font-heading fw-bold">
+                    {isEditing ? 'Update Quantity' : 'Add to Diary'}
+                </span>
             </button>
 
         </div>

@@ -108,6 +108,27 @@ const editMeal = async (req, res, next) => {
     }
 }
 
+const editMealItem = async (req, res, next) => {
+    try {
+        const { id: mealId, itemId } = req.params
+        const { id: userId } = req.user
+        const { consumedQuantity } = req.body
+
+        const meal = await MealService.editMealItem(mealId, itemId, userId, consumedQuantity)
+
+        if (!meal)
+            throw new MealNotFoundException()
+
+        res.status(200).send({
+            statusCode: 200,
+            message: 'Food quantity updated successfully!',
+            meal: meal
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
 const removeMealItem = async (req, res, next) => {
     try {
         const { id: userId } = req.user
@@ -155,6 +176,7 @@ module.exports = {
     createMeal,
     addMealItem,
     editMeal,
+    editMealItem,
     removeMealItem,
     deleteMeal
 }

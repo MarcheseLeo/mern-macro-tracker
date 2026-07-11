@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Search, PlusCircle, ScanLine, X, ArrowLeft, CalendarX } from 'lucide-react'
 import { SearchFoodView } from '../foodView/SearchFoodView';
 import { FoodDetailsView } from '../foodView/FoodDetailsView';
 import { CustomFoodView } from '../foodView/CustomFoodView';
 import { InfoModal } from '../../infoModal/Infomodal'
-import { addFoodToMeal } from '../../../services/MealService';
+import { addFoodToMeal, editFoodInMeal } from '../../../services/MealService';
 import './AddFoodSheet.css'
 import { BarcodeScanner } from '../foodView/BarcodeScanner';
 import { getFoodByBarcode, getFoods } from '../../../services/FoodService';
+import { DashboardContext } from '../../../context/DashboardContext';
 
 const MEAL_META = {
     breakfast: { label: 'Breakfast', emoji: '☕' },
@@ -19,16 +20,21 @@ const MEAL_META = {
 export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "breakfast", onFoodAdded }) => {
 
     const [showFutureModal, setShowFutureModal] = useState(false)
-
     const [mode, setMode] = useState('choices')
     const [meal, setMeal] = useState(defaultMeal)
     const [selectedFood, setSelectedFood] = useState(null)
 
+    const { editingItem, setEditingItem } = useContext(DashboardContext)
+
     const saveFoodToMeal = async (foodId, quantity, shouldClose = true) => {
         try {
-            await addFoodToMeal(meal, selectedDate, foodId, quantity)
+            if (editingItem) {
+                await editFoodInMeal(editingItem.mealId, editingItem._id, quantity)
+            } else {
+                await addFoodToMeal(meal, selectedDate, foodId, quantity)
+            }
 
-            if (shouldClose) onClose()
+            if (shouldClose) handleClose()
             if (onFoodAdded) onFoodAdded()
         } catch (e) {
             console.error(e)
@@ -58,13 +64,21 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
         }
     }
 
+    const handleClose = () => {
+        setEditingItem(null)
+        onClose()
+    }
+
     useEffect(() => {
-        if (open) {
+        if (editingItem) {
+            setMode('details')
+            setSelectedFood(editingItem.foodId)
+        } else {
             setMode('choices')
             setMeal(defaultMeal)
             setSelectedFood(null)
         }
-    }, [open, defaultMeal])
+    }, [open, defaultMeal, editingItem])
 
     if (!open) return null
 
@@ -104,24 +118,26 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                         </h2>
                     </div>
 
-                    <button onClick={onClose} className="btn btn-light rounded-circle p-2 d-flex justify-content-center align-items-center">
+                    <button onClick={handleClose} className="btn btn-light rounded-circle p-2 d-flex justify-content-center align-items-center">
                         <X size={20} />
                     </button>
                 </div>
 
                 {/* NAV PILLS */}
-                <div className="d-flex gap-2 overflow-x-auto pt-1 pb-2 mb-2 no-scrollbar" style={{ minHeight: '50px' }}>
-                    {Object.keys(MEAL_META).map((m) => (
-                        <button
-                            key={m}
-                            onClick={() => setMeal(m)}
-                            className={`btn rounded-pill px-3 py-2 d-flex align-items-center gap-2 text-nowrap ${meal === m ? 'btn-primary-custom text-white fw-bold' : 'btn-light text-muted'} meal-pill`}
-                        >
-                            <span>{MEAL_META[m].emoji}</span>
-                            {MEAL_META[m].label}
-                        </button>
-                    ))}
-                </div>
+                {!editingItem && (
+                    <div className="d-flex gap-2 overflow-x-auto pt-1 pb-2 mb-2 no-scrollbar" style={{ minHeight: '50px' }}>
+                        {Object.keys(MEAL_META).map((m) => (
+                            <button
+                                key={m}
+                                onClick={() => setMeal(m)}
+                                className={`btn rounded-pill px-3 py-2 d-flex align-items-center gap-2 text-nowrap ${meal === m ? 'btn-primary-custom text-white fw-bold' : 'btn-light text-muted'} meal-pill`}
+                            >
+                                <span>{MEAL_META[m].emoji}</span>
+                                {MEAL_META[m].label}
+                            </button>
+                        ))}
+                    </div>
+                )}
 
 
                 {/* VIEW SELECTOR */}
@@ -165,10 +181,12 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                     {mode === 'details' && selectedFood && (
                         <FoodDetailsView
                             food={selectedFood}
+                            initialQuantity={editingItem ? editingItem.consumedQuantity : null}
+                            isEditing={!!editingItem}
                             onConfirm={(quantity) => {
                                 const d = new Date();
                                 const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                                
+
                                 if (selectedDate > today) {
                                     setShowFutureModal(true)
                                     return

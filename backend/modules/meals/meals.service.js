@@ -124,6 +124,21 @@ const editMeal = async (mealId, userId, body) => {
     ])
 }
 
+const editMealItem = async (mealId, itemId, userId, consumedQuantity) => {
+    const meal = await MealSchema.findOneAndUpdate(
+        { _id: mealId, user: userId, "items._id": itemId },
+        {
+            $set: { "items.$.consumedQuantity": consumedQuantity }
+        },
+        { new: true },
+    ).populate({
+        path: 'items.foodId',
+        select: 'name brand servingSize servingUnit nutritionalValues category'
+    })
+
+    return meal
+}
+
 const removeMealItem = async (mealId, itemId, userId) => {
     const meal = await MealSchema.findOneAndUpdate(
         { _id: mealId, user: userId },
@@ -148,6 +163,7 @@ module.exports = {
     createMeal,
     addMealItem,
     editMeal,
+    editMealItem,
     removeMealItem,
     deleteMeal
 }

@@ -10,6 +10,8 @@ export const DashboardProvider = ({ children }) => {
     const [isAddFoodOpen, setIsAddFoodOpen] = useState(false);
     const [targetMeal, setTargetMeal] = useState('breakfast');
 
+    const [editingItem, setEditingItem] = useState(null)
+
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     const triggerRefresh = () => setRefreshTrigger(prev => prev + 1);
@@ -19,6 +21,7 @@ export const DashboardProvider = ({ children }) => {
             selectedDate, setSelectedDate,
             isAddFoodOpen, setIsAddFoodOpen,
             targetMeal, setTargetMeal,
+            editingItem,setEditingItem,
             refreshTrigger, triggerRefresh
         }}>
             {children}

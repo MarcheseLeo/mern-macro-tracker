@@ -29,6 +29,15 @@ export const addFoodToMeal = async (mealType, date, foodId, quantity) => {
     return res.data
 }
 
+export const editFoodInMeal = async(mealId,  itemId, quantity) =>{
+    const body = {
+        consumedQuantity: quantity
+    }
+
+    const res = await api.patch(`/meals/${mealId}/items/${itemId}`, body)
+    return res.data
+}
+
 export const deleteFoodFromMeal = async (mealId, foodId) => {
     const res = await api.delete(`/meals/${mealId}/items/${foodId}`)
     return res.data

@@ -1,9 +1,10 @@
 import './MealSection.css'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { ChevronDown, Plus, Trash2 } from 'lucide-react'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { CATEGORY_EMOJIS } from '../../../lib/costants'
 import { deleteFoodFromMeal } from '../../../services/MealService'
+import { DashboardContext } from '../../../context/DashboardContext'
 
 const MEAL_META = {
     breakfast: { label: 'Breakfast', emoji: '☕', time: 'Recommended 07:00 - 09:00' },
@@ -101,6 +102,15 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
 }
 
 const FoodRow = ({ item, mealId, onFoodDeleted }) => {
+    const {setIsAddFoodOpen, setEditingItem} = useContext(DashboardContext)
+
+    const handleRowClick = () =>{
+        if(dragX === 0 && !isDeleting){
+            setEditingItem({ ...item, mealId: mealId })
+            setIsAddFoodOpen(true)
+        }
+    }
+
     const food = item.foodId
     const [startX, setStartX] = useState(null)
     const [dragX, setDragX] = useState(0)
@@ -142,7 +152,8 @@ const FoodRow = ({ item, mealId, onFoodDeleted }) => {
             </div>
 
             <div
-                className="food-row-content d-flex align-items-center gap-3 p-2 surface-soft position-relative radius-xl"
+                onClick={handleRowClick}
+                className="food-row-content d-flex align-items-center gap-3 p-2 surface-soft position-relative radius-xl cursor-pointer"
                 style={{
                     transition: startX === null ? 'transform 0.25s ease, opacity 0.2s ease' : 'none',
                     transform: `translateX(${dragX}px)`,
