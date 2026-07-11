@@ -5,22 +5,22 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=flat&logo=mongodb&logoColor=white)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-**MacroMuse** è un'applicazione web Full Stack progettata per rendere il tracciamento dei macronutrienti e delle calorie semplice, veloce e intuitivo. 
+**MacroMuse** è un'applicazione web Full Stack progettata per rendere il tracciamento dei macronutrienti, delle calorie e delle abitudini giornaliere semplice, veloce e intuitivo.
 
 ## ✨ Funzionalità Principali
 
 * **Autenticazione Sicura:** Login tradizionale con Email/Password (criptata con bcrypt e protetta da JWT) o tramite **Google OAuth2.0**.
-* **Dashboard Interattiva:** Riepilogo giornaliero di calorie e macro, con calcolo automatico dei progressi rispetto agli obiettivi personali.
-* **Diario Alimentare:** Ricerca, aggiunta e rimozione di cibi organizzati per tipologia di pasto (Colazione, Pranzo, Cena, Snack).
-* **Scanner Barcode:** Integrazione con *OpenFoodFacts* per importare automaticamente i valori nutrizionali tramite la scansione del codice a barre.
-* **Calendario Storico:** Visualizzazione rapida delle giornate a target, parziali o mancate, con percentuale settimanale di successo.
+* **Dashboard Interattiva (BFF):** Riepilogo giornaliero intelligente con caricamento asincrono (debounced skeleton loaders). Traccia calorie, macronutrienti, e sincronizza i dati da molteplici moduli.
+* **Diario Alimentare Completo (CRUD):** Ricerca, aggiunta, rimozione e **modifica rapida delle quantità** di cibi, organizzati per tipologia di pasto (Colazione, Pranzo, Cena, Snack).
+* **Daily Metrics Tracker:** Monitoraggio rapido dell'idratazione (Acqua) tramite UI "click & fill" intuitiva e aggiornamento giornaliero del peso corporeo, tutto in tempo reale.
+* **Scanner Barcode:** Integrazione con *OpenFoodFacts* per importare automaticamente i valori nutrizionali tramite la scansione della fotocamera.
+* **Calendario Storico:** Visualizzazione mensile rapida delle giornate a target, parziali o mancate, con percentuale settimanale di successo e storico dell'acqua bevuta.
 * **Profilo Utente:** Gestione obiettivi, dati personali e upload di Avatar tramite *Cloudinary*.
-
 ## 🛠️ Tech Stack
 
 **Frontend:**
 * React (con React Router DOM)
-* Bootstrap & React-Bootstrap
+* Bootstrap & React-Bootstrap & CSS Personalizzato
 * Lucide React (Icone)
 * Axios
 * FormKit Auto-Animate
