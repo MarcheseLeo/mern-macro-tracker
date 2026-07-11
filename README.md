@@ -20,9 +20,9 @@
 
 **Frontend:**
 * React (con React Router DOM)
-* Bootstrap & React-Bootstrap & CSS Personalizzato
+* Bootstrap & CSS Personalizzato 
 * Lucide React (Icone)
-* Axios
+* Axios (con Request/Response Interceptors)
 * FormKit Auto-Animate
 * HTML5-QRCode (Scanner)
 
@@ -40,18 +40,24 @@
 mern-macro-tracker
 ├─ backend/
 │  ├─ config/         # Configurazione DB
-│  ├─ exceptions/     # Gestione errori personalizzati (Auth, Meals, Users)
+│  ├─ exceptions/     # Gestione errori personalizzati
 │  ├─ middlewares/    # Validatori, Upload Multer, JWT Verification
-│  ├─ modules/        # Controller, Route, Service e Schema divisi per dominio
+│  ├─ modules/        # Architettura a Domini:
+│  │   ├─ auth/       # Gestione login e JWT
+│  │   ├─ dashboard/  # Aggregatore dati (BFF Pattern)
+│  │   ├─ foods/      # Ricerca e integrazione OpenFoodFacts
+│  │   ├─ meals/      # Logica di tracking pasti
+│  │   ├─ metrics/    # Tracking acqua e abitudini giornaliere
+│  │   └─ users/      # Gestione profilo e peso
 │  └─ main.js         # Entry point server
 ├─ frontend/
 │  ├─ public/         # Assets statici
 │  ├─ src/
-│  │  ├─ components/  # Componenti UI (Auth, Dashboard, Layout, Form)
+│  │  ├─ components/  # Componenti UI isolati e riutilizzabili
 │  │  ├─ context/     # React Context (AuthContext, DashboardContext)
 │  │  ├─ pages/       # Pagine principali (Home, Calendar, Profile, Login)
-│  │  ├─ services/    # Integrazioni API con Axios
-│  │  └─ App.jsx      # Router principale
+│  │  ├─ services/    # API Services separati per modulo
+│  │  └─ App.jsx      # Router principale (Protected/Guest Routes)
 └── README.md
 ```
 
