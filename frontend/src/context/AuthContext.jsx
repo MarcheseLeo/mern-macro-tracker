@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
-import { jwtDecode } from 'jwt-decode'
+import api from "../services/api"
+
 
 export const AuthContext = createContext()
 
@@ -8,30 +9,19 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true)
     const [isAuthorized, setIsAuthorized] = useState(false)
 
-    const logout = () => {
+    const logout = async () => {
+        try {
+            await api.post('/auth/logout');
+        } catch (e) { console.log(e) }
+
         localStorage.removeItem('token')
         setUser(null)
         setIsAuthorized(false)
-    }
-
-    const checkToken = (token) => {
-        try {
-            const decoded = jwtDecode(token)
-            const isExpired = decoded.exp * 1000 < Date.now()
-
-            if (isExpired) {
-                logout()
-                return false
-            }
-
-            setUser(decoded)
-            setIsAuthorized(true)
-            return true
-        } catch (e) {
-            logout()
-            return false
+        if (window.location.pathname !== '/login') {
+            window.location.href = '/login'
         }
     }
+
 
     const getUser = async () => {
         setIsLoading(true)
@@ -42,30 +32,17 @@ export const AuthProvider = ({ children }) => {
             return
         }
 
-        const isValid = checkToken(token)
-        if (!isValid) {
-            setIsLoading(false)
-            return
-        }
-
-
         try {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/users/me`, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
+            const response = await api.get('/users/me')
 
-            if (response.status === 401) {
-                logout()
-            }
-            if (response.ok) {
-                const data = await response.json()
-                setUser(data)
-            } else {
-                localStorage.removeItem('token')
-                setUser(null)
-            }
+            setUser(response.data.user || response.data) 
+            setIsAuthorized(true)
+
         } catch (e) {
-            console.error("Errore fetch user", e)
+            console.error("Sessione scaduta o non valida", e)
+            localStorage.removeItem('token')
+            setUser(null)
+            setIsAuthorized(false)
         } finally {
             setIsLoading(false)
         }

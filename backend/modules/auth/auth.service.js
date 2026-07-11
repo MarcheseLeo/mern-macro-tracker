@@ -20,15 +20,22 @@ const login = async (email, password) => {
         throw new InvalidCredentialsException()
     }
 
-    const token = jwt.sign({
+    const accessToken = jwt.sign({
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
         id: user._id
-    }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
+    }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '15m'})
+
+    const refreshToken = jwt.sign(
+        { id: user._id }, 
+        process.env.REFRESH_TOKEN_SECRET || process.env.JWT_SECRET,
+        { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || '7d' }
+    )
 
     return {
-        token
+        accessToken,
+        refreshToken
     }
 }
 

@@ -7,6 +7,8 @@ const {userBodyValidation, userBodyValidator} = require('../../middlewares/users
 //POST
 auth.post('/login', AuthController.login)
 auth.post('/register',[userBodyValidation, userBodyValidator], AuthController.register)
+auth.post('/refresh', AuthController.refreshToken) 
+auth.post('/logout', AuthController.logout)
 
 //PATCH
 auth.patch('/verify', AuthController.verifyEmail)

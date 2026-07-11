@@ -2,8 +2,10 @@ require('dotenv').config()
 const express = require('express')
 const startServer = require('./config/db')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
 const port = process.env.PORT || 3000
+
 //Dichiarazione Middlewares
 const logger = require('./middlewares/globals/logger')
 const errorHandler = require('./middlewares/errors/errorHandler')
@@ -27,10 +29,12 @@ const allowedOrigins = [
 ].filter(Boolean)
 
 server.use(cors({
-    origin: allowedOrigins
+    origin: allowedOrigins,
+    credentials: true
 }))
 
 server.use(express.json())
+server.use(cookieParser())
 server.use(logger)
 
 server.use('/auth', auth)

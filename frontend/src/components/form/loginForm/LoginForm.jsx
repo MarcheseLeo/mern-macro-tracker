@@ -3,14 +3,15 @@ import { Mail, Lock, Loader2 } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from '../../ui/button/Button'
 import { Form, InputGroup } from 'react-bootstrap'
-import {AuthContext} from '../../../context/AuthContext'
+import { AuthContext } from '../../../context/AuthContext'
 import './LoginForm.css'
+import api from '../../../services/api'
 
 export const LoginForm = () => {
     const [isLoading, setIsLoadig] = useState(false)
     const [error, setError] = useState(null)
     const [loginForm, setLoginForm] = useState({})
-    const {login} = useContext(AuthContext)
+    const { login } = useContext(AuthContext)
 
     const handleChangeInput = (e) => {
         const { name, value } = e.target
@@ -26,27 +27,22 @@ export const LoginForm = () => {
         e.preventDefault()
         setIsLoadig(true)
         setError(null)
-        
+
         try {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(loginForm)
-            })
-            const data = await response.json()
-            if (response.ok) {
-                setError(null)
-                await login(data.token)
-                console.log("Login Success! Token salvato.");
-                navigate('/home')
-            } else {
-                setError(data.message || 'Email or password field are wrong')
-            }
+            const response = await api.post('/auth/login', loginForm)
+
+
+            setError(null)
+            await login(response.data.token)
+            console.log("Login Success! Token and Cookie saved.")
+            navigate('/home')
         } catch (e) {
             console.error("Error:", e);
-            setError("Server connection error")
+            if (e.response && e.response.data) {
+                setError(e.response.data.message || 'Email or password field are wrong')
+            } else {
+                setError("Server connection error")
+            }
         } finally {
             setIsLoadig(false)
         }
@@ -129,15 +125,15 @@ export const LoginForm = () => {
                 </Form.Group>
 
                 {/*SUBMIT BUTTON*/}
-                    <Button
-                        type="submit"
-                        variant='default'
-                        disabled={isLoading}
-                        className="w-100 rounded-pill py-2 mt-2 login-button"
-                    >
-                        Login
-                        {isLoading ? <Loader2 className="animate-spin" size={20} /> : ''}
-                    </Button>
+                <Button
+                    type="submit"
+                    variant='default'
+                    disabled={isLoading}
+                    className="w-100 rounded-pill py-2 mt-2 login-button"
+                >
+                    Login
+                    {isLoading ? <Loader2 className="animate-spin" size={20} /> : ''}
+                </Button>
             </Form>
         </div>
     )
