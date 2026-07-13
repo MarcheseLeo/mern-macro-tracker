@@ -8,7 +8,7 @@ import { useContext } from 'react';
 
 const navItems = [
     { href: '/home', label: 'Home', icon: Home },
-    { href: '/statistics', label: 'Stats', icon: BarChart3 },
+    { href: '/stats', label: 'Stats', icon: BarChart3 },
     { href: '/calendar', label: 'Calendar', icon: CalendarDays },
     { href: '/profile', label: 'Profile', icon: User },
 ];
