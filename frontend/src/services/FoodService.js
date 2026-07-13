@@ -42,3 +42,32 @@ export const createFood = async (formData) => {
         
     return res.data
 }
+
+export const editFood = async (id, formData) => {
+    const body = {
+        name: formData.name,
+        brand: formData.brand,
+        servingSize: Number(formData.servingSize),
+        servingUnit: formData.servingUnit,
+        category: formData.category,
+        source: formData.source || 'user',
+        nutritionalValues: {
+            kcal: Number(formData.kcal),
+            carbs: {
+                total: Number(formData.carbsTotal),
+                sugars: Number(formData.carbsSugars) || 0
+            },
+            proteins: Number(formData.proteins),
+            fats: {
+                total: Number(formData.fatsTotal),
+                saturated: Number(formData.fatsSaturated) || 0
+            },
+            fibers: Number(formData.fibers) || 0,
+            salt: Number(formData.salt) || 0
+        },
+        barcode: formData.barcode
+    }
+
+    const res = await api.patch(`/foods/${id}`, body)
+    return res.data
+}
