@@ -4,7 +4,10 @@ const getFoods = async ({ name = '', category = '',barcode = '', page = 1, limit
     const filter = { isActive: true }
 
     if (name) {
-        filter.name = { $regex: name, $options: 'i' };
+        filter.$or = [
+            { name: { $regex: name, $options: 'i' } },
+            { brand: { $regex: name, $options: 'i' } }
+        ]
     }
 
     if (category && category !== 'All') {
