@@ -183,6 +183,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                             food={selectedFood}
                             initialQuantity={editingItem ? editingItem.consumedQuantity : null}
                             isEditing={!!editingItem}
+                            onEditClick={() => setMode('custom')}
                             onConfirm={(quantity) => {
                                 const d = new Date();
                                 const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;

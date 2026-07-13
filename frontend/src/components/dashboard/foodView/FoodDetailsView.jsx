@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Plus, Info } from 'lucide-react'
+import { Plus, Info, Edit3 } from 'lucide-react'
 import { InfoModal } from '../../infoModal/Infomodal'
+import { CATEGORY_EMOJIS } from '../../../lib/costants'
 
-
-export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing }) => {
+export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing, onEditClick }) => {
 
     const [quantity, setQuantity] = useState(initialQuantity || 100);
     const [selectMode, setSelectMode] = useState(initialQuantity ? 'custom' : '100')
@@ -44,9 +44,19 @@ export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing })
         <div className="d-flex flex-column">
 
             {/* HEADER */}
-            <div className="text-center mb-4 mt-2">
-                <h3 className="font-heading fw-bold mb-1">{food.name}</h3>
-                <p className="text-muted small mb-0">{food.brand}</p>
+            <div className="text-center mb-4 mt-2 position-relative">
+                <h3 className="font-heading fw-bold mb-1">
+                    <span className="me-2">{CATEGORY_EMOJIS[food.category] || '🍽️'}</span>
+                    {food.name}
+                </h3>
+                <p className="text-muted small mb-2">{food.brand}</p>
+                {/* EDIT BUTTON */}
+                <button 
+                    onClick={onEditClick} 
+                    className="btn btn-sm btn-outline-secondary rounded-pill d-inline-flex align-items-center gap-1"
+                >
+                    <Edit3 size={14} /> Edit Product Info
+                </button>
             </div>
 
             {/* SUMMARY */}

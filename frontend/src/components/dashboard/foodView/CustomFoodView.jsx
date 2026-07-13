@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Save, Loader2, ChevronDown, ChevronUpCircle, ChevronDownCircle } from 'lucide-react';
-import { createFood } from '../../../services/FoodService';
+import { createFood, editFood } from '../../../services/FoodService';
 
 export const CustomFoodView = ({ onFoodCreated, food }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [showOptionals, setShowOptionals] = useState(false)
+
+    const isEditingMode = !!food?._id
 
     const [formData, setFormData] = useState({
         name: food?.name || '',
@@ -35,7 +37,12 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
         setError(null);
         console.log(formData)
         try {
-            const data = await createFood(formData)
+            let data
+            if (isEditingMode) {
+                data = await editFood(food._id, formData);
+            } else {
+                data = await createFood(formData);
+            }
 
             if (onFoodCreated) {
                 onFoodCreated(data.food);
@@ -43,7 +50,7 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
 
         } catch (err) {
             console.error(err);
-            setError('Could not save custom food. Check the fields.');
+            setError(isEditingMode ? 'Could not update food.' : 'Could not save custom food.')
         } finally {
             setIsLoading(false);
         }
@@ -60,7 +67,7 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
                 {/* FOOD BRAND */}
                 <Field id="foodBrand" name="brand" type="text" label="Brand" value={formData.brand} onChange={handleChange} placeholder="Generic" maxWidth={'15rem'} />
                 {/* FOOD BARCODE */}
-                <Field id="foodBarcode" name="barcode" type="text" label="Barcode" value={formData?.barcode || ''} onChange={handleChange}  maxWidth={'15rem'} />
+                <Field id="foodBarcode" name="barcode" type="text" label="Barcode" value={formData?.barcode || ''} onChange={handleChange} maxWidth={'15rem'} />
             </div>
 
             <div className="d-flex flex-column gap-3">
@@ -126,14 +133,16 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
                 <Field id="foodSalt" name="salt" label="Salt (g)" value={formData.salt} onChange={handleChange} placeholder="0" min={0} maxWidth={'7rem'} focusColor="var(--accent-foreground)" />
             </div>
 
-            {/* SAVE BUTTON */}
+            {/* SAVE/EDIT BUTTON */}
             <button
                 type="submit"
                 disabled={isLoading}
                 className="btn btn-primary-custom btn-lg  mx-auto text-nowrap  radius-2xl d-flex justify-content-center align-items-center gap-2 shadow-soft mt-3 add-custom-food-btn"
             >
                 {isLoading ? <Loader2 className="animate-spin" size={22} /> : <Save size={22} />}
-                <span className="font-heading fw-bold">Add Custom Food</span>
+                <span className="font-heading fw-bold">
+                    {isEditingMode ? 'Update Product' : 'Add Custom Food'}
+                </span>
             </button>
         </form>
     )
@@ -163,7 +172,7 @@ const SelectField = ({ id, label, name, value, onChange, maxWidth, focusColor })
     );
 }
 
-const Field = ({ id, label, name, value, onChange, placeholder, type = 'number', required = false, min, maxWidth, focusColor, disabled = false}) => {
+const Field = ({ id, label, name, value, onChange, placeholder, type = 'number', required = false, min, maxWidth, focusColor, disabled = false }) => {
     return (
         <div className="d-flex flex-row align-items-center justify-content-between gap-4" style={{ '--dynamic-focus': focusColor || 'var(--primary-muted)' }}>
             <label htmlFor={id} className="small text-muted-foreground fw-bold ms-1 text-nowrap">
