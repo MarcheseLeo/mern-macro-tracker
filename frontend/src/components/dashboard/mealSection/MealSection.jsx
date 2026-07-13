@@ -89,7 +89,7 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
                             <p className="small text-muted-foreground mb-0">Nothing logged yet. Tap + to add food.</p>
                         </div>
                     ) : (
-                        <ul className="list-unstyled d-flex flex-column gap-2 mb-0 mt-2" ref={animationParent}>
+                        <ul className="list-unstyled d-flex flex-column gap-2 mb-0 mt-2" >
                             {items.map((item) => (
                                 <FoodRow key={item._id} item={item} mealId={mealId} onFoodDeleted={onFoodDeleted} />
                             ))}
