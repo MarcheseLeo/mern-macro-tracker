@@ -15,11 +15,13 @@ import {
     Scale,
     Shield,
     UserRound,
+    UserX,
     Utensils,
 } from 'lucide-react'
 import { AuthContext } from '../../context/AuthContext'
-import { changePassword, editMe, uploadAvatar } from '../../services/UserService'
+import { changePassword, deleteMe, editMe, uploadAvatar } from '../../services/UserService'
 import './Profile.css'
+import { InfoModal } from '../../components/infoModal/Infomodal'
 
 const avatarPresets = [
     'https://api.dicebear.com/9.x/thumbs/svg?seed=MacroMuse',
@@ -47,6 +49,8 @@ export const Profile = () => {
     const [isSavingPassword, setIsSavingPassword] = useState(false)
     const [isUploadingAvatar, setIsUploadingAvatar] = useState(false)
     const [feedback, setFeedback] = useState(null)
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
 
     const latestWeight = useMemo(() => {
         if (!user?.weightHistory?.length) return ''
@@ -211,6 +215,15 @@ export const Profile = () => {
     const handleLogout = () => {
         logout()
         navigate('/login')
+    }
+
+    const handleDeleteAccount = async () =>{
+        try{    
+            await deleteMe()
+            await logout()
+        }catch(e){
+            showFeedback('danger', 'Unable to delete account. Please try again.')
+        }
     }
 
     const goalCards = [
@@ -489,7 +502,7 @@ export const Profile = () => {
                 </div>
             </section>
 
-            {/* LOGOUT */}
+            {/* LOGOUT BUTTON */}
             <button
                 type="button"
                 onClick={handleLogout}
@@ -498,7 +511,29 @@ export const Profile = () => {
                 <LogOut size={18} />
                 Log out
             </button>
+
+            {/* DELETE BUTTON */}
+            <button
+                type="button"
+                onClick={() => setShowDeleteModal(true)}
+                className="btn profile-delete-btn w-100 d-flex align-items-center justify-content-center gap-2 mt-3 mb-4 rounded-4 fw-bold"
+            >
+                <UserX size={18}/>
+                Delete Account
+            </button>
+
+            <InfoModal
+                show={showDeleteModal}
+                onHide={() => setShowDeleteModal(false)}
+                title="Delete Account"
+                description="Are you absolutely sure? This action is irreversible. All your logs, meals, and personal data will be lost forever."
+                icon={UserX}
+                onConfirm={handleDeleteAccount}
+                confirmText="Delete"
+                isDanger={true}
+            />
         </div>
+        
     )
 }
 

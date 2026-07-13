@@ -2,7 +2,7 @@ import React from 'react';
 import { Mail, CalendarX } from 'lucide-react';
 import Button from '../ui/button/Button';
 
-export const InfoModal = ({ show, onHide, title, description, icon: Icon }) => {
+export const InfoModal = ({ show, onHide, title, description, icon: Icon, onConfirm, confirmText = "Confirm", isDanger = false}) => {
     if (!show) return null;
 
     return (
@@ -23,9 +23,23 @@ export const InfoModal = ({ show, onHide, title, description, icon: Icon }) => {
                     {description}
                 </p>
 
-                <Button variant="default" className="w-100 rounded-pill mt-2" onClick={onHide}>
-                    Got it
-                </Button>
+                {onConfirm ? (
+                    <div className="d-flex gap-2 mt-3">
+                        <Button variant="outline" className="w-50 rounded-pill" onClick={onHide}>
+                            Cancel
+                        </Button>
+                        <button 
+                            className={`btn ${isDanger ? 'btn-danger' : 'btn-primary'} w-50 rounded-pill`} 
+                            onClick={onConfirm}
+                        >
+                            {confirmText}
+                        </button>
+                    </div>
+                ) : (
+                    <Button variant="default" className="w-100 rounded-pill mt-2" onClick={onHide}>
+                        Got it
+                    </Button>
+                )}
             </div>
         </div>
     );

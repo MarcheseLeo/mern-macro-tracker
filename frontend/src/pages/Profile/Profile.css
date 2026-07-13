@@ -13,7 +13,8 @@
     background: var(--accent);
     border-radius: 0.65rem;
 }
-.profile-avatar-medium{
+
+.profile-avatar-medium {
     width: 2.7rem;
     height: 2.7rem;
     overflow: hidden;
@@ -23,6 +24,7 @@
     font-family: var(--font-heading);
     font-weight: 700;
 }
+
 .profile-mini-avatar {
     width: 2.5rem;
     height: 2.5rem;
@@ -147,7 +149,8 @@
 
 .profile-primary-btn,
 .profile-secondary-btn,
-.profile-logout-btn {
+.profile-logout-btn,
+.profile-delete-btn {
     min-height: 3rem;
     border-radius: 0.9rem;
     font-weight: 800;
@@ -181,6 +184,16 @@
     color: var(--destructive);
     background: var(--card);
     border: 1px solid rgba(241, 39, 78, 0.2);
+}
+
+.profile-delete-btn {
+    color: var(--card);
+    background: var(--destructive);
+}
+.profile-delete-btn:hover {
+    filter:saturate(0.8);
+     color: var(--card);
+    background: var(--destructive);
 }
 
 .profile-logout-btn:hover {
