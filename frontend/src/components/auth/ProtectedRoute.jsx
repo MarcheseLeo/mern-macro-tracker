@@ -21,9 +21,9 @@ export const ProtectedRoute = () => {
                             size={48}
                             color="var(--primary)"
                         />
-                        <h2 className="font-heading fw-bold">Authentication in progress...</h2>
+                        <h2 className="font-heading fw-bold">Loading...</h2>
                         <p className="text-muted small mb-0">
-                            We're preparing your account. You'll be redirected shortly.
+                            You'll be redirected shortly.
                         </p>
                     </div>
                 </main>
