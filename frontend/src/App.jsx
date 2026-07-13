@@ -11,6 +11,7 @@ import { GuestRoute } from './components/auth/GuestRoute';
 import { MainLayout } from './components/layout/MainLayout';
 import { Profile } from './pages/Profile/Profile';
 import { Calendar } from './pages/Calendar/Calendar';
+import { Stats } from './pages/Statistics/Stats';
 
 
 
@@ -35,6 +36,7 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path='/home' element={<Home />} />
+            <Route path='/stats' element={<Stats/>} />
             <Route path='/calendar' element={<Calendar />} />
             <Route path='/profile' element={<Profile />} />
           </Route>
