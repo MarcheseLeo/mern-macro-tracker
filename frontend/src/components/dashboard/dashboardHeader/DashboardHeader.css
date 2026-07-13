@@ -8,8 +8,8 @@
 }
 
 .notification-button {
-    height: 2.75rem;
-    width: 2.75rem;
+    height: 2.5rem;
+    width: 2.5rem;
     background-color: var(--card);
     color: var(--foreground)
 }

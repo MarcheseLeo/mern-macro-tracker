@@ -68,12 +68,12 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
                         aria-label='Notifications'
                         className='btn position-relative shadow-sm d-flex justify-content-center align-items-center radius-2xl notification-button'
                     >
-                        <Bell size={20} />
-                        <span className='position-absolute rounded-circle'></span>
+                        <Bell size={18} />
+                        <span className='position-absolute rounded-circle' style={{top: '10px'}}></span>
                     </button>
 
                     {/* AVATAR */}
-                    <div className='profile-avatar-medium border-0 p-0 cursor-pointer' onClick={handleRedirectToProfile}>
+                    <div className='profile-mini-avatar border-0 p-0 cursor-pointer d-flex align-items-center justify-content-center' onClick={handleRedirectToProfile}  aria-label="Go to profile">
                         {user?.avatar ? <img src={user.avatar} /> : <span>{getInitials()}</span>}
                     </div>
                 </div>
