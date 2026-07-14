@@ -3,6 +3,7 @@ const MealSchema = require('../meals/meals.schema')
 const DailyMetricSchema = require('../daily-metrics/dailyMetrics.schema')
 const bcrypt = require('bcrypt')
 const InvalidCredentialExcpetion = require('../../exceptions/auth/InvalidCredentialsException')
+const EmailService = require('../email/email.service')
 
 const getUsers = async () => {
     return await UserSchema.find()
@@ -68,8 +69,13 @@ const updatePassword = async (id, oldPassword, newPassword) => {
 }
 
 const deleteUser = async (id) => {
+    const user = await UserSchema.findById(id);
+    if (!user) return null
+    await EmailService.sendAccountDeletedEmail(user.email, user.firstName)
+
     await MealSchema.deleteMany({ user: id })
     await DailyMetricSchema.deleteMany({ user: id })
+    
     return await UserSchema.findByIdAndDelete(id)
 }
 

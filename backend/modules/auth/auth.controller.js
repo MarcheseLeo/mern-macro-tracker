@@ -96,7 +96,11 @@ const verifyEmail = async (req, res, next) => {
                     message: 'Expired or not valid token'
                 })
         }
-
+        try {
+            await EmailService.sendWelcomeEmail(user.email, user.firstName)
+        } catch (emailError) {
+            console.error("Errore invio email di benvenuto:", emailError)
+        }
         res.status(200)
             .send({
                 message: 'Email verified successfully! Now you can login'
