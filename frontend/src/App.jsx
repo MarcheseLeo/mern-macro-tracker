@@ -12,6 +12,8 @@ import { MainLayout } from './components/layout/MainLayout';
 import { Profile } from './pages/Profile/Profile';
 import { Calendar } from './pages/Calendar/Calendar';
 import { Stats } from './pages/Statistics/Stats';
+import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
+import { ResetPassword } from './pages/ResetPassword/ResetPassword';
 
 
 
@@ -30,6 +32,9 @@ const App = () => {
           <Route path='/register' element={<Register />} />
           <Route path='/verify' element={<VerifyEmail />} />
           <Route path='/oauth/success' element={<OauthSuccessPage />} />
+
+          <Route path='forgot-password' element={<ForgotPassword/>} />
+          <Route path='reset-password' element={<ResetPassword/>}/>
         </Route>
 
         {/* Protected routes */}

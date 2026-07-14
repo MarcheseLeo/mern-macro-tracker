@@ -78,8 +78,30 @@ const sendAccountDeletedEmail = async (userEmail, firstName) => {
     }
     await sgMail.send(msg)
 }
+
+const sendPasswordResetEmail = async (userEmail, token, firstName) => {
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+    const msg = {
+        to: userEmail,
+        from: 'leonardo.lol.ldp@gmail.com',
+        subject: 'Password Reset Request',
+        html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333; border: 1px solid #e3e4e9; border-radius: 16px;">
+                <h2 style="color: #4f50de; text-align: center;">Reset your password</h2>
+                <p>Hi ${firstName || 'there'},</p>
+                <p>You requested a password reset. Click the button below to set a new password. This link is valid for 1 hour.</p>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="${resetUrl}" style="background-color: #4f50de; color: white; padding: 14px 28px; text-decoration: none; border-radius: 12px; font-weight: bold; display: inline-block;">Reset Password</a>
+                </div>
+                <p style="font-size: 14px; color: #999;">If you didn't request this, you can safely ignore this email.</p>
+            </div>
+        `
+    };
+    await sgMail.send(msg);
+}
 module.exports = {
     sendVerificationEmail,
     sendWelcomeEmail,
-    sendAccountDeletedEmail
+    sendAccountDeletedEmail,
+    sendPasswordResetEmail
 }
