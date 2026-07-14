@@ -4,6 +4,7 @@ import {
     Activity,
     BadgeCheck,
     Camera,
+    ChevronRight,
     Flame,
     Image,
     Info,
@@ -22,6 +23,7 @@ import { AuthContext } from '../../context/AuthContext'
 import { changePassword, deleteMe, editMe, uploadAvatar } from '../../services/UserService'
 import './Profile.css'
 import { InfoModal } from '../../components/infoModal/Infomodal'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const avatarPresets = [
     'https://api.dicebear.com/9.x/thumbs/svg?seed=MacroMuse',
@@ -51,6 +53,13 @@ export const Profile = () => {
     const [feedback, setFeedback] = useState(null)
 
     const [showDeleteModal, setShowDeleteModal] = useState(false)
+
+    const [openSection, setOpenSection] = useState(null)
+    const [parentRef] = useAutoAnimate()
+
+    const onToggle = (section) => {
+        setOpenSection(openSection === section ? null : section)
+    }
 
     const latestWeight = useMemo(() => {
         if (!user?.weightHistory?.length) return ''
@@ -217,11 +226,11 @@ export const Profile = () => {
         navigate('/login')
     }
 
-    const handleDeleteAccount = async () =>{
-        try{    
+    const handleDeleteAccount = async () => {
+        try {
             await deleteMe()
             await logout()
-        }catch(e){
+        } catch (e) {
             showFeedback('danger', 'Unable to delete account. Please try again.')
         }
     }
@@ -337,7 +346,7 @@ export const Profile = () => {
                 <div className="row g-3">
                     {goalCards.map((card) => (
                         <div className="col-6" key={card.label}>
-                            <article className="profile-stat-card h-100">
+                            <article className="profile-stat-card d-flex flex-column justify-content-center py-0">
                                 <div className="d-flex align-items-center gap-2 mb-2">
                                     <card.icon size={15} className={card.color} />
                                     <span>{card.label}</span>
@@ -351,141 +360,168 @@ export const Profile = () => {
                 </div>
             </section>
 
+            <h3 className="profile-section-title mt-3">Account</h3>
+
             {/* PERSOANL INFO FORM */}
-            <section className="profile-card mb-4">
-                <div className="d-flex align-items-center justify-content-between gap-3 mb-3">
+            <section className="profile-card mb-4" onClick={(e) => onToggle('info')} ref={parentRef}>
+                <div className="d-flex align-items-center justify-content-between gap-3 cursor-pointer">
                     <div>
                         <h3 className="profile-section-title mb-1">Personal Info</h3>
                         <p className="small text-muted-foreground mb-0">Read and edit your account details.</p>
                     </div>
-                    <UserRound size={20} className="text-primary-custom" />
+                    <div className='d-flex gap-2 align-items-center'>
+                        <UserRound size={20} className="text-primary-custom" />
+                        <ChevronRight
+                            className="text-muted transition-transform flex-shrink-0"
+                            style={{ transform: openSection === 'info' ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                        />
+                    </div>
                 </div>
 
-                <form onSubmit={handleProfileSubmit}>
-                    <div className="row g-3">
-                        <div className="col-12 col-md-6">
-                            <label className="form-label small fw-semibold">First name</label>
-                            <input className="form-control profile-input" name="firstName" value={profileForm.firstName} onChange={handleProfileChange} />
-                        </div>
-                        <div className="col-12 col-md-6">
-                            <label className="form-label small fw-semibold">Last name</label>
-                            <input className="form-control profile-input" name="lastName" value={profileForm.lastName} onChange={handleProfileChange} />
-                        </div>
-                        <div className="col-12">
-                            <label className="form-label small fw-semibold">Email</label>
-                            <div className="input-group">
-                                <span className="input-group-text profile-input-icon"><Mail size={16} /></span>
-                                <input type="email" className="form-control profile-input" name="email" value={profileForm.email} onChange={handleProfileChange} />
+                {openSection === 'info' && (
+                    <form onSubmit={handleProfileSubmit} onClick={(e) => e.stopPropagation()}>
+                        <div className="row g-3 mt-3">
+                            <div className="col-12 col-md-6">
+                                <label className="form-label small fw-semibold">First name</label>
+                                <input className="form-control profile-input" name="firstName" value={profileForm.firstName} onChange={handleProfileChange} />
+                            </div>
+                            <div className="col-12 col-md-6">
+                                <label className="form-label small fw-semibold">Last name</label>
+                                <input className="form-control profile-input" name="lastName" value={profileForm.lastName} onChange={handleProfileChange} />
+                            </div>
+                            <div className="col-12">
+                                <label className="form-label small fw-semibold">Email</label>
+                                <div className="input-group">
+                                    <span className="input-group-text profile-input-icon"><Mail size={16} /></span>
+                                    <input type="email" className="form-control profile-input" name="email" value={profileForm.email} onChange={handleProfileChange} />
+                                </div>
+                            </div>
+                            <div className="col-12 col-md-6">
+                                <label className="form-label small fw-semibold">Date of birth</label>
+                                <input type="date" className="form-control profile-input" name="dob" value={profileForm.dob} onChange={handleProfileChange} />
+                            </div>
+                            <div className="col-12 col-md-6">
+                                <label className="form-label small fw-semibold">Gender</label>
+                                <select className="form-select profile-input" name="gender" value={profileForm.gender} onChange={handleProfileChange}>
+                                    <option value="not specified">Not specified</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div className="col-6 col-md-3">
+                                <label className="form-label small fw-semibold">Height</label>
+                                <input type="number" min="0" step={'any'} className="form-control profile-input" name="height" value={profileForm.height} onChange={handleProfileChange} />
+                            </div>
+                            <div className="col-6 col-md-3">
+                                <label className="form-label small fw-semibold">Weight</label>
+                                <input type="number" min="0" step={'any'} className="form-control profile-input" name="weight" value={profileForm.weight} onChange={handleProfileChange} />
+                            </div>
+                            <div className="col-6 col-md-3">
+                                <label className="form-label small fw-semibold">Goal weight</label>
+                                <input type="number" min="0" step={'any'} className="form-control profile-input" name="goalWeight" value={profileForm.goalWeight} onChange={handleProfileChange} />
+                            </div>
+                            <div className="col-6 col-md-3">
+                                <label className="form-label small fw-semibold">Daily kcal</label>
+                                <input type="number" min="1" className="form-control profile-input" name="dailyKcalGoal" value={profileForm.dailyKcalGoal} onChange={handleProfileChange} />
+                            </div>
+                            <div className="col-4">
+                                <label className="form-label small fw-semibold">Carbs</label>
+                                <input type="number" min="1" step={'any'} className="form-control profile-input" name="carbs" value={profileForm.carbs} onChange={handleProfileChange} />
+                            </div>
+                            <div className="col-4">
+                                <label className="form-label small fw-semibold">Protein</label>
+                                <input type="number" min="1" step={'any'} className="form-control profile-input" name="proteins" value={profileForm.proteins} onChange={handleProfileChange} />
+                            </div>
+                            <div className="col-4">
+                                <label className="form-label small fw-semibold">Fats</label>
+                                <input type="number" min="1" step={'any'} className="form-control profile-input" name="fats" value={profileForm.fats} onChange={handleProfileChange} />
                             </div>
                         </div>
-                        <div className="col-12 col-md-6">
-                            <label className="form-label small fw-semibold">Date of birth</label>
-                            <input type="date" className="form-control profile-input" name="dob" value={profileForm.dob} onChange={handleProfileChange} />
-                        </div>
-                        <div className="col-12 col-md-6">
-                            <label className="form-label small fw-semibold">Gender</label>
-                            <select className="form-select profile-input" name="gender" value={profileForm.gender} onChange={handleProfileChange}>
-                                <option value="not specified">Not specified</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                        <div className="col-6 col-md-3">
-                            <label className="form-label small fw-semibold">Height</label>
-                            <input type="number" min="0" step={'any'} className="form-control profile-input" name="height" value={profileForm.height} onChange={handleProfileChange} />
-                        </div>
-                        <div className="col-6 col-md-3">
-                            <label className="form-label small fw-semibold">Weight</label>
-                            <input type="number" min="0" step={'any'} className="form-control profile-input" name="weight" value={profileForm.weight} onChange={handleProfileChange} />
-                        </div>
-                        <div className="col-6 col-md-3">
-                            <label className="form-label small fw-semibold">Goal weight</label>
-                            <input type="number" min="0" step={'any'} className="form-control profile-input" name="goalWeight" value={profileForm.goalWeight} onChange={handleProfileChange} />
-                        </div>
-                        <div className="col-6 col-md-3">
-                            <label className="form-label small fw-semibold">Daily kcal</label>
-                            <input type="number" min="1" className="form-control profile-input" name="dailyKcalGoal" value={profileForm.dailyKcalGoal} onChange={handleProfileChange} />
-                        </div>
-                        <div className="col-4">
-                            <label className="form-label small fw-semibold">Carbs</label>
-                            <input type="number" min="1" step={'any'} className="form-control profile-input" name="carbs" value={profileForm.carbs} onChange={handleProfileChange} />
-                        </div>
-                        <div className="col-4">
-                            <label className="form-label small fw-semibold">Protein</label>
-                            <input type="number" min="1" step={'any'} className="form-control profile-input" name="proteins" value={profileForm.proteins} onChange={handleProfileChange} />
-                        </div>
-                        <div className="col-4">
-                            <label className="form-label small fw-semibold">Fats</label>
-                            <input type="number" min="1" step={'any'} className="form-control profile-input" name="fats" value={profileForm.fats} onChange={handleProfileChange} />
-                        </div>
-                    </div>
 
-                    <button className="btn profile-primary-btn w-100 mt-3 d-flex align-items-center justify-content-center gap-2" disabled={isSavingProfile}>
-                        <Save size={17} />
-                        {isSavingProfile ? 'Saving...' : 'Save changes'}
-                    </button>
-                </form>
+                        <button className="btn profile-primary-btn w-100 mt-3 d-flex align-items-center justify-content-center gap-2" disabled={isSavingProfile}>
+                            <Save size={17} />
+                            {isSavingProfile ? 'Saving...' : 'Save changes'}
+                        </button>
+                    </form>
+                )}
             </section>
 
             {/* GENERATED AVATAR */}
-            <section className="profile-card mb-4">
-                <div className="d-flex align-items-center justify-content-between gap-3 mb-3">
+            <section className="profile-card mb-4" onClick={() => onToggle('avatar')} ref={parentRef}>
+                <div className="d-flex align-items-center justify-content-between gap-3 cursor-pointer">
                     <div>
                         <h3 className="profile-section-title mb-1">Avatar</h3>
                         <p className="small text-muted-foreground mb-0">Upload a photo or choose a generated avatar.</p>
                     </div>
-                    <Image size={20} className="text-carbs" />
+
+                    <div className='d-flex gap-2 align-items-center'>
+                        <Image size={20} className="text-carbs" />
+                        <ChevronRight
+                            className="text-muted transition-transform flex-shrink-0"
+                            style={{ transform: openSection === 'avatar' ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                        />
+                    </div>
                 </div>
 
-                <div className="d-grid gap-2 profile-avatar-grid">
-                    {avatarPresets.map((avatar) => (
-                        <button
-                            key={avatar}
-                            type="button"
-                            className={`profile-avatar-choice ${user?.avatar === avatar ? 'active' : ''}`}
-                            onClick={() => handlePresetAvatar(avatar)}
-                            disabled={isUploadingAvatar}
-                        >
-                            <img src={avatar} alt="Avatar preset" />
-                        </button>
-                    ))}
-                </div>
+                {openSection === 'avatar' && (
+                    <div className="d-grid gap-2 profile-avatar-grid mt-3" onClick={(e) => e.stopPropagation()}>
+                        {avatarPresets.map((avatar) => (
+                            <button
+                                key={avatar}
+                                type="button"
+                                className={`profile-avatar-choice ${user?.avatar === avatar ? 'active' : ''}`}
+                                onClick={() => handlePresetAvatar(avatar)}
+                                disabled={isUploadingAvatar}
+                            >
+                                <img src={avatar} alt="Avatar preset" />
+                            </button>
+                        ))}
+                    </div>
+                )}
             </section>
 
             {/* PASSWORD FORM */}
-            <section className="profile-card mb-4">
-                <div className="d-flex align-items-center justify-content-between gap-3 mb-3">
+            <section className="profile-card mb-4" onClick={() => onToggle('password')} ref={parentRef}>
+                <div className="d-flex align-items-center justify-content-between gap-3 cursor-pointer">
                     <div>
                         <h3 className="profile-section-title mb-1">Password</h3>
                         <p className="small text-muted-foreground mb-0">Keep your account secure.</p>
                     </div>
-                    <Shield size={20} className="text-protein" />
+                    <div className='d-flex gap-2 align-items-center'>
+                        <Shield size={20} className="text-protein" />
+                        <ChevronRight
+                            className="text-muted transition-transform flex-shrink-0"
+                            style={{ transform: openSection === 'password' ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                        />
+                    </div>
                 </div>
 
-                <form onSubmit={handlePasswordSubmit}>
-                    <div className="d-flex flex-column gap-3">
-                        <div>
-                            <label className="form-label small fw-semibold">Current password</label>
-                            <div className="input-group">
-                                <span className="input-group-text profile-input-icon"><KeyRound size={16} /></span>
-                                <input type="password" className="form-control profile-input" name="oldPassword" value={passwordForm.oldPassword} onChange={handlePasswordChange} placeholder='••••••••' />
+                {openSection === 'password' && (
+                    <form onSubmit={handlePasswordSubmit} onClick={(e) => e.stopPropagation()}>
+                        <div className="d-flex flex-column gap-3 mt-3">
+                            <div>
+                                <label className="form-label small fw-semibold">Current password</label>
+                                <div className="input-group">
+                                    <span className="input-group-text profile-input-icon"><KeyRound size={16} /></span>
+                                    <input type="password" className="form-control profile-input" name="oldPassword" value={passwordForm.oldPassword} onChange={handlePasswordChange} placeholder='••••••••' />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="form-label small fw-semibold">New password</label>
+                                <input type="password" className="form-control profile-input" name="newPassword" value={passwordForm.newPassword} onChange={handlePasswordChange} />
+                            </div>
+                            <div>
+                                <label className="form-label small fw-semibold">Confirm password</label>
+                                <input type="password" className="form-control profile-input" name="confirmPassword" value={passwordForm.confirmPassword} onChange={handlePasswordChange} />
                             </div>
                         </div>
-                        <div>
-                            <label className="form-label small fw-semibold">New password</label>
-                            <input type="password" className="form-control profile-input" name="newPassword" value={passwordForm.newPassword} onChange={handlePasswordChange} />
-                        </div>
-                        <div>
-                            <label className="form-label small fw-semibold">Confirm password</label>
-                            <input type="password" className="form-control profile-input" name="confirmPassword" value={passwordForm.confirmPassword} onChange={handlePasswordChange} />
-                        </div>
-                    </div>
 
-                    <button className="btn profile-secondary-btn w-100 mt-3 d-flex align-items-center justify-content-center gap-2" disabled={isSavingPassword}>
-                        <KeyRound size={17} />
-                        {isSavingPassword ? 'Updating...' : 'Change password'}
-                    </button>
-                </form>
+                        <button className="btn profile-secondary-btn w-100 mt-3 d-flex align-items-center justify-content-center gap-2" disabled={isSavingPassword}>
+                            <KeyRound size={17} />
+                            {isSavingPassword ? 'Updating...' : 'Change password'}
+                        </button>
+                    </form>
+                )}
             </section>
 
 
@@ -502,25 +538,33 @@ export const Profile = () => {
                 </div>
             </section>
 
-            {/* LOGOUT BUTTON */}
-            <button
-                type="button"
-                onClick={handleLogout}
-                className="btn profile-logout-btn w-100 d-flex align-items-center justify-content-center gap-2"
-            >
-                <LogOut size={18} />
-                Log out
-            </button>
 
-            {/* DELETE BUTTON */}
-            <button
-                type="button"
-                onClick={() => setShowDeleteModal(true)}
-                className="btn profile-delete-btn w-100 d-flex align-items-center justify-content-center gap-2 mt-3 mb-4 rounded-4 fw-bold"
-            >
-                <UserX size={18}/>
-                Delete Account
-            </button>
+
+            <div className='row g-3'>
+                <div className="col col-12 col-md-8">
+                    {/* LOGOUT BUTTON */}
+                    <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="btn profile-logout-btn w-100 d-flex align-items-center justify-content-center gap-2"
+                    >
+                        <LogOut size={18} />
+                        Log out
+                    </button>
+                </div>
+                <div className="col col-12 col-md-4">
+                    {/* DELETE BUTTON */}
+                    <button
+                        type="button"
+                        onClick={() => setShowDeleteModal(true)}
+                        className="btn profile-delete-btn w-100 d-flex align-items-center justify-content-center gap-2  rounded-4 fw-bold"
+                    >
+                        <UserX size={18} />
+                        Delete Account
+                    </button>
+
+                </div>
+            </div>
 
             <InfoModal
                 show={showDeleteModal}
@@ -533,7 +577,7 @@ export const Profile = () => {
                 isDanger={true}
             />
         </div>
-        
+
     )
 }
 

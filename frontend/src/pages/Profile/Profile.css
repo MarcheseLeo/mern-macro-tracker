@@ -96,7 +96,7 @@
 }
 
 .profile-stat-card {
-    min-height: 7rem;
+    min-height: 5rem;
     padding: 1rem;
     border-radius: 0.9rem;
 }
@@ -190,16 +190,16 @@
     color: var(--card);
     background: var(--destructive);
 }
+
 .profile-delete-btn:hover {
-    filter:saturate(0.8);
-     color: var(--card);
+    filter: saturate(0.8);
+    color: var(--card);
     background: var(--destructive);
 }
 
 .profile-logout-btn:hover {
-    color: #ffffff;
-    background: var(--destructive);
-    border-color: var(--destructive);
+    color: var(--destructive);
+    background: #f1247d0c;
 }
 
 .profile-avatar-grid {
