@@ -121,7 +121,9 @@ export const LoginForm = () => {
                             className="border-start-0 ps-0"
                         ></Form.Control>
                     </InputGroup>
-
+                    <div className="d-flex justify-content-end align-items-center mt-1">
+                        <Link to="/forgot-password" className="small fw-semibold text-primary-custom text-decoration-none">Forgot Password?</Link>
+                    </div>
                 </Form.Group>
 
                 {/*SUBMIT BUTTON*/}

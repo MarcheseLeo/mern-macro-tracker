@@ -75,6 +75,12 @@ const userBodyValidation = [
     body('verificationToken')
         .not().exists()
         .withMessage('Cannot set verificationToken from this route'),
+    body('resetPasswordToken')
+        .not().exists()
+        .withMessage('Cannot set resetPasswordToken from this route'),
+    body('resetPasswordExpires')
+        .not().exists()
+        .withMessage('Cannot set resetPasswordExpires from this route'),
 ]
 
 const editUserValidation = [
@@ -169,7 +175,13 @@ const editUserValidation = [
     body('date')
         .optional()
         .isISO8601().toDate()
-        .withMessage('Date must be a valid date')
+        .withMessage('Date must be a valid date'),
+    body('resetPasswordToken')
+        .not().exists()
+        .withMessage('Cannot update resetPasswordToken from this route'),
+    body('resetPasswordExpires')
+        .not().exists()
+        .withMessage('Cannot update resetPasswordExpires from this route'),
 ]
 
 const changePasswordValidation = [
