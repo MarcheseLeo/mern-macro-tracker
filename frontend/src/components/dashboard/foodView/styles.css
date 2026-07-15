@@ -28,7 +28,7 @@
     color: var(--card);
 }
 
-.food-input{
+.food-input {
     background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
 }
 
@@ -59,6 +59,14 @@ label:has(+ .input-field:focus) {
     transition: color 0.2s ease-in;
 }
 
+.off-badge {
+    font-size: 0.6rem;
+    background-color: var(--border)
+}
+
+[data-theme="dark"] .off-badge {
+    background-color: var(--popover-foreground)
+}
 
 .scanner-container {
     position: relative;

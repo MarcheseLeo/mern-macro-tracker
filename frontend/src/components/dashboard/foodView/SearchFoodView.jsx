@@ -107,7 +107,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
 
         const d = new Date();
         const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        
+
         if (selectedDate > today) {
             setShowFutureModal(true)
             return
@@ -189,8 +189,15 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
 
                                                 <div className="flex-grow-1 text-truncate" >
                                                     <span className="d-inline-block fw-bold text-dark text-truncate" style={{ maxWidth: '100%' }} title={f.name}>{f.name}</span>
-                                                    <span className="d-block small text-muted">
-                                                        {f.servingSize}{f.servingUnit} · {f.brand}
+
+                                                    <span className="d-flex align-items-center gap-2 small text-muted mt-1">
+                                                        <span className="text-truncate">{f.servingSize}{f.servingUnit} · {f.brand}</span>
+
+                                                        {f.source === 'openfoodfacts' && (
+                                                            <span className="badge border text-muted-foreground fw-normal flex-shrink-0 off-badge">
+                                                                OpenFoodFacts
+                                                            </span>
+                                                        )}
                                                     </span>
                                                 </div>
 
