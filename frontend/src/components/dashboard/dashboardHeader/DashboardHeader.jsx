@@ -1,12 +1,10 @@
 import './DashboardHeader.css'
 import { Bell } from 'lucide-react';
-import { useContext } from 'react';
+
 import { useNavigate } from 'react-router-dom';
-import { ThemeContext } from '../../../context/ThemeContext';
+
 
 export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
-    const {theme, toggleTheme} = useContext(ThemeContext)
-    const isDark = theme === 'dark' 
 
     const getGreetings = () => {
         const h = new Date().getHours()
@@ -68,7 +66,6 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
                 </div>
 
                 <div className='d-flex align-items-center gap-2'>
-                    <input type="checkbox" checked={isDark} onChange={() => toggleTheme()} />
                     {/* NOTIFICATION BUTTON */}
                     <button
                         aria-label='Notifications'
