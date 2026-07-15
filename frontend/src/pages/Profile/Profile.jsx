@@ -26,6 +26,7 @@ import './Profile.css'
 import { InfoModal } from '../../components/infoModal/Infomodal'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { ThemeContext } from '../../context/ThemeContext'
+import { Toggle } from '../../components/toggle/Toggle'
 
 
 
@@ -65,8 +66,8 @@ export const Profile = () => {
         setOpenSection(openSection === section ? null : section)
     }
 
-    const {theme, toggleTheme} = useContext(ThemeContext)
-    const isDark = theme === 'dark' 
+    const { theme, toggleTheme } = useContext(ThemeContext)
+    const isDark = theme === 'dark'
 
     const latestWeight = useMemo(() => {
         if (!user?.weightHistory?.length) return ''
@@ -560,14 +561,11 @@ export const Profile = () => {
                 <div className='w-100 d-flex justify-content-between align-items-center'>
                     <div className='d-flex align-items-center gap-3'>
                         <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--primary-muted) 10%, transparent)' }}>
-                            <Moon size={20} color='var(--primary-muted)' fill={`${isDark ? "var(--primary-muted)" : "color-mix(in oklab, var(--primary-muted) 10%, transparent)"}`}/>
+                            <Moon size={20} color='var(--primary-muted)' fill={`${isDark ? "var(--primary-muted)" : "color-mix(in oklab, var(--primary-muted) 10%, transparent)"}`} />
                         </span>
                         <h3 className="fw-semibold small mb-0 mb-md-1 text-dark">Dark theme</h3>
                     </div>
-                    <label className="switch">
-                        <input type="checkbox"  onChange={() => toggleTheme()} checked={isDark}/>
-                        <span className="slider"></span>
-                    </label>
+                    <Toggle onChange={toggleTheme} checked={isDark} />
                 </div>
             </div>
 
