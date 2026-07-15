@@ -78,7 +78,7 @@ export const CustomFoodView = ({ onFoodCreated, food }) => {
                 {/* UNIT SELECT */}
                 <div className="d-flex flex-row align-items-center justify-content-between gap-4" style={{ '--dynamic-focus': 'var(--primary-muted)' }}>
                     <label htmlFor="servingUnit" className="small text-muted-foreground fw-bold ms-1">Unit</label>
-                    <select id="servingUnit" name="servingUnit" value={formData.servingUnit} onChange={handleChange} className="form-select profile-input form-select-lg bg-light input-field" style={{ maxWidth: '7rem' }}>
+                    <select id="servingUnit" name="servingUnit" value={formData.servingUnit} onChange={handleChange} className="form-select profile-input form-select-lg  input-field" style={{ maxWidth: '7rem' }}>
                         <option value="g">g</option>
                         <option value="ml">ml</option>
                     </select>
@@ -187,7 +187,7 @@ const Field = ({ id, label, name, value, onChange, placeholder, type = 'number',
                 step={type === 'number' ? 'any' : undefined}
                 onChange={onChange}
                 placeholder={placeholder}
-                className="form-control form-control-lg  profile-imputpx-3 input-field"
+                className="form-control form-control-lg  profile-input px-3 input-field"
                 required={required}
                 min={min}
                 style={{ maxWidth: maxWidth }}

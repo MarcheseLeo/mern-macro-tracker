@@ -14,43 +14,45 @@ import { Calendar } from './pages/Calendar/Calendar';
 import { Stats } from './pages/Statistics/Stats';
 import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword/ResetPassword';
-
+import { ThemeProvider } from './context/ThemeContext';
 
 
 const App = () => {
 
   return (
-    <BrowserRouter>
-      <Routes>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
 
-        {/* Public routes */}
+          {/* Public routes */}
 
-        <Route element={<GuestRoute />}>
-          <Route path="/" element={<Welcome />} />
-          <Route path="/login" element={<Login />} />
+          <Route element={<GuestRoute />}>
+            <Route path="/" element={<Welcome />} />
+            <Route path="/login" element={<Login />} />
 
-          <Route path='/register' element={<Register />} />
-          <Route path='/verify' element={<VerifyEmail />} />
-          <Route path='/oauth/success' element={<OauthSuccessPage />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/verify' element={<VerifyEmail />} />
+            <Route path='/oauth/success' element={<OauthSuccessPage />} />
 
-          <Route path='forgot-password' element={<ForgotPassword/>} />
-          <Route path='reset-password' element={<ResetPassword/>}/>
-        </Route>
-
-        {/* Protected routes */}
-        <Route element={<ProtectedRoute />}>
-          <Route element={<MainLayout />}>
-            <Route path='/home' element={<Home />} />
-            <Route path='/stats' element={<Stats/>} />
-            <Route path='/calendar' element={<Calendar />} />
-            <Route path='/profile' element={<Profile />} />
+            <Route path='forgot-password' element={<ForgotPassword />} />
+            <Route path='reset-password' element={<ResetPassword />} />
           </Route>
-        </Route>
+
+          {/* Protected routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<MainLayout />}>
+              <Route path='/home' element={<Home />} />
+              <Route path='/stats' element={<Stats />} />
+              <Route path='/calendar' element={<Calendar />} />
+              <Route path='/profile' element={<Profile />} />
+            </Route>
+          </Route>
 
 
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 

@@ -29,15 +29,15 @@ export const ForgotPassword = () => {
                 <Logo />
             </div>
             <div className="card border-0 radius-3xl shadow-soft bg-white p-4 w-100 z-1" style={{ maxWidth: '400px' }}>
-                <h2 className="h4 fw-bold tracking-tight font-heading mb-1">Reset Password</h2>
+                <h2 className="h4 fw-bold tracking-tight font-heading mb-1 text-dark">Reset Password</h2>
                 <p className="small text-muted-foreground">Enter your email and we'll send you a reset link.</p>
 
                 {status.message && <div className="alert alert-success small py-2">{status.message}</div>}
                 {status.error && <div className="alert alert-danger small py-2">{status.error}</div>}
 
-                <form onSubmit={handleSubmit} className="d-flex flex-column gap-3 mt-3">
+                <form onSubmit={handleSubmit} className="d-flex flex-column gap-3 mt-3 recovery-form">
                     <div className="input-group soft-input-group">
-                        <span className="input-group-text bg-white border-end-0 pe-2"><Mail size={18} /></span>
+                        <span className="input-group-text border-end-0 pe-2"><Mail size={18} /></span>
                         <input type="email" className="form-control border-start-0 ps-0" placeholder="example@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     </div>
                     <Button type="submit" disabled={status.loading} className="w-100 rounded-pill py-2">

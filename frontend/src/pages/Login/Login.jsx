@@ -20,7 +20,7 @@ export const Login = () => {
 
         {/* Login CARD */}
         <div className="card border-0 radius-3xl shadow-soft  bg-white mt-4">
-          <h1 className="h4 fw-bold tracking-tight font-heading mb-1">Welcome back</h1>
+          <h1 className="h4 fw-bold tracking-tight font-heading mb-1 text-dark">Welcome back</h1>
           <p className="small text-muted-foreground">
             Log in to continue your diet journey.
           </p>

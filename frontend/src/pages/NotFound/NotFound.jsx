@@ -20,7 +20,7 @@ export const NotFound = () => {
                     {floaties[random]}
                 </span>
                 <p className="h1 fw-bold text-primary-custom mb-0">404</p>
-                <h1 className="fw-bold mt-2">This plate is empty</h1>
+                <h1 className="fw-bold mt-2 text-dark">This plate is empty</h1>
                 <p className="text-muted-foreground mt-2" style={{ maxWidth: '350px' }}>
                     The page you're looking for went out for a snack. Let's get you back home.
                 </p>

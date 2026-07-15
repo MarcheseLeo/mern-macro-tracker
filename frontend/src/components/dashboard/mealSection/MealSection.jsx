@@ -18,7 +18,7 @@ export const MealSection = ({ mealsData, onFoodDeleted, onAddFoodClick }) => {
 
     return (
         <div className='d-flex flex-column gap-3 mt-3'>
-            <h2 className='font-heading fs-5 fw-bold mb-2 meals-title'>Meals</h2>
+            <h2 className='font-heading fs-5 fw-bold mb-2 meals-title text-dark'>Meals</h2>
             {Object.keys(MEAL_META).map((mealKey) => {
                 const mealRecord = mealsData.find(m => m.mealType === mealKey)
                 const mealId = mealRecord?.id
@@ -56,7 +56,7 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
                 </span>
 
                 <div className="flex-grow-1 min-w-0 overflow-hidden">
-                    <span className="d-block font-heading fw-bold meal-label text-truncate">{meta.label}</span>
+                    <span className="d-block font-heading fw-bold meal-label text-truncate text-dark">{meta.label}</span>
                     <span className="d-block small text-muted-foreground text-truncate">
                         {items.length > 0
                             ? `${totalKcal} kcal · ${items.length} item${items.length > 1 ? 's' : ''}`
@@ -193,7 +193,7 @@ const FoodRow = ({ item, mealId, onFoodDeleted }) => {
                 </div>
 
                 <div className="text-end me-1 flex-shrink-0">
-                    <span className="d-block font-heading fw-bold lh-1">{actualKcal}</span>
+                    <span className="d-block font-heading fw-bold lh-1 text-dark">{actualKcal}</span>
                     <span className="d-block text-muted-foreground food-kcal-label">kcal</span>
                 </div>
 

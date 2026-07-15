@@ -22,21 +22,20 @@ const LayoutContent = () => {
                 <AppFooter />
             </div>
 
-            <AddFoodSheet 
-                open={isAddFoodOpen} 
-                onClose={() => setIsAddFoodOpen(false)} 
+            <AddFoodSheet
+                open={isAddFoodOpen}
+                onClose={() => setIsAddFoodOpen(false)}
                 defaultMeal={targetMeal}
-                selectedDate={selectedDate} 
+                selectedDate={selectedDate}
                 onFoodAdded={() => triggerRefresh()}
             />
         </div>
     )
 }
 
-
 export const MainLayout = () => {
     return (
-       <DashboardProvider>
+        <DashboardProvider>
             <LayoutContent />
         </DashboardProvider>
     )

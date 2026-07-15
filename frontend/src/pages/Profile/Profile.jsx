@@ -11,6 +11,7 @@ import {
     KeyRound,
     LogOut,
     Mail,
+    Moon,
     Ruler,
     Save,
     Scale,
@@ -24,6 +25,9 @@ import { changePassword, deleteMe, editMe, uploadAvatar } from '../../services/U
 import './Profile.css'
 import { InfoModal } from '../../components/infoModal/Infomodal'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { ThemeContext } from '../../context/ThemeContext'
+
+
 
 const avatarPresets = [
     'https://api.dicebear.com/9.x/thumbs/svg?seed=MacroMuse',
@@ -60,6 +64,9 @@ export const Profile = () => {
     const onToggle = (section) => {
         setOpenSection(openSection === section ? null : section)
     }
+
+    const {theme, toggleTheme} = useContext(ThemeContext)
+    const isDark = theme === 'dark' 
 
     const latestWeight = useMemo(() => {
         if (!user?.weightHistory?.length) return ''
@@ -288,7 +295,7 @@ export const Profile = () => {
                     <div className="profile-brand-mark d-flex align-items-center justify-content-center">
                         <Utensils size={18} />
                     </div>
-                    <h1 className="font-heading fs-5 fw-bold mb-0">Macro</h1>
+                    <h1 className="font-heading fs-5 fw-bold mb-0 text-dark">Macro</h1>
                 </div>
 
                 {/* AVATAR */}
@@ -334,7 +341,7 @@ export const Profile = () => {
                     />
                 </div>
 
-                <h2 className="font-heading fs-4 fw-bold mb-1">{fullName}</h2>
+                <h2 className="font-heading fs-4 fw-bold mb-1 text-dark">{fullName}</h2>
                 <p className="text-muted-foreground small mb-0">
                     {user?.age ? `${user.age} years old - ` : ''}{user?.email}
                 </p>
@@ -365,43 +372,45 @@ export const Profile = () => {
             {/* PERSOANL INFO FORM */}
             <section className="profile-card mb-4" onClick={(e) => onToggle('info')} ref={parentRef}>
                 <div className="d-flex align-items-center justify-content-between gap-3 cursor-pointer">
-                    <div>
-                        <h3 className="profile-section-title mb-1">Personal Info</h3>
-                        <p className="small text-muted-foreground mb-0">Read and edit your account details.</p>
+                    <div className='d-flex align-items-center gap-3'>
+                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--primary) 10%, transparent)' }}>
+                            <UserRound size={20} className="text-primary-custom" />
+                        </span>
+                        <div>
+                            <h3 className="fw-semibold small mb-0 mb-md-1 text-dark">Personal Info</h3>
+                            <p className="small text-muted-foreground mb-0 d-none d-md-block">Read and edit your account details.</p>
+                        </div>
                     </div>
-                    <div className='d-flex gap-2 align-items-center'>
-                        <UserRound size={20} className="text-primary-custom" />
-                        <ChevronRight
-                            className="text-muted transition-transform flex-shrink-0"
-                            style={{ transform: openSection === 'info' ? 'rotate(90deg)' : 'rotate(0deg)' }}
-                        />
-                    </div>
+                    <ChevronRight
+                        className="text-muted transition-transform flex-shrink-0"
+                        style={{ transform: openSection === 'info' ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                    />
                 </div>
 
                 {openSection === 'info' && (
                     <form onSubmit={handleProfileSubmit} onClick={(e) => e.stopPropagation()}>
                         <div className="row g-3 mt-3">
                             <div className="col-12 col-md-6">
-                                <label className="form-label small fw-semibold">First name</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">First name</label>
                                 <input className="form-control profile-input" name="firstName" value={profileForm.firstName} onChange={handleProfileChange} />
                             </div>
                             <div className="col-12 col-md-6">
-                                <label className="form-label small fw-semibold">Last name</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Last name</label>
                                 <input className="form-control profile-input" name="lastName" value={profileForm.lastName} onChange={handleProfileChange} />
                             </div>
                             <div className="col-12">
-                                <label className="form-label small fw-semibold">Email</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Email</label>
                                 <div className="input-group">
-                                    <span className="input-group-text profile-input-icon"><Mail size={16} /></span>
+                                    <span className="input-group-text profile-input-icon text-secondary-foreground"><Mail size={16} /></span>
                                     <input type="email" className="form-control profile-input" name="email" value={profileForm.email} onChange={handleProfileChange} />
                                 </div>
                             </div>
                             <div className="col-12 col-md-6">
-                                <label className="form-label small fw-semibold">Date of birth</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Date of birth</label>
                                 <input type="date" className="form-control profile-input" name="dob" value={profileForm.dob} onChange={handleProfileChange} />
                             </div>
                             <div className="col-12 col-md-6">
-                                <label className="form-label small fw-semibold">Gender</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Gender</label>
                                 <select className="form-select profile-input" name="gender" value={profileForm.gender} onChange={handleProfileChange}>
                                     <option value="not specified">Not specified</option>
                                     <option value="male">Male</option>
@@ -409,7 +418,7 @@ export const Profile = () => {
                                 </select>
                             </div>
                             <div className="col-6 col-md-3">
-                                <label className="form-label small fw-semibold">Height</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Height</label>
                                 <input type="number" min="0" step={'any'} className="form-control profile-input" name="height" value={profileForm.height} onChange={handleProfileChange} />
                             </div>
                             <div className="col-6 col-md-3">
@@ -417,23 +426,23 @@ export const Profile = () => {
                                 <input type="number" min="0" step={'any'} className="form-control profile-input" name="weight" value={profileForm.weight} onChange={handleProfileChange} />
                             </div>
                             <div className="col-6 col-md-3">
-                                <label className="form-label small fw-semibold">Goal weight</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Goal weight</label>
                                 <input type="number" min="0" step={'any'} className="form-control profile-input" name="goalWeight" value={profileForm.goalWeight} onChange={handleProfileChange} />
                             </div>
                             <div className="col-6 col-md-3">
-                                <label className="form-label small fw-semibold">Daily kcal</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Daily kcal</label>
                                 <input type="number" min="1" className="form-control profile-input" name="dailyKcalGoal" value={profileForm.dailyKcalGoal} onChange={handleProfileChange} />
                             </div>
                             <div className="col-4">
-                                <label className="form-label small fw-semibold">Carbs</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Carbs</label>
                                 <input type="number" min="1" step={'any'} className="form-control profile-input" name="carbs" value={profileForm.carbs} onChange={handleProfileChange} />
                             </div>
                             <div className="col-4">
-                                <label className="form-label small fw-semibold">Protein</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Protein</label>
                                 <input type="number" min="1" step={'any'} className="form-control profile-input" name="proteins" value={profileForm.proteins} onChange={handleProfileChange} />
                             </div>
                             <div className="col-4">
-                                <label className="form-label small fw-semibold">Fats</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Fats</label>
                                 <input type="number" min="1" step={'any'} className="form-control profile-input" name="fats" value={profileForm.fats} onChange={handleProfileChange} />
                             </div>
                         </div>
@@ -449,18 +458,21 @@ export const Profile = () => {
             {/* GENERATED AVATAR */}
             <section className="profile-card mb-4" onClick={() => onToggle('avatar')} ref={parentRef}>
                 <div className="d-flex align-items-center justify-content-between gap-3 cursor-pointer">
-                    <div>
-                        <h3 className="profile-section-title mb-1">Avatar</h3>
-                        <p className="small text-muted-foreground mb-0">Upload a photo or choose a generated avatar.</p>
+                    <div className='d-flex align-items-center gap-3'>
+                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--fat) 10%, transparent)' }}>
+                            <Image size={20} className="text-fat" />
+                        </span>
+                        <div>
+                            <h3 className="fw-semibold small mb-0 mb-md-1 text-dark">Avatar</h3>
+                            <p className="small text-muted-foreground  mb-0 d-none d-md-block">Upload a photo or choose a generated avatar.</p>
+                        </div>
                     </div>
 
-                    <div className='d-flex gap-2 align-items-center'>
-                        <Image size={20} className="text-carbs" />
-                        <ChevronRight
-                            className="text-muted transition-transform flex-shrink-0"
-                            style={{ transform: openSection === 'avatar' ? 'rotate(90deg)' : 'rotate(0deg)' }}
-                        />
-                    </div>
+                    <ChevronRight
+                        className="text-muted transition-transform flex-shrink-0"
+                        style={{ transform: openSection === 'avatar' ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                    />
+
                 </div>
 
                 {openSection === 'avatar' && (
@@ -483,35 +495,37 @@ export const Profile = () => {
             {/* PASSWORD FORM */}
             <section className="profile-card mb-4" onClick={() => onToggle('password')} ref={parentRef}>
                 <div className="d-flex align-items-center justify-content-between gap-3 cursor-pointer">
-                    <div>
-                        <h3 className="profile-section-title mb-1">Password</h3>
-                        <p className="small text-muted-foreground mb-0">Keep your account secure.</p>
+                    <div className='d-flex align-items-center gap-3' >
+                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--protein) 10%, transparent)' }}>
+                            <Shield size={20} className="text-protein" />
+                        </span>
+                        <div>
+                            <h3 className="fw-semibold small mb-0 mb-md-1 text-dark">Password</h3>
+                            <p className="small text-muted-foreground  mb-0 d-none d-md-block">Keep your account secure.</p>
+                        </div>
                     </div>
-                    <div className='d-flex gap-2 align-items-center'>
-                        <Shield size={20} className="text-protein" />
-                        <ChevronRight
-                            className="text-muted transition-transform flex-shrink-0"
-                            style={{ transform: openSection === 'password' ? 'rotate(90deg)' : 'rotate(0deg)' }}
-                        />
-                    </div>
+                    <ChevronRight
+                        className="text-muted transition-transform flex-shrink-0"
+                        style={{ transform: openSection === 'password' ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                    />
                 </div>
 
                 {openSection === 'password' && (
                     <form onSubmit={handlePasswordSubmit} onClick={(e) => e.stopPropagation()}>
                         <div className="d-flex flex-column gap-3 mt-3">
                             <div>
-                                <label className="form-label small fw-semibold">Current password</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Current password</label>
                                 <div className="input-group">
                                     <span className="input-group-text profile-input-icon"><KeyRound size={16} /></span>
                                     <input type="password" className="form-control profile-input" name="oldPassword" value={passwordForm.oldPassword} onChange={handlePasswordChange} placeholder='••••••••' />
                                 </div>
                             </div>
                             <div>
-                                <label className="form-label small fw-semibold">New password</label>
+                                <label className="form-label small fw-semibold  text-secondary-foreground">New password</label>
                                 <input type="password" className="form-control profile-input" name="newPassword" value={passwordForm.newPassword} onChange={handlePasswordChange} />
                             </div>
                             <div>
-                                <label className="form-label small fw-semibold">Confirm password</label>
+                                <label className="form-label small fw-semibold  text-secondary-foreground">Confirm password</label>
                                 <input type="password" className="form-control profile-input" name="confirmPassword" value={passwordForm.confirmPassword} onChange={handlePasswordChange} />
                             </div>
                         </div>
@@ -524,13 +538,14 @@ export const Profile = () => {
                 )}
             </section>
 
-
             {/* ACCOUNT STATUS */}
             <section className="profile-card mb-4">
-                <div className="d-flex align-items-start gap-3">
-                    <Info size={18} className="text-primary-custom mt-1" />
+                <div className="d-flex align-items-center gap-3">
+                    <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--water) 10%, transparent)' }}>
+                        <Info size={18} className="text-water" />
+                    </span>
                     <div>
-                        <h3 className="profile-section-title mb-1">Account Status</h3>
+                        <h3 className="fw-semibold small mb-1 text-dark">Account Status</h3>
                         <p className="small text-muted-foreground mb-0">
                             {user?.isVerified ? 'Your email is verified.' : 'Your email is not verified yet.'}
                         </p>
@@ -538,8 +553,25 @@ export const Profile = () => {
                 </div>
             </section>
 
+            <h3 className="profile-section-title mt-3">Appearance</h3>
 
+            {/* THEME TOGGLE */}
+            <div className='profile-card mb-4'>
+                <div className='w-100 d-flex justify-content-between align-items-center'>
+                    <div className='d-flex align-items-center gap-3'>
+                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--primary-muted) 10%, transparent)' }}>
+                            <Moon size={20} color='var(--primary-muted)' fill={`${isDark ? "var(--primary-muted)" : "color-mix(in oklab, var(--primary-muted) 10%, transparent)"}`}/>
+                        </span>
+                        <h3 className="fw-semibold small mb-0 mb-md-1 text-dark">Dark theme</h3>
+                    </div>
+                    <label className="switch">
+                        <input type="checkbox"  onChange={() => toggleTheme()} checked={isDark}/>
+                        <span className="slider"></span>
+                    </label>
+                </div>
+            </div>
 
+            {/* BOTTOM BOTTONS */}
             <div className='row g-3'>
                 <div className="col col-12 col-md-8">
                     {/* LOGOUT BUTTON */}

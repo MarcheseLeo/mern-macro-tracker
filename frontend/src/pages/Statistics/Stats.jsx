@@ -74,7 +74,7 @@ export const Stats = () => {
     return (
         <div className="container py-4 d-flex flex-column gap-4" style={{ maxWidth: '800px' }}>
             <header>
-                <h1 className="font-heading fs-3 fw-bold tracking-tight mb-1">Statistics</h1>
+                <h1 className="font-heading fs-3 fw-bold tracking-tight mb-1 text-dark">Statistics</h1>
                 <p className="text-muted-foreground small mb-0">Your weekly nutrition & body trends</p>
             </header>
 
@@ -103,7 +103,7 @@ export const Stats = () => {
             {/* CALORIES BAR CHART */}
             <section className="app-card p-4 radius-3xl shadow-soft-sm">
                 <div className="d-flex align-items-center justify-content-between mb-4">
-                    <h2 className="font-heading fs-6 fw-bold mb-0">Calories this week</h2>
+                    <h2 className="font-heading fs-6 fw-bold mb-0 text-dark">Calories this week</h2>
                     <span className="d-flex align-items-center gap-2 small text-muted-foreground fw-medium">
                         <span className="rounded-pill border border-2 border-primary" style={{ borderStyle: 'dashed !important', width: '1rem', height: '0.6rem' }}></span>
                         Goal {goalKcal.toLocaleString()}
@@ -135,7 +135,7 @@ export const Stats = () => {
             {/* WEIGHT LINE CHART */}
             <section className="app-card p-4 radius-3xl shadow-soft-sm mb-5">
                 <div className="d-flex align-items-center justify-content-between mb-4">
-                    <h2 className="font-heading fs-6 fw-bold mb-0">Weight trend</h2>
+                    <h2 className="font-heading fs-6 fw-bold mb-0 text-dark">Weight trend</h2>
                     <span className="small text-muted-foreground fw-medium">Last 30 days</span>
                 </div>
                 <div style={{ width: '100%', height: '220px' }}>
@@ -172,7 +172,7 @@ export const Stats = () => {
 
 const SummaryCard = ({ label, value, unit, bgColor, textColor }) => {
     return (
-        <article className="app-card p-4 radius-3xl h-100 d-flex flex-column justify-content-center">
+        <article className="app-card p-3 p-md-4 radius-3xl h-100 d-flex flex-column justify-content-center">
             <div>
                 <span 
                     className="badge rounded-pill px-3 py-2 fw-semibold mb-3" 
@@ -181,7 +181,7 @@ const SummaryCard = ({ label, value, unit, bgColor, textColor }) => {
                     {label}
                 </span>
             </div>
-            <p className="font-heading fs-2 fw-bolder mb-1 lh-1">{value}</p>
+            <p className="font-heading fs-2 fw-bolder mb-1 lh-1 text-dark">{value}</p>
             <p className="small text-muted-foreground fw-medium mb-0">{unit}</p>
         </article>
     )

@@ -125,7 +125,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
         <div className="d-flex flex-column h-100 gap-2 " style={{ minHeight: 0 }}>
 
             {/* SEARCH BAR */}
-            <div className="d-flex align-items-center gap-2 px-3 py-2 border rounded-4 flex-shrink-0">
+            <div className="d-flex align-items-center gap-2 px-3 py-2 border rounded-4 flex-shrink-0 food-searchbar">
                 <Search size={20} className="text-muted" />
                 <input
                     type="text"
@@ -151,7 +151,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
                     <button
                         key={cat}
                         onClick={() => setSelectedCategory(cat)}
-                        className={`btn rounded-pill px-3 border text-nowrap ${selectedCategory === cat ? 'btn-chart-3' : 'btn-light'} cat-pills`}
+                        className={`btn rounded-pill px-3  text-nowrap ${selectedCategory === cat ? 'btn-chart-3' : 'btn-light'} cat-pills`}
                     >
                         {cat !== 'All' && <span className="me-1">{CATEGORY_EMOJIS[cat]}</span>}
                         <span className="text-capitalize">{cat}</span>

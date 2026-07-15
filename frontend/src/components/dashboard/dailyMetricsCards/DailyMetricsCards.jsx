@@ -76,7 +76,7 @@ export const DailyMetricsCards = ({
                                 <Droplets size={20} color='var(--water-foreground)' />
                             </div>
                             <div>
-                                <p className="font-heading fs-6 fw-bold mb-0 lh-1">Water</p>
+                                <p className="font-heading fs-6 fw-bold mb-0 lh-1 text-dark">Water</p>
                                 <p className="text-muted small mb-0 mt-1">
                                     {glassesDrunk} of {GOAL_GLASSES} glasses
                                 </p>
@@ -124,7 +124,7 @@ export const DailyMetricsCards = ({
                                 <Scale size={20} color='var(--accent-foreground)' />
                             </div>
                             <div>
-                                <p className="font-heading fs-6 fw-bold mb-0 lh-1">Weight</p>
+                                <p className="font-heading fs-6 fw-bold mb-0 lh-1 text-dark">Weight</p>
                                 <p className="text-muted small mb-0 mt-1">
                                     Goal: {goalWeight} kg
                                 </p>
@@ -148,7 +148,7 @@ export const DailyMetricsCards = ({
                     </div>
 
                     <div className="mt-3">
-                        <p className="font-heading fw-bold m-0" style={{ fontSize: '2rem' }}>
+                        <p className="font-heading fw-bold m-0 text-dark" style={{ fontSize: '2rem' }}>
                             {currentWeight} <span className="fs-6 fw-medium text-muted">kg</span>
                         </p>
                     </div>

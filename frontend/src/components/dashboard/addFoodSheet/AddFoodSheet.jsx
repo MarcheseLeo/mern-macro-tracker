@@ -110,7 +110,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                                 <ArrowLeft size={20} />
                             </button>
                         )}
-                        <h2 className="h5 font-heading fw-bold mb-0">
+                        <h2 className="h5 font-heading fw-bold mb-0 text-dark">
                             {mode === 'choices' && 'Add to your day'}
                             {mode === 'search' && 'Search food'}
                             {mode === 'details' && 'Food Details'}
@@ -130,7 +130,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                             <button
                                 key={m}
                                 onClick={() => setMeal(m)}
-                                className={`btn rounded-pill px-3 py-2 d-flex align-items-center gap-2 text-nowrap ${meal === m ? 'btn-primary-custom text-white fw-bold' : 'btn-light text-muted'} meal-pill`}
+                                className={`btn rounded-pill px-3 py-2 d-flex align-items-center gap-2 text-nowrap ${meal === m ? 'btn-primary-custom text-white fw-bold' : 'btn-light '} meal-pill`}
                             >
                                 <span>{MEAL_META[m].emoji}</span>
                                 {MEAL_META[m].label}
@@ -150,7 +150,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                                     key={c.mode}
                                     disabled={c.disabled}
                                     onClick={() => setMode(c.mode)}
-                                    className={`btn btn-outline-light text-start p-3 rounded-4 d-flex align-items-center gap-3 border ${c.disabled ? 'opacity-50' : ''}`}
+                                    className={`btn btn-outline-light text-start p-3 rounded-4 d-flex align-items-center gap-3 border ${c.disabled ? 'opacity-50' : ''} view-btn`}
                                 >
                                     <div className={`bg-${c.color} bg-opacity-10 text-${c.color} rounded-3 p-3 d-flex justify-content-center align-items-center`}>
                                         <c.icon size={24} />

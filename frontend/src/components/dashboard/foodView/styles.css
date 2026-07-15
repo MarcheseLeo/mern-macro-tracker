@@ -2,6 +2,34 @@
     font-size: 0.85rem;
     transition: all 0.2s ease-in;
     min-height: 35px;
+    border: 0
+}
+
+.cat-pills:hover {
+    background-color: var(--protein-soft) !important;
+}
+
+[data-theme="dark"] .cat-pills:hover {
+    background-color: var(--protein-foreground) !important;
+}
+
+.edit-button {
+    top: 0;
+    right: 0;
+    padding: 0.5rem;
+    background-color: var(--accent);
+    border: 0;
+    font-weight: 600;
+    color: var(--primary-muted);
+}
+
+.edit-button:hover {
+    background-color: var(--primary-muted);
+    color: var(--card);
+}
+
+.food-input{
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
 }
 
 .btn-chart-3 {
@@ -19,7 +47,7 @@
 }
 
 .input-field:focus {
-    box-shadow: 0 0 0 0.15rem var(--dynamic-focus);
+    box-shadow: 0 0 0 0.15rem var(--dynamic-focus) !important;
 }
 
 .add-to-diary-btn, .add-custom-food-btn {
@@ -38,13 +66,13 @@ label:has(+ .input-field:focus) {
     height: 250px;
     margin: 0 auto;
     border-radius: 2rem;
-    overflow: hidden; 
+    overflow: hidden;
     background-color: #242731;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 #reader {
-    position: absolute; 
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -68,20 +96,24 @@ label:has(+ .input-field:focus) {
 
 #reader__dashboard_section_csr {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 20; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    pointer-events: none; 
+    pointer-events: none;
     color: transparent !important;
 }
+
 #reader__dashboard_section_csr button {
     pointer-events: auto;
     color: white !important;
 }
+
 #reader select {
     display: none !important;
 }
@@ -103,7 +135,7 @@ label:has(+ .input-field:focus) {
     font-weight: bold !important;
     cursor: pointer;
     margin: 5px !important;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 #reader select {
@@ -114,6 +146,7 @@ label:has(+ .input-field:focus) {
     margin-bottom: 10px !important;
     max-width: 90%;
 }
+
 #reader__dashboard_section_swaplink {
     display: none !important;
 }

@@ -1,6 +1,5 @@
 .dashboard-greetins {
     font-size: 0.87rem;
-    color: var(--muted-foreground)
 }
 
 .dashboard-greetins+h1 {
@@ -8,10 +7,14 @@
 }
 
 .notification-button {
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 2.7rem;
+    width: 2.7rem;
     background-color: var(--card);
     color: var(--foreground)
+}
+
+.notification-button:hover {
+    background-color: color-mix(in oklab, var(--primary-muted) 10%, transparent)
 }
 
 .notification-button>span {
@@ -20,6 +23,14 @@
     width: 0.5rem;
     top: 0.75rem;
     right: 0.75rem
+}
+
+[data-theme="dark"] .notification-button {
+    background-color: var(--secondary);
+}
+
+[data-theme="dark"] .notification-button:hover {
+    background-color: var(--muted-foreground);
 }
 
 .avatar {
@@ -41,6 +52,7 @@
     transition: all 0.2s ease;
 }
 
+
 /* Calendar */
 .calendar-btn>span:first-child {
     font-size: 0.75rem;
@@ -60,13 +72,19 @@
 .calendar-btn:hover {
     background-color: var(--border);
 }
+.calendar-btn:hover,
+[data-theme="dark"] .calendar-btn:hover{
+    background-color: color-mix(in oklab, var(--primary-muted) 40%, transparent)
+}
 
+[data-theme="dark"] .calendar-btn:hover>span:nth-child(1){
+    color: var(--foreground);
+}
 
 .calendar-btn.active {
     background-color: var(--primary);
     color: var(--primary-foreground);
 }
-
 
 .calendar-btn:focus, .calendar-btn:active {
     outline: none !important;
@@ -74,11 +92,42 @@
     border: 0;
 }
 
+[data-theme="dark"] .calendar-btn {
+    background-color: var(--secondary);
+}
+
+[data-theme="dark"] .calendar-btn:hover {
+    background-color: var(--muted-foreground);
+}
+
+[data-theme="dark"] .calendar-btn.active {
+    background-color: var(--primary);
+}
+
+[data-theme="dark"] .calendar-btn>span:nth-child(2).active {
+    color: var(--foreground);
+}
+
 @media screen and (max-width: 576px) {
     .calendar-btn {
         box-shadow: none;
         background-color: var(--background);
         border-radius: 0 !important;
+    }
+
+    .calendar-btn:hover, 
+    .calendar-btn:focus,
+    .calendar-btn:active {
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .calendar-btn:hover>span:nth-child(1) {
+        color: var(--foreground)
+    }
+
+    .calendar-btn:hover>span:nth-child(2) {
+        background-color: color-mix(in oklab, var(--primary-muted) 40%, transparent)
     }
 
     .calendar-btn.active {
@@ -111,5 +160,20 @@
     .calendar-btn>span:nth-child(2).active {
         color: var(--primary-foreground);
         background-color: var(--primary)
+    }
+
+    [data-theme="dark"] .calendar-btn {
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    [data-theme="dark"] .calendar-btn:hover {
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    [data-theme="dark"] .calendar-btn.active {
+        background-color: transparent;
+        border: none;
     }
 }

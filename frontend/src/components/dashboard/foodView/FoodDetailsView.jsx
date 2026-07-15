@@ -45,17 +45,17 @@ export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing, o
 
             {/* HEADER */}
             <div className="text-center mb-4 mt-2 position-relative">
-                <h3 className="font-heading fw-bold mb-1">
+                <h3 className="font-heading fw-bold mb-1 text-dark">
                     <span className="me-2">{CATEGORY_EMOJIS[food.category] || '🍽️'}</span>
                     {food.name}
                 </h3>
                 <p className="text-muted small mb-2">{food.brand}</p>
                 {/* EDIT BUTTON */}
-                <button 
-                    onClick={onEditClick} 
-                    className="btn btn-sm btn-outline-secondary rounded-pill d-inline-flex align-items-center gap-1"
+                <button
+                    onClick={onEditClick}
+                    className="btn btn-sm position-absolute rounded-pill d-inline-flex align-items-center gap-2 edit-button"
                 >
-                    <Edit3 size={14} /> Edit Product Info
+                    <Edit3 size={14} /> Edit
                 </button>
             </div>
 
@@ -75,7 +75,7 @@ export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing, o
                 </div>
                 <div>
                     <span className="d-block font-heading fs-4 fw-bold text-fat">{calc(macros.fats?.total)}g</span>
-                    <span className="small fw-medium">Fats</span>
+                    <span className="small fw-medium text-muted">Fats</span>
                 </div>
             </div>
 
@@ -155,7 +155,7 @@ export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing, o
                     <div className="position-relative" style={{ width: '40%' }}>
                         <input
                             type="number"
-                            className="form-control form-control-lg bg-light border-0 fw-bold"
+                            className="form-control form-control-lg fw-bold food-input"
                             value={quantity}
                             onChange={handleInputChange}
                             min="1"
@@ -167,7 +167,7 @@ export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing, o
 
                     {/* SIZE SELECT */}
                     <select
-                        className="form-select form-select-lg bg-light border-0 fw-medium"
+                        className="form-select form-select-lg food-input fw-medium"
                         style={{ width: '60%' }}
                         value={selectMode}
                         onChange={handleSelectChange}

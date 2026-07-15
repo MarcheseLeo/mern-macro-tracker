@@ -30,8 +30,6 @@
     transition: width 0.7s ease-out;
 }
 
-
-
 .bg-carbs {
     background-color: var(--carbs);
 }

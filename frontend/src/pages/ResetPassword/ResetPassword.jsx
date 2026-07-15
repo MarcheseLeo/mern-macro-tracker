@@ -32,7 +32,7 @@ export const ResetPassword = () => {
                 <Logo/>
             </div>
             <div className="card border-0 radius-3xl shadow-soft bg-white p-4 w-100 z-1" style={{ maxWidth: '400px' }}>
-                <h2 className="h4 fw-bold tracking-tight font-heading mb-1">New Password</h2>
+                <h2 className="h4 fw-bold tracking-tight font-heading mb-1 text-dark">New Password</h2>
                 <p className="small text-muted-foreground">Create a new secure password for your account.</p>
 
                 {status.message ? (
@@ -41,7 +41,7 @@ export const ResetPassword = () => {
                         <Button asChild className="rounded-pill px-4 mt-2"><Link to="/login">Go to Login</Link></Button>
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit} className="d-flex flex-column gap-3 mt-3">
+                    <form onSubmit={handleSubmit} className="d-flex flex-column gap-3 mt-3 recovery-form">
                         {status.error && <div className="alert alert-danger small py-2">{status.error}</div>}
                         <div className="input-group soft-input-group">
                             <span className="input-group-text bg-white border-end-0 pe-2"><Lock size={18} /></span>

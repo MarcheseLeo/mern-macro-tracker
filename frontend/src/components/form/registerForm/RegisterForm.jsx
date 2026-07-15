@@ -88,7 +88,7 @@ export const RegisterForm = () => {
                 </div>
             )}
 
-            <Form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
+            <Form onSubmit={handleSubmit} className="d-flex flex-column gap-3 register-form">
                 <div className="row g-3">
                     {/* FIRSTNAME INPUT */}
                     <Form.Group className="col-6" controlId='register-firstname'>
@@ -188,7 +188,7 @@ export const RegisterForm = () => {
                 asChild
                 type="button"
                 variant='outline'
-                className='w-100 radius-2xl py-2 fw-medium google-button'
+                className='w-100 radius-2xl py-2 fw-medium google-button bg-white'
             >
                 <a
                     href={import.meta.env.VITE_SERVER_BASE_URL + '/auth/google'}

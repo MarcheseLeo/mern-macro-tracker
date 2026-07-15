@@ -19,22 +19,22 @@ const features = [
         icon: Flame,
         title: 'Smart calorie tracking',
         body: 'See eaten vs remaining calories at a glance with a beautiful progress ring.',
-        bg: 'var(--fat-soft)',
-        color: 'var(--fat-foreground)',
+        bg: 'color-mix(in oklab, var(--fat-soft) 70%, transparent)',
+        color: 'var(--fat)',
     },
     {
         icon: Activity,
         title: 'Macro breakdown',
         body: 'Carbs, protein and fats tracked with playful, color-coded targets.',
-        bg: 'var(--protein-soft)',
-        color: 'var(--protein-foreground)',
+        bg: 'color-mix(in oklab, var(--protein-soft) 70%, transparent)',
+        color: 'var(--protein)',
     },
     {
         icon: Droplets,
         title: 'Water & weight',
         body: 'Log water in a tap and watch your weight trend smooth out over time.',
-        bg: 'var(--water-soft)',
-        color: 'var(--water-foreground)',
+        bg: 'color-mix(in oklab, var(--water-soft) 70%, transparent)',
+        color: 'var(--water)',
     },
 ]
 

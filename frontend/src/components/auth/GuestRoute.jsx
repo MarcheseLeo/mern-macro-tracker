@@ -21,7 +21,7 @@ export const GuestRoute = () => {
                             size={48}
                             color="var(--primary)"
                         />
-                        <h2 className="font-heading fw-bold">Loading...</h2>
+                        <h2 className="font-heading fw-bold text-dark">Loading...</h2>
                         <p className="text-muted small mb-0">
                             You'll be redirected shortly.
                         </p>

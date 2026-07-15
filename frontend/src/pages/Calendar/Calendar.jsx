@@ -115,7 +115,7 @@ export const Calendar = () => {
     return (
         <div className="container py-4 d-flex flex-column gap-4" style={{ maxWidth: '600px' }}>
             <header>
-                <h1 className="font-heading fs-3 fw-bold mb-0">Calendar</h1>
+                <h1 className="font-heading fs-3 fw-bold mb-0 text-dark">Calendar</h1>
                 <p className="text-muted small">Pick a day to review your log</p>
             </header>
 
@@ -125,7 +125,7 @@ export const Calendar = () => {
                     <button onClick={() => shift(-1)} aria-label="Previous month" className="btn btn-light rounded-3 d-flex justify-content-center align-items-center p-2 border-0">
                         <ChevronLeft size={20} />
                     </button>
-                    <p className="font-heading fs-5 fw-bold mb-0">
+                    <p className="font-heading fs-5 fw-bold mb-0 text-dark">
                         {MONTHS[view.month]} {view.year}
                     </p>
                     <button onClick={() => shift(1)} aria-label="Next month" className="btn btn-light rounded-3 d-flex justify-content-center align-items-center p-2 border-0">
@@ -162,9 +162,11 @@ export const Calendar = () => {
                             <button
                                 key={key}
                                 onClick={() => setSelectedDate(key)}
-                                className={`position-relative d-flex flex-column justify-content-center align-items-center rounded-4 border-0 transition-colors w-100 ${active ? 'btn-primary-custom text-white shadow-soft-sm' : 'bg-transparent hover-bg-light'
-                                    }`}
-                                style={{ aspectRatio: '1 / 1', fontSize: '0.9rem', fontWeight: '700', color: key > today ? "var(--muted-foreground)" : (!active && isToday ? "var(--primary)" : "") }}
+                                className={`position-relative d-flex flex-column justify-content-center align-items-center rounded-4 border-0 transition-colors w-100 
+                                    ${active ? 'btn-primary-custom text-white shadow-soft-sm' : 'bg-transparent hover-bg-light'}
+                                    ${key > today ? 'text-muted-foreground' : (!active && isToday ? "text-muted-foreground" : "text-dark") }
+                                    `}
+                                style={{ aspectRatio: '1 / 1', fontSize: '0.9rem', fontWeight: '700'}}
                             >
                                 <span>{day}</span>
                                 {dotColor && <span className={`rounded-circle ${dotColor} mt-1`} style={{ width: '6px', height: '6px' }}></span>}
@@ -185,7 +187,7 @@ export const Calendar = () => {
             <div style={{ opacity: isLoadingStats ? 0.5 : 1, transition: 'opacity 0.2s' }} className="d-flex flex-column gap-3">
 
                 <section className="app-card p-4">
-                    <div className="d-flex justify-content-between align-items-center mb-4">
+                    <div className="d-flex justify-content-between align-items-center mb-4 text-dark">
                         <h2 className="font-heading fs-5 fw-bold mb-0">{summaryDateStr} Summary</h2>
                         <span className={`small fw-bold ${targetClass}`}>
                             {targetStr}
@@ -194,7 +196,7 @@ export const Calendar = () => {
 
                     <div className="row g-3 mb-4">
                         <div className="col-6">
-                            <div className="bg-light rounded-4 p-3 h-100">
+                            <div className="bg-light rounded-4 p-3 h-100 text-dark">
                                 <p className="small text-muted fw-semibold mb-1">Calories</p>
                                 <p className="font-heading fs-4 fw-bold mb-1 lh-1">{summary.kcal.toLocaleString()}</p>
                                 <p className="small text-success fw-medium mb-0" style={{ fontSize: '0.75rem' }}>of {kcalGoal.toLocaleString()} goal</p>
@@ -203,7 +205,7 @@ export const Calendar = () => {
                         <div className="col-6">
                             <div className="bg-light rounded-4 p-3 h-100">
                                 <p className="small text-muted fw-semibold mb-1">Water</p>
-                                <p className="font-heading fs-4 fw-bold mb-1 lh-1">{summary.water ? summary.water.toLocaleString() : 0 }L</p>
+                                <p className="font-heading fs-4 fw-bold mb-1 lh-1 text-dark">{summary.water ? summary.water.toLocaleString() : 0 }L</p>
                                 <p className="small text-success fw-medium mb-0" style={{ fontSize: '0.75rem' }}>of  2.0L goal</p>
                             </div>
                         </div>
@@ -214,19 +216,19 @@ export const Calendar = () => {
                         <div className="col-4">
                             <div className="bg-light rounded-3 p-2">
                                 <p className="small fw-bold text-protein mb-1">Protein</p>
-                                <p className="font-heading fw-bold mb-0">{Math.round(summary.proteins)}g</p>
+                                <p className="font-heading fw-bold mb-0 text-dark">{Math.round(summary.proteins)}g</p>
                             </div>
                         </div>
                         <div className="col-4">
                             <div className="bg-light rounded-3 p-2">
                                 <p className="small fw-bold text-carbs mb-1">Carbs</p>
-                                <p className="font-heading fw-bold mb-0">{Math.round(summary.carbs.total)}g</p>
+                                <p className="font-heading fw-bold mb-0 text-dark">{Math.round(summary.carbs.total)}g</p>
                             </div>
                         </div>
                         <div className="col-4">
                             <div className="bg-light rounded-3 p-2">
                                 <p className="small fw-bold text-fat mb-1">Fat</p>
-                                <p className="font-heading fw-bold mb-0">{Math.round(summary.fats.total)}g</p>
+                                <p className="font-heading fw-bold mb-0 text-dark">{Math.round(summary.fats.total)}g</p>
                             </div>
                         </div>
                     </div>
@@ -252,14 +254,14 @@ export const Calendar = () => {
                     <div className="col-6">
                         <div className="app-card p-4 text-center d-flex flex-column align-items-center h-100">
                             <Flame size={28} className="text-danger mb-2" />
-                            <p className="font-heading fs-3 fw-bold mb-0 lh-1">{user?.currentStreak || 0}</p>
+                            <p className="font-heading fs-3 fw-bold mb-0 lh-1 text-dark">{user?.currentStreak || 0}</p>
                             <p className="small text-muted fw-medium mb-0 mt-1">Day Streak</p>
                         </div>
                     </div>
                     <div className="col-6">
                         <div className="app-card p-4 text-center d-flex flex-column align-items-center h-100">
                             <PieChart size={28} className="text-primary-custom mb-2" />
-                            <p className="font-heading fs-3 fw-bold mb-0 lh-1">{weeklyPercentage}%</p>
+                            <p className="font-heading fs-3 fw-bold mb-0 lh-1 text-dark">{weeklyPercentage}%</p>
                             <p className="small text-muted fw-medium mb-0 mt-1">Weekly</p>
                         </div>
                     </div>

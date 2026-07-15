@@ -12,11 +12,21 @@
 .meal-pill {
     font-size: 0.85rem;
     min-height: 35px;
+    border: 0
 }
+
+.meal-pill:hover{
+    background-color: var(--accent);
+}
+
 
 @media screen and (max-width: 575px) {
     .food-sheet-container {
         border-bottom-right-radius: 0 !important;
         border-bottom-left-radius: 0 !important;
     }
+}
+
+[data-theme="dark"] .view-btn:hover>div:nth-child(2)>span:first-child {
+    color: var(--primary) !important;
 }

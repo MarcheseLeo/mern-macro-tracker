@@ -19,7 +19,7 @@ export const Register = () => {
 
                 {/* REGISTER CARD */}
                 <div className="card border-0 radius-3xl shadow-soft bg-white mt-4">
-                    <h1 className="h4 fw-bold tracking-tight font-heading mb-1">Create an account</h1>
+                    <h1 className="h4 fw-bold tracking-tight font-heading mb-1 text-dark">Create an account</h1>
                     <p className="small text-muted-foreground">
                         Start tracking your diet journey today.
                     </p>

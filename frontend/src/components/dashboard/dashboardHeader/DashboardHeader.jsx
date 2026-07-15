@@ -1,8 +1,13 @@
 import './DashboardHeader.css'
 import { Bell } from 'lucide-react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ThemeContext } from '../../../context/ThemeContext';
 
 export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
+    const {theme, toggleTheme} = useContext(ThemeContext)
+    const isDark = theme === 'dark' 
+
     const getGreetings = () => {
         const h = new Date().getHours()
         if (h < 12) return 'Good morning'
@@ -56,13 +61,14 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
             {/* TOP BAR */}
             <div className='d-flex align-items-center justify-content-between'>
                 <div>
-                    <p className='mb-0 dashboard-greetins'>{getGreetings()} ✌️</p>
-                    <h1 className='font-heading fw-bold mb-0 text-truncate tracking-tight'>
+                    <p className='mb-0 dashboard-greetins text-secondary'>{getGreetings()} ✌️</p>
+                    <h1 className='font-heading fw-bold mb-0 text-truncate tracking-tight text-dark'>
                         {user?.firstName || 'User'}
                     </h1>
                 </div>
 
                 <div className='d-flex align-items-center gap-2'>
+                    <input type="checkbox" checked={isDark} onChange={() => toggleTheme()} />
                     {/* NOTIFICATION BUTTON */}
                     <button
                         aria-label='Notifications'
