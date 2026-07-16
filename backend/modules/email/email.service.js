@@ -5,10 +5,10 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const mainColor = '#4f50de'
 
-const sendVerificationEmail = async(usreEmail, token, firstName = 'there') =>{
-    const verificationUrl =  `${process.env.FRONTEND_URL}/verify?token=${token}`
+const sendVerificationEmail = async (usreEmail, token, firstName = 'there') => {
+    const verificationUrl = `${process.env.FRONTEND_URL}/verify?token=${token}`
 
-    const msg ={
+    const msg = {
         to: usreEmail,
         from: 'leonardo.lol.ldp@gmail.com',
         subject: 'Verify your MacroTracker account',
@@ -33,7 +33,7 @@ const sendVerificationEmail = async(usreEmail, token, firstName = 'there') =>{
     await sgMail.send(msg)
 }
 
-const sendWelcomeEmail = async(userEmail, firstName) => {
+const sendWelcomeEmail = async (userEmail, firstName) => {
     const dashboardUrl = `${process.env.FRONTEND_URL}/login`
 
     const msg = {
@@ -99,9 +99,29 @@ const sendPasswordResetEmail = async (userEmail, token, firstName) => {
     };
     await sgMail.send(msg);
 }
+
+const sendWeeklyReport = async (user) => {
+    const msg = {
+        to: user.email,
+        from: 'leonardo.lol.ldp@gmail.com',
+        subject: 'Your MacroTracker Weekly Summary 📊',
+        html: `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333; border: 1px solid #e3e4e9; border-radius: 16px;">
+                        <h2 style="color: #4f50de; text-align: center;">Weekly Summary</h2>
+                        <p>Hi ${user.firstName},</p>
+                        <p>Another week of tracking is in the books! Log in to check your latest stats, streak, and see how close you are to your goals.</p>
+                        <div style="text-align: center; margin: 30px 0;">
+                            <a href="${process.env.FRONTEND_URL}/stats" style="background-color: #4f50de; color: white; padding: 14px 28px; text-decoration: none; border-radius: 12px; font-weight: bold; display: inline-block;">View My Stats</a>
+                        </div>
+                    </div>
+                `
+    }
+    await sgMail.send(msg)
+}
 module.exports = {
     sendVerificationEmail,
     sendWelcomeEmail,
     sendAccountDeletedEmail,
-    sendPasswordResetEmail
+    sendPasswordResetEmail,
+    sendWeeklyReport
 }

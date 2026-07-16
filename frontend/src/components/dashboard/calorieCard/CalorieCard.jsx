@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import './CalorieCard.css'
 import { Flame, Trophy } from 'lucide-react';
+import { createAchievementNotification } from '../../../services/Notifications';
+import { NotificationContext } from '../../../context/NotificationContext';
+import { AuthContext } from '../../../context/AuthContext';
 
 export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
+    const { user } = useContext(AuthContext)
+    const { triggerFetch } = useContext(NotificationContext)
 
     const isGoalReached = totalEaten >= dailyGoal
     const overCalories = isGoalReached ? totalEaten - dailyGoal : 0
@@ -13,6 +18,27 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
     const radius = 84
     const circumference = 2 * Math.PI * radius
     const dashOffset = circumference - (percentage / 100) * circumference
+
+    const sendNotif = async (msg) => {
+        await createAchievementNotification(msg)
+        triggerFetch()
+    }
+
+    useEffect(() => {
+        const todayStr = new Date().toISOString().split('T')[0]
+        const storageKey = `achiev_kcal_${user._id}_${todayStr}`
+
+        if (localStorage.getItem(storageKey) == undefined)
+            localStorage.setItem(storageKey, 'false')
+
+        console.log(typeof localStorage.getItem(storageKey))
+        const alreadySent = localStorage.getItem(storageKey)
+
+        if (isGoalReached && totalEaten > 0 && alreadySent ==='false') {
+            sendNotif("🎉 Amazing! You hit your daily calorie target!")
+            localStorage.setItem(storageKey, 'true')
+        }
+    }, [isGoalReached])
 
     return (
         <section className='radius-3xl card border-0 shadow-sm calorie-card'>
@@ -63,13 +89,13 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
                 <div className="d-flex flex-column flex-grow-1 gap-3 w-100">
                     <Stat label="Eaten" value={`${totalEaten} kcal`} />
                     <div className="line" style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.2)' }} />
-                    
+
                     {isGoalReached && overCalories > 0 ? (
                         <Stat label="Over" value={`+${overCalories} kcal`} />
                     ) : (
                         <Stat label="Remaining" value={`${remaining} kcal`} />
                     )}
-                    
+
                     <div className="line" style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.2)' }} />
                     <Stat label="Progress" value={`${percentage}%`} />
                 </div>

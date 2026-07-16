@@ -1,11 +1,17 @@
 import './DashboardHeader.css'
 import { Bell } from 'lucide-react';
+import { useContext, useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { NotificationContext } from '../../../context/NotificationContext';
 
 
 export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
+    const [showNotifs, setShowNotifs] = useState(false)
+    const { notifications, markAsRead } = useContext(NotificationContext)
+    const areNotificationsEnabled = user?.preferences?.notifications ?? false;
 
+    const unreadCount = notifications.filter(n => !n.isRead).length
     const getGreetings = () => {
         const h = new Date().getHours()
         if (h < 12) return 'Good morning'
@@ -27,10 +33,10 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
     const generateWeek = (currentDateStr) => {
         const [y, m, d] = currentDateStr.split('-')
         const current = new Date(y, m - 1, d)
-        
+
         const week = []
         const today = getLocalDateString(new Date())
-        
+
 
         for (let i = -3; i <= 3; i++) {
             const date = new Date(current)
@@ -44,6 +50,7 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
         }
         return week
     }
+
 
     const weekDays = generateWeek(selectedDate)
 
@@ -67,16 +74,56 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
 
                 <div className='d-flex align-items-center gap-2'>
                     {/* NOTIFICATION BUTTON */}
-                    <button
-                        aria-label='Notifications'
-                        className='btn position-relative shadow-sm d-flex justify-content-center align-items-center radius-2xl notification-button'
-                    >
-                        <Bell size={18} />
-                        <span className='position-absolute rounded-circle' style={{top: '10px'}}></span>
-                    </button>
+                    <div className="position-relative">
+                        <button
+                            aria-label='Notifications'
+                            onClick={() => setShowNotifs(!showNotifs)}
+                            className='btn position-relative shadow-sm d-flex justify-content-center align-items-center radius-2xl notification-button'
+                        >
+                            <Bell size={18} />
+                            {unreadCount > 0 && areNotificationsEnabled &&<span className='position-absolute rounded-circle' style={{ top: '10px' }}></span>}
+                        </button>
+
+                        {/* NOTIFICATIONS DROPDOWN */}
+                        {showNotifs && (
+                            <div className="position-absolute bg-white shadow-soft rounded-4 p-3" style={{ top: '120%', right: 0, width: '280px', zIndex: 1000, border: '1px solid var(--border)' }}>
+                                <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 className="font-heading fw-bold mb-0 text-dark">Notifications</h6>
+                                    <span className="badge bg-primary rounded-pill">{unreadCount} new</span>
+                                </div>
+
+                                {areNotificationsEnabled? (
+                                    <>
+                                        {notifications.length === 0 ? (
+                                            <p className="small text-muted mb-0 text-center py-3">No notifications yet.</p>
+                                        ) : (
+                                            <div className="d-flex flex-column gap-2 overflow-auto no-scrollbar" style={{ maxHeight: '300px' }}>
+                                                {notifications.map(n => (
+                                                    <div
+                                                        key={n._id}
+                                                        onClick={() => markAsRead(n._id)}
+                                                        className={`p-2 rounded-3 cursor-pointer transition-colors ${n.isRead ? 'opacity-50' : 'bg-accent'}`}
+                                                        style={{ border: '1px solid var(--border)' }}
+                                                    >
+                                                        <p className={`small mb-0 ${n.isRead ? 'text-muted' : 'text-accent-foreground fw-bold'}`}>
+                                                            {n.message}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        <p className="small text-muted mb-0 text-center py-3">Notifications disabled.</p>
+                                    </>
+                                )}
+                            </div>
+                        )}
+                    </div>
 
                     {/* AVATAR */}
-                    <div className='profile-mini-avatar border-0 p-0 cursor-pointer d-flex align-items-center justify-content-center' onClick={handleRedirectToProfile}  aria-label="Go to profile">
+                    <div className='profile-mini-avatar border-0 p-0 cursor-pointer d-flex align-items-center justify-content-center' onClick={handleRedirectToProfile} aria-label="Go to profile">
                         {user?.avatar ? <img src={user.avatar} /> : <span>{getInitials()}</span>}
                     </div>
                 </div>

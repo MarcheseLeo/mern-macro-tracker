@@ -2,6 +2,7 @@ const passport = require('passport')
 const express = require('express')
 const oauth = express.Router()
 const GoogleStrategy = require('passport-google-oauth20').Strategy
+const Notification = require('../notifications/notifications.service')
 
 const GoogleController = require('./google.oauth.controller')
 
@@ -51,6 +52,7 @@ passport.use(
                         await user.save()
                     }
                 }
+                await Notification.createLoginNotification(user._id)
                 done(null, user)
             } catch (e) {
                 done(e, null)

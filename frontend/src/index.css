@@ -42,6 +42,12 @@
     --chart-4: rgb(244, 164, 55);
     --chart-5: rgb(197, 78, 190);
 
+    --pref-1: #A3DC9A;
+    --pref-2: #748DAE;
+    --pref-3: #29C6CD;
+    --pref-4: #FAAC68;
+    --pref-5: #D25353;
+
     --radius: 1rem;
     --radius-sm: 0.65rem;
     --radius-md: 0.85rem;
@@ -360,6 +366,11 @@ h1, h2, h3, h4, h5, h6,
     --chart-4: rgb(245, 185, 105);
     --chart-5: rgb(217, 98, 210);
 
+    --pref-1: #DAF9DE;
+    --pref-2: #A6B1E1;
+    --pref-3: #BADFDB;
+    --pref-4: #FACE68;
+    --pref-5: #EA7B7B;
 
     --sidebar: #1c212d;
     --sidebar-foreground: #eceef5;
@@ -368,6 +379,8 @@ h1, h2, h3, h4, h5, h6,
     --sidebar-accent: #262c54;
     --sidebar-accent-foreground: #b4bcff;
     --sidebar-border: #2a3143;
+ 
+
 }
 
 

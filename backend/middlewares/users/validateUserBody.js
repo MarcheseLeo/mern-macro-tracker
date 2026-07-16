@@ -81,6 +81,26 @@ const userBodyValidation = [
     body('resetPasswordExpires')
         .not().exists()
         .withMessage('Cannot set resetPasswordExpires from this route'),
+        body('preferences.notifications')
+        .optional()
+        .isBoolean()
+        .withMessage('preferences.notifications must be a boolean'),
+    body('preferences.mealReminders')
+        .optional()
+        .isBoolean()
+        .withMessage('preferences.mealReminders must be a boolean'),
+    body('preferences.waterReminders')
+        .optional()
+        .isBoolean()
+        .withMessage('preferences.waterReminders must be a boolean'),
+    body('preferences.achievements')
+        .optional()
+        .isBoolean()
+        .withMessage('preferences.achievements must be a boolean'),
+    body('preferences.emailSummary')
+        .optional()
+        .isBoolean()
+        .withMessage('preferences.emailSummary must be a boolean'),
 ]
 
 const editUserValidation = [
@@ -182,6 +202,26 @@ const editUserValidation = [
     body('resetPasswordExpires')
         .not().exists()
         .withMessage('Cannot update resetPasswordExpires from this route'),
+        body('preferences.notifications')
+        .optional()
+        .isBoolean()
+        .withMessage('preferences.notifications must be a boolean'),
+    body('preferences.mealReminders')
+        .optional()
+        .isBoolean()
+        .withMessage('preferences.mealReminders must be a boolean'),
+    body('preferences.waterReminders')
+        .optional()
+        .isBoolean()
+        .withMessage('preferences.waterReminders must be a boolean'),
+    body('preferences.achievements')
+        .optional()
+        .isBoolean()
+        .withMessage('preferences.achievements must be a boolean'),
+    body('preferences.emailSummary')
+        .optional()
+        .isBoolean()
+        .withMessage('preferences.emailSummary must be a boolean'),
 ]
 
 const changePasswordValidation = [

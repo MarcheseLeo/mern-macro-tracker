@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import {
     Activity,
     BadgeCheck,
+    Bell,
     Camera,
     ChevronRight,
     Flame,
+    GlassWater,
     Image,
     Info,
     KeyRound,
@@ -16,6 +18,7 @@ import {
     Save,
     Scale,
     Shield,
+    Trophy,
     UserRound,
     UserX,
     Utensils,
@@ -97,6 +100,38 @@ export const Profile = () => {
     const profileForm = { ...baseProfileForm, ...profileDraft }
 
     const fullName = `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || 'Macro user'
+
+    const [preferences, setPreferences] = useState({
+        notifications: user?.preferences?.notifications ?? true,
+        mealReminders: user?.preferences?.mealReminders ?? true,
+        waterReminders: user?.preferences?.waterReminders ?? true,
+        achievements: user?.preferences?.achievements ?? true,
+        emailSummary: user?.preferences?.emailSummary ?? true,
+    })
+
+    const handlePreferenceChange = async (key, value) => {
+        let newPrefs = { ...preferences, [key]: value }
+
+        if (key === 'notifications' && !value) {
+            newPrefs = {
+                notifications: false,
+                mealReminders: false,
+                waterReminders: false,
+                achievements: false,
+                emailSummary: false,
+            }
+        }
+
+        setPreferences(newPrefs)
+
+        try {
+            await editMe({ preferences: newPrefs })
+            refreshUser()
+        } catch (error) {
+            setPreferences(preferences)
+            showFeedback('danger', 'Failed to save preferences. Check connection.')
+        }
+    }
 
     const getInitials = () => {
         if (!user) return 'U'
@@ -554,6 +589,85 @@ export const Profile = () => {
                 </div>
             </section>
 
+            <h3 className="profile-section-title mt-3">Preferences</h3>
+
+            {/* PREFERENCES TOGGLES */}
+            <div className='profile-card mb-4'>
+                {/* Master Toggle: Notifications */}
+                <div className='w-100 d-flex justify-content-between align-items-center'>
+                    <div className='d-flex align-items-center gap-3'>
+                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--pref-1) 10%, transparent)' }}>
+                            <Bell size={20} color='var(--pref-1)'/>
+                        </span>
+                        <h3 className="fw-semibold small mb-0 text-dark">Notifications</h3>
+                    </div>
+                    <Toggle
+                        onChange={(val) => handlePreferenceChange('notifications', val)}
+                        checked={preferences.notifications}
+                    />
+                </div>
+            </div>
+            {/* MEAL TOGGLE */}
+            <div className='profile-card mb-4'>
+                <div className='w-100 d-flex justify-content-between align-items-center'>
+                    <div className='d-flex align-items-center gap-3'>
+                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--pref-2) 10%, transparent)' }}>
+                            <Utensils size={20} color='var(--pref-2)' />
+                        </span>
+                        <h3 className="fw-semibold small mb-0 text-dark">Meal reminders</h3>
+                    </div>
+                    <Toggle
+                        onChange={(val) => handlePreferenceChange('mealReminders', val)}
+                        checked={preferences.mealReminders}
+                    />
+                </div>
+            </div>
+            {/* WATER TOGGLE */}
+            <div className='profile-card mb-4'>
+                <div className='w-100 d-flex justify-content-between align-items-center'>
+                    <div className='d-flex align-items-center gap-3'>
+                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--pref-3) 10%, transparent)' }}>
+                            <GlassWater size={20} color='var(--pref-3)'/>
+                        </span>
+                        <h3 className="fw-semibold small mb-0 text-dark">Water reminders</h3>
+                    </div>
+                    <Toggle
+                        onChange={(val) => handlePreferenceChange('waterReminders', val)}
+                        checked={preferences.waterReminders}
+                    />
+                </div>
+            </div>
+            {/* ACHIEVEMENTS TOGGLE */}
+            <div className='profile-card mb-4'>
+                <div className='w-100 d-flex justify-content-between align-items-center'>
+                    <div className='d-flex align-items-center gap-3'>
+                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--pref-4) 10%, transparent)' }}>
+                            <Trophy size={20} color='var(--pref-4)'/>
+                        </span>
+                        <h3 className="fw-semibold small mb-0 text-dark">Achievements</h3>
+                    </div>
+                    <Toggle
+                        onChange={(val) => handlePreferenceChange('achievements', val)}
+                        checked={preferences.achievements}
+                    />
+                </div>
+            </div>
+            {/* EMAIL TOGGLE */}
+            <div className='profile-card mb-4'>
+                <div className='w-100 d-flex justify-content-between align-items-center'>
+                    <div className='d-flex align-items-center gap-3'>
+                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--pref-5) 10%, transparent)' }}>
+                            <Mail size={20} color='var(--pref-5)'/>
+                        </span>
+                        <h3 className="fw-semibold small mb-0 text-dark">Email notifications</h3>
+                    </div>
+                    <Toggle
+                        onChange={(val) => handlePreferenceChange('emailSummary', val)}
+                        checked={preferences.emailSummary}
+                    />
+                </div>
+            </div>
+            
             <h3 className="profile-section-title mt-3">Appearance</h3>
 
             {/* THEME TOGGLE */}
@@ -563,7 +677,7 @@ export const Profile = () => {
                         <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--primary-muted) 10%, transparent)' }}>
                             <Moon size={20} color='var(--primary-muted)' fill={`${isDark ? "var(--primary-muted)" : "color-mix(in oklab, var(--primary-muted) 10%, transparent)"}`} />
                         </span>
-                        <h3 className="fw-semibold small mb-0 mb-md-1 text-dark">Dark theme</h3>
+                        <h3 className="fw-semibold small mb-0 text-dark">Dark theme</h3>
                     </div>
                     <Toggle onChange={toggleTheme} checked={isDark} />
                 </div>

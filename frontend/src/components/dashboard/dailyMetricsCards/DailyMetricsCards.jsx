@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Droplets, Minus, Plus, Scale, CalendarX } from 'lucide-react'
 import { InfoModal } from '../../infoModal/Infomodal'
 import './DailyMetricsCards.css'
+import { createAchievementNotification } from '../../../services/Notifications'
+import { NotificationContext } from '../../../context/NotificationContext'
 
 export const DailyMetricsCards = ({
     summary,
@@ -10,14 +12,24 @@ export const DailyMetricsCards = ({
     onUpdateWater,
     onUpdateWeight
 }) => {
+    const { triggerFetch } = useContext(NotificationContext)
+
     const [showFutureModal, setShowFutureModal] = useState(false)
     const d = new Date();
     const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-    
+
     const GLASS_SIZE = 0.25
     const GOAL_GLASSES = 8
     const currentWaterLiters = summary?.water || 0
     const glassesDrunk = Math.floor(currentWaterLiters / GLASS_SIZE)
+
+    const isWaterGoalReached = glassesDrunk >= GOAL_GLASSES
+
+    const sendNotif = async (msg) => {
+        await createAchievementNotification(msg)
+        triggerFetch()
+    }
+
 
     const handleWaterChange = (amount) => {
         if (selectedDate > today) {
@@ -63,6 +75,22 @@ export const DailyMetricsCards = ({
             onUpdateWater(amountToChange)
         }
     }
+
+    useEffect(() => {
+        const todayStr = new Date().toISOString().split('T')[0]
+        const storageKey = `achiev_water_${user._id}_${todayStr}`
+
+        if (localStorage.getItem(storageKey) == undefined)
+            localStorage.setItem(storageKey, 'false')
+
+        console.log(typeof localStorage.getItem(storageKey))
+        const alreadySent = localStorage.getItem(storageKey)
+
+        if (isWaterGoalReached && glassesDrunk > 7 && alreadySent === 'false') {
+            sendNotif("🌊 Excellent! You drank all your 8 glasses of water today!")
+            localStorage.setItem(storageKey, 'true')
+        }
+    }, [isWaterGoalReached])
 
     return (
         <div className="row g-3 mt-1">

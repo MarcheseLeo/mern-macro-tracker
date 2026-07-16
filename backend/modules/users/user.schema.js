@@ -71,6 +71,13 @@ const UserSchema = new mongoose.Schema({
         required: false,
         default: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
     },
+    preferences: {
+        notifications: { type: Boolean, default: true },
+        mealReminders: { type: Boolean, default: true },
+        waterReminders: { type: Boolean, default: true },
+        achievements: { type: Boolean, default: true },
+        emailSummary: { type: Boolean, default: true }
+    },
     isVerified: {
         type: Boolean,
         default: false

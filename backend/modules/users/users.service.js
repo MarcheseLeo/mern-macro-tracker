@@ -4,6 +4,7 @@ const DailyMetricSchema = require('../daily-metrics/dailyMetrics.schema')
 const bcrypt = require('bcrypt')
 const InvalidCredentialExcpetion = require('../../exceptions/auth/InvalidCredentialsException')
 const EmailService = require('../email/email.service')
+const NotificationSchema = require('../notifications/notifications.schema')
 
 const getUsers = async () => {
     return await UserSchema.find()
@@ -75,6 +76,7 @@ const deleteUser = async (id) => {
 
     await MealSchema.deleteMany({ user: id })
     await DailyMetricSchema.deleteMany({ user: id })
+    await NotificationSchema.deleteMany({user: id})
     
     return await UserSchema.findByIdAndDelete(id)
 }

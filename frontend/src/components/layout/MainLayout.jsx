@@ -5,6 +5,7 @@ import { AppFooter } from './appFooter/AppFooter';
 import { AddFoodSheet } from '../dashboard/addFoodSheet/AddFoodSheet';
 import { DashboardProvider, DashboardContext } from '../../context/DashboardContext';
 import { useContext } from 'react';
+import { NotificationProvider } from '../../context/NotificationContext';
 
 const LayoutContent = () => {
     const { isAddFoodOpen, setIsAddFoodOpen, targetMeal, selectedDate, triggerRefresh } = useContext(DashboardContext);
@@ -36,7 +37,9 @@ const LayoutContent = () => {
 export const MainLayout = () => {
     return (
         <DashboardProvider>
-            <LayoutContent />
+            <NotificationProvider>
+                <LayoutContent />
+            </NotificationProvider>
         </DashboardProvider>
     )
 }
