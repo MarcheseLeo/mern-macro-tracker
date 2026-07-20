@@ -19,7 +19,7 @@ export const createFood = async (formData) => {
         servingSize: Number(formData.servingSize),
         servingUnit: formData.servingUnit,
         category: formData.category,
-        source: 'user',
+        source: formData.source || 'user',
         nutritionalValues: {
             kcal: Number(formData.kcal),
             carbs: {
@@ -34,8 +34,7 @@ export const createFood = async (formData) => {
             fibers: Number(formData.fibers) || 0,
             salt: Number(formData.salt) || 0
         },
-        barcode: formData.barcode,
-        source: formData.source
+        barcode: formData.barcode
     }
 
     const res = await api.post('/foods', body)

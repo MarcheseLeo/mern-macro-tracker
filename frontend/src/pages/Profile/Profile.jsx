@@ -47,6 +47,10 @@ const initialPasswordForm = {
     confirmPassword: '',
 }
 
+const profileAccordionHeaderClass = 'd-flex align-items-center justify-content-between gap-3 cursor-pointer'
+const profileRowClass = 'w-100 d-flex justify-content-between align-items-center'
+const profileRowContentClass = 'd-flex align-items-center gap-3'
+
 export const Profile = () => {
     const { user, logout, refreshUser } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -323,6 +327,39 @@ export const Profile = () => {
         },
     ]
 
+    const preferenceItems = [
+        {
+            key: 'notifications',
+            label: 'Notifications',
+            icon: Bell,
+            color: 'var(--pref-1)',
+        },
+        {
+            key: 'mealReminders',
+            label: 'Meal reminders',
+            icon: Utensils,
+            color: 'var(--pref-2)',
+        },
+        {
+            key: 'waterReminders',
+            label: 'Water reminders',
+            icon: GlassWater,
+            color: 'var(--pref-3)',
+        },
+        {
+            key: 'achievements',
+            label: 'Achievements',
+            icon: Trophy,
+            color: 'var(--pref-4)',
+        },
+        {
+            key: 'emailSummary',
+            label: 'Email notifications',
+            icon: Mail,
+            color: 'var(--pref-5)',
+        },
+    ]
+
     return (
         <div className="profile-page container py-3 pb-5">
             {/* HEADER */}
@@ -407,8 +444,8 @@ export const Profile = () => {
 
             {/* PERSOANL INFO FORM */}
             <section className="profile-card mb-4" onClick={(e) => onToggle('info')} ref={parentRef}>
-                <div className="d-flex align-items-center justify-content-between gap-3 cursor-pointer">
-                    <div className='d-flex align-items-center gap-3'>
+                <div className={profileAccordionHeaderClass}>
+                    <div className={profileRowContentClass}>
                         <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--primary) 10%, transparent)' }}>
                             <UserRound size={20} className="text-primary-custom" />
                         </span>
@@ -493,8 +530,8 @@ export const Profile = () => {
 
             {/* GENERATED AVATAR */}
             <section className="profile-card mb-4" onClick={() => onToggle('avatar')} ref={parentRef}>
-                <div className="d-flex align-items-center justify-content-between gap-3 cursor-pointer">
-                    <div className='d-flex align-items-center gap-3'>
+                <div className={profileAccordionHeaderClass}>
+                    <div className={profileRowContentClass}>
                         <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--fat) 10%, transparent)' }}>
                             <Image size={20} className="text-fat" />
                         </span>
@@ -530,8 +567,8 @@ export const Profile = () => {
 
             {/* PASSWORD FORM */}
             <section className="profile-card mb-4" onClick={() => onToggle('password')} ref={parentRef}>
-                <div className="d-flex align-items-center justify-content-between gap-3 cursor-pointer">
-                    <div className='d-flex align-items-center gap-3' >
+                <div className={profileAccordionHeaderClass}>
+                    <div className={profileRowContentClass}>
                         <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--protein) 10%, transparent)' }}>
                             <Shield size={20} className="text-protein" />
                         </span>
@@ -592,88 +629,21 @@ export const Profile = () => {
             <h3 className="profile-section-title mt-3">Preferences</h3>
 
             {/* PREFERENCES TOGGLES */}
-            <div className='profile-card mb-4'>
-                {/* Master Toggle: Notifications */}
-                <div className='w-100 d-flex justify-content-between align-items-center'>
-                    <div className='d-flex align-items-center gap-3'>
-                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--pref-1) 10%, transparent)' }}>
-                            <Bell size={20} color='var(--pref-1)'/>
-                        </span>
-                        <h3 className="fw-semibold small mb-0 text-dark">Notifications</h3>
-                    </div>
-                    <Toggle
-                        onChange={(val) => handlePreferenceChange('notifications', val)}
-                        checked={preferences.notifications}
-                    />
-                </div>
-            </div>
-            {/* MEAL TOGGLE */}
-            <div className='profile-card mb-4'>
-                <div className='w-100 d-flex justify-content-between align-items-center'>
-                    <div className='d-flex align-items-center gap-3'>
-                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--pref-2) 10%, transparent)' }}>
-                            <Utensils size={20} color='var(--pref-2)' />
-                        </span>
-                        <h3 className="fw-semibold small mb-0 text-dark">Meal reminders</h3>
-                    </div>
-                    <Toggle
-                        onChange={(val) => handlePreferenceChange('mealReminders', val)}
-                        checked={preferences.mealReminders}
-                    />
-                </div>
-            </div>
-            {/* WATER TOGGLE */}
-            <div className='profile-card mb-4'>
-                <div className='w-100 d-flex justify-content-between align-items-center'>
-                    <div className='d-flex align-items-center gap-3'>
-                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--pref-3) 10%, transparent)' }}>
-                            <GlassWater size={20} color='var(--pref-3)'/>
-                        </span>
-                        <h3 className="fw-semibold small mb-0 text-dark">Water reminders</h3>
-                    </div>
-                    <Toggle
-                        onChange={(val) => handlePreferenceChange('waterReminders', val)}
-                        checked={preferences.waterReminders}
-                    />
-                </div>
-            </div>
-            {/* ACHIEVEMENTS TOGGLE */}
-            <div className='profile-card mb-4'>
-                <div className='w-100 d-flex justify-content-between align-items-center'>
-                    <div className='d-flex align-items-center gap-3'>
-                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--pref-4) 10%, transparent)' }}>
-                            <Trophy size={20} color='var(--pref-4)'/>
-                        </span>
-                        <h3 className="fw-semibold small mb-0 text-dark">Achievements</h3>
-                    </div>
-                    <Toggle
-                        onChange={(val) => handlePreferenceChange('achievements', val)}
-                        checked={preferences.achievements}
-                    />
-                </div>
-            </div>
-            {/* EMAIL TOGGLE */}
-            <div className='profile-card mb-4'>
-                <div className='w-100 d-flex justify-content-between align-items-center'>
-                    <div className='d-flex align-items-center gap-3'>
-                        <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--pref-5) 10%, transparent)' }}>
-                            <Mail size={20} color='var(--pref-5)'/>
-                        </span>
-                        <h3 className="fw-semibold small mb-0 text-dark">Email notifications</h3>
-                    </div>
-                    <Toggle
-                        onChange={(val) => handlePreferenceChange('emailSummary', val)}
-                        checked={preferences.emailSummary}
-                    />
-                </div>
-            </div>
+            {preferenceItems.map((item) => (
+                <PreferenceToggleCard
+                    key={item.key}
+                    item={item}
+                    checked={preferences[item.key]}
+                    onChange={(val) => handlePreferenceChange(item.key, val)}
+                />
+            ))}
             
             <h3 className="profile-section-title mt-3">Appearance</h3>
 
             {/* THEME TOGGLE */}
             <div className='profile-card mb-4'>
-                <div className='w-100 d-flex justify-content-between align-items-center'>
-                    <div className='d-flex align-items-center gap-3'>
+                <div className={profileRowClass}>
+                    <div className={profileRowContentClass}>
                         <span className='profile-section-icon' style={{ backgroundColor: 'color-mix(in oklab, var(--primary-muted) 10%, transparent)' }}>
                             <Moon size={20} color='var(--primary-muted)' fill={`${isDark ? "var(--primary-muted)" : "color-mix(in oklab, var(--primary-muted) 10%, transparent)"}`} />
                         </span>
@@ -722,6 +692,24 @@ export const Profile = () => {
             />
         </div>
 
+    )
+}
+
+const PreferenceToggleCard = ({ item, checked, onChange }) => {
+    const Icon = item.icon
+
+    return (
+        <div className="profile-card mb-4">
+            <div className={profileRowClass}>
+                <div className={profileRowContentClass}>
+                    <span className="profile-section-icon" style={{ backgroundColor: `color-mix(in oklab, ${item.color} 10%, transparent)` }}>
+                        <Icon size={20} color={item.color} />
+                    </span>
+                    <h3 className="fw-semibold small mb-0 text-dark">{item.label}</h3>
+                </div>
+                <Toggle onChange={onChange} checked={checked} />
+            </div>
+        </div>
     )
 }
 

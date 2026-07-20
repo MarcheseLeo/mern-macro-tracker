@@ -7,28 +7,6 @@
     transform: translateY(1px);
 }
 
-.btn-primary-custom {
-    background-color: var(--primary);
-    border-color: var(--primary);
-    color: white;
-}
-
-.btn-primary-custom {
-    background-color: var(--primary);
-    border-color: var(--primary);
-    color: white;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.btn-primary-custom:hover,
-.btn-primary-custom:focus {
-    background-color: var(--primary-muted) !important;
-    border-color: var(--primary-muted);
-    color: white;
-    transform: translateY(-2px);
-}
-
 .btn-outline-custom {
     background-color: var(--background);
     border: 1px solid var(--border);

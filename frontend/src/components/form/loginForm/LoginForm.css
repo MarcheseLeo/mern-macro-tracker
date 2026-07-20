@@ -32,20 +32,5 @@
 
 .soft-input-group:focus-within .input-group-text,
 .soft-input-group:focus-within .form-control {
-
     outline: 2px solid var(--primary);
-}
-
-.animate-spin {
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
 }

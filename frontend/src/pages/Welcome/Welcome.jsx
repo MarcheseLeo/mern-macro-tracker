@@ -103,7 +103,7 @@ export const Welcome = () => {
             </section>
 
             {/* GRID FEATURES */}
-            <section className='container position-position-relative z-1 pb-5 mb-5'>
+            <section className='container position-relative z-1 pb-5 mb-5'>
                 <div className='row g-4 justify-content-center mx-auto'>
                     {features.map((f, index) => (
                         <div key={index} className='col-12 col-md-4 col-lg-3'>

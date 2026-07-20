@@ -3,14 +3,17 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from "../../context/AuthContext";
 import { BlurredBackground } from "../ui/blurredBackground/BlurredBackground";
 import { Loader2 } from "lucide-react";
+import { useDelayedLoading } from "../../hooks/useDelayedLoading";
 
 
 export const ProtectedRoute = () => {
     const { isAuthorized, isLoading } = useContext(AuthContext)
+    const showLoading = useDelayedLoading(isLoading)
 
     return (
         <>
             {isLoading ? (
+                showLoading && (
                 <main className="d-flex justify-content-center align-items-center min-vh-100 px-3 position-relative overflow-hidden bg-background">
 
                     <BlurredBackground variant="single" />
@@ -27,6 +30,7 @@ export const ProtectedRoute = () => {
                         </p>
                     </div>
                 </main>
+                )
             ) : (
                 <>
                     {isAuthorized ? (

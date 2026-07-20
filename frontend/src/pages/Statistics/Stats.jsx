@@ -57,7 +57,7 @@ export const Stats = () => {
                 setAvgCalories(daysWithLogs > 0 ? Math.round(totalKcal / daysWithLogs) : 0)
             }
         } catch (e) {
-            console.error("Error loading stats", error)
+            console.error("Error loading stats", e)
         }
 
     }

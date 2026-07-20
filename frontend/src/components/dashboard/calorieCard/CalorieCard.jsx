@@ -41,13 +41,13 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
     }, [isGoalReached])
 
     return (
-        <section className='radius-3xl card border-0 shadow-sm calorie-card'>
+        <section className='radius-3xl card border-0 calorie-card'>
             <div className='d-flex justify-content-between align-items-center'>
                 <div className='d-flex align-items-center gap-2'>
                     <Flame size={20} />
                     <span className=' fw-semibold font-heading small'>Daily calories</span>
                 </div>
-                <span className='goal-kcal-badge  fw-medium'>
+                <span className='goal-kcal-badge fw-medium'>
                     Goal {dailyGoal} kcal
                 </span>
             </div>
@@ -88,7 +88,7 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
                 {/* STATS */}
                 <div className="d-flex flex-column flex-grow-1 gap-3 w-100">
                     <Stat label="Eaten" value={`${totalEaten} kcal`} />
-                    <div className="line" style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.2)' }} />
+                    <div className="line" />
 
                     {isGoalReached && overCalories > 0 ? (
                         <Stat label="Over" value={`+${overCalories} kcal`} />
@@ -96,7 +96,7 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
                         <Stat label="Remaining" value={`${remaining} kcal`} />
                     )}
 
-                    <div className="line" style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.2)' }} />
+                    <div className="line" />
                     <Stat label="Progress" value={`${percentage}%`} />
                 </div>
             </div>
