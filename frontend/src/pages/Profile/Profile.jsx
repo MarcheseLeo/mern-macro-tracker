@@ -495,7 +495,7 @@ export const Profile = () => {
                                 <input type="number" min="0" step={'any'} className="form-control profile-input" name="height" value={profileForm.height} onChange={handleProfileChange} />
                             </div>
                             <div className="col-6 col-md-3">
-                                <label className="form-label small fw-semibold">Weight</label>
+                                <label className="form-label small fw-semibold text-secondary-foreground">Weight</label>
                                 <input type="number" min="0" step={'any'} className="form-control profile-input" name="weight" value={profileForm.weight} onChange={handleProfileChange} />
                             </div>
                             <div className="col-6 col-md-3">
