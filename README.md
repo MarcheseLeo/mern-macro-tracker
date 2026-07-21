@@ -36,27 +36,36 @@
 
 ## 📂 Struttura del Progetto
 
+## 📂 Struttura del Progetto
+
 ```text
 mern-macro-tracker
 ├─ backend/
-│  ├─ config/         # Configurazione DB
-│  ├─ exceptions/     # Gestione errori personalizzati
+│  ├─ config/         # Configurazione DB e variabili d'ambiente
+│  ├─ exceptions/     # Gestione centralizzata degli errori custom
 │  ├─ middlewares/    # Validatori, Upload Multer, JWT Verification
-│  ├─ modules/        # Architettura a Domini:
-│  │   ├─ auth/       # Gestione login e JWT
-│  │   ├─ dashboard/  # Aggregatore dati (BFF Pattern)
-│  │   ├─ foods/      # Ricerca e integrazione OpenFoodFacts
-│  │   ├─ meals/      # Logica di tracking pasti
-│  │   ├─ metrics/    # Tracking acqua e abitudini giornaliere
-│  │   └─ users/      # Gestione profilo e peso
-│  └─ main.js         # Entry point server
+│  ├─ modules/        # Architettura a Domini (Feature-based):
+│  │  ├─ auth/        # Autenticazione (JWT, Login, Registrazione)
+│  │  ├─ daily-metrics/# Tracking metriche giornaliere (Peso, Acqua)
+│  │  ├─ dashboard/   # Aggregatore dati (BFF Pattern)
+│  │  ├─ email/       # Servizio invio comunicazioni (SendGrid)
+│  │  ├─ foods/       # Gestione e ricerca database alimenti
+│  │  ├─ meals/       # Logica di tracking e calcolo pasti
+│  │  ├─ notifications/# Sistema di notifiche interne
+│  │  ├─ oauth/       # Autenticazione di terze parti (Google OAuth)
+│  │  ├─ open-food-facts/# Integrazione scanner e API esterna
+│  │  └─ users/       # Gestione profilo e preferenze utente
+│  └─ main.js         # Entry point del server (Express)
 ├─ frontend/
 │  ├─ public/         # Assets statici
 │  ├─ src/
+│  │  ├─ assets/      # Immagini, icone e stylesheet globali
 │  │  ├─ components/  # Componenti UI isolati e riutilizzabili
-│  │  ├─ context/     # React Context (AuthContext, DashboardContext)
-│  │  ├─ pages/       # Pagine principali (Home, Calendar, Profile, Login)
-│  │  ├─ services/    # API Services separati per modulo
+│  │  ├─ context/     # State management globale (Auth, Dashboard, Notifiche)
+│  │  ├─ hooks/       # Custom Hooks React per logica riutilizzabile
+│  │  ├─ lib/         # Utility e configurazioni (es. istanza Axios)
+│  │  ├─ pages/       # Viste principali (Home, Calendar, Profile, Login)
+│  │  ├─ services/    # Chiamate API (strutturate per modulo backend)
 │  │  └─ App.jsx      # Router principale (Protected/Guest Routes)
 └── README.md
 ```

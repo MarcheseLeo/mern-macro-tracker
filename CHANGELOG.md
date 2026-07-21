@@ -1,57 +1,101 @@
-
 # Changelog
+
 Tutte le modifiche di rilievo a questo progetto saranno documentate in questo file.
+
+## [1.3.0] - 2026-07-21
+
+### ✨ Features
+
+- **Statistiche e Andamenti:**
+  - Aggiunta la nuova pagina Stats, comprensiva di un riepilogo settimanale delle calorie consumate e di un grafico interattivo per monitorare l'andamento del peso mensile.
+- **Sistema di Notifiche Interno:**
+  - Introdotto un nuovo modulo per l'invio e la ricezione di notifiche direttamente all'interno della Dashboard.
+- **Gestione Account e Prodotti:**
+  - Aggiunta la funzionalità per l'aggiornamento manuale delle informazioni dei prodotti.
+  - Implementato un nuovo bottone per l'eliminazione definitiva dell'account da parte dell'utente.
+
+### 🎨 UX/UI Improvements
+
+- **Tema Scuro (Dark Mode):**
+  - Implementato il tema scuro a livello globale. L'interfaccia si adatta ora alle preferenze dell'utente per migliorare l'usabilità in ambienti poco illuminati.
+- **Miglioramenti Layout e Feedback Visivi:**
+  - Rinnovato e ottimizzato il layout della Profile Page.
+  - Aggiunto un badge distintivo per identificare rapidamente gli alimenti importati dal database di _OpenFoodFacts_.
+  - Introdotti stati di caricamento (loading state) personalizzati per la transizione fluida tra Guest Route e Protected Route.
+
+### 🔒 Security & Authentication
+
+- **Sicurezza delle Sessioni (AUTH-01):**
+  - Migrata l'autenticazione a un sistema più sicuro basato su Refresh Token salvati in HttpOnly Cookies.
+- **Recupero Credenziali:**
+  - Implementato l'intero flusso di recupero della password (Password Recovery).
+
+### 🛠️ Backend & Architecture
+
+- **Integrazione Email (SendGrid):**
+  - Aggiornati i template per le email di registrazione e verifica.
+  - Introdotto l'invio automatico di una notifica via email a seguito della cancellazione dell'account.
+- **Automazione Processi (Cron Jobs):**
+  - Configurato `node-cron` per la gestione temporizzata degli invii di email riepilogative e notifiche periodiche (promemoria pasti/acqua).
+- **Ottimizzazione Servizi:**
+  - Aggiornata la logica di filtraggio all'interno dei service per includere la ricerca tramite brand (marchio).
 
 ## [1.2.0] - 2026-07-11
 
 ### ✨ Features
-- **Daily Metrics Tracking (Acqua e Peso):** 
-    -  Implementata la nuova UI (DailyMetricsCards) per l'aggiornamento rapido dei litri d'acqua e del peso corporeo direttamente dalla Dashboard.
-    -  Sincronizzate le informazioni sull'assunzione di acqua all'interno della vista mensile del Calendario.
-- **Gestione Avanzata Pasti:** 
-    -  Aggiunta la funzionalità di modifica (Update) per variare le quantità di un alimento già registrato all'interno di un pasto, completando le operazioni CRUD sulla singola riga.
+
+- **Daily Metrics Tracking (Acqua e Peso):**
+  - Implementata la nuova UI (DailyMetricsCards) per l'aggiornamento rapido dei litri d'acqua e del peso corporeo direttamente dalla Dashboard.
+  - Sincronizzate le informazioni sull'assunzione di acqua all'interno della vista mensile del Calendario.
+- **Gestione Avanzata Pasti:**
+  - Aggiunta la funzionalità di modifica (Update) per variare le quantità di un alimento già registrato all'interno di un pasto, completando le operazioni CRUD sulla singola riga.
 
 ### 🎨 UX/UI Improvements
-- **Ottimizzazione Skeleton Loading:** 
-    - Implementato un sistema di "debounced loading" (caricamento ritardato) per lo skeleton della Dashboard: ora appare solo se le chiamate API richiedono tempo, prevenendo sfarfallii (flickering) fastidiosi sulle connessioni veloci.
-    - Aggiornata la griglia dello skeleton per riflettere le nuove metriche giornaliere.
-- **Interattività e Layout:** 
-    - Reso "draggabile" lo scorrimento delle Category Pills della ricerca alimenti su schermi desktop, nascondendo la scrollbar di sistema.
-    - Migliorato il layout responsive dell'Header e del Calendario per una resa ottimale su dispositivi mobile.
-    - Rinnovato lo stile della tabella dei dettagli nutrizionali (FoodDetailsView) per una maggiore gerarchia visiva e leggibilità.
+
+- **Ottimizzazione Skeleton Loading:**
+  - Implementato un sistema di "debounced loading" (caricamento ritardato) per lo skeleton della Dashboard: ora appare solo se le chiamate API richiedono tempo, prevenendo sfarfallii (flickering) fastidiosi sulle connessioni veloci.
+  - Aggiornata la griglia dello skeleton per riflettere le nuove metriche giornaliere.
+- **Interattività e Layout:**
+  - Reso "draggabile" lo scorrimento delle Category Pills della ricerca alimenti su schermi desktop, nascondendo la scrollbar di sistema.
+  - Migliorato il layout responsive dell'Header e del Calendario per una resa ottimale su dispositivi mobile.
+  - Rinnovato lo stile della tabella dei dettagli nutrizionali (FoodDetailsView) per una maggiore gerarchia visiva e leggibilità.
 
 ### 🛠️ Backend & Architecture
-- **Refactoring Architetturale (Modulo Dashboard):** 
-    - Creato un modulo Dashboard dedicato. Spostata e ottimizzata la logica della funzione getDailySummary per agire come aggregatore di dati (Pasti, Metriche, Utente), separando le responsabilità.
-- **Gestione Sicura delle Sessioni (Axios):** 
-    - Configurato un Response Interceptor globale in Axios. Se una richiesta API restituisce un errore 401 Unauthorized (es. token scaduto), l'app forza automaticamente il logout e reindirizza al login, migliorando la sicurezza.
-- **Integrità dei Dati:** 
-    - Aggiornata la logica di eliminazione dell'utente per includere la cancellazione a cascata (cascade delete) dei documenti DailyMetrics associati.
+
+- **Refactoring Architetturale (Modulo Dashboard):**
+  - Creato un modulo Dashboard dedicato. Spostata e ottimizzata la logica della funzione getDailySummary per agire come aggregatore di dati (Pasti, Metriche, Utente), separando le responsabilità.
+- **Gestione Sicura delle Sessioni (Axios):**
+  - Configurato un Response Interceptor globale in Axios. Se una richiesta API restituisce un errore 401 Unauthorized (es. token scaduto), l'app forza automaticamente il logout e reindirizza al login, migliorando la sicurezza.
+- **Integrità dei Dati:**
+  - Aggiornata la logica di eliminazione dell'utente per includere la cancellazione a cascata (cascade delete) dei documenti DailyMetrics associati.
 
 ### 🐛 Bug Fixes
-- **Disallineamento Fuso Orario (Timezone):** 
-    - Risolto un bug critico che sfalsava la data della Dashboard di alcune ore. La logica utilizza ora l'ora locale del client (getFullYear(), getDate()) invece dello standard globale UTC (toISOString()).
-- **Conflitti di Layout Flexbox:** 
-    - Corretta la sovrapposizione visiva (z-index/overflow) tra la lista dei risultati di ricerca e le Category Pills nell'AddFoodSheet, applicando le corrette proprietà
+
+- **Disallineamento Fuso Orario (Timezone):**
+  - Risolto un bug critico che sfalsava la data della Dashboard di alcune ore. La logica utilizza ora l'ora locale del client (getFullYear(), getDate()) invece dello standard globale UTC (toISOString()).
+- **Conflitti di Layout Flexbox:**
+  - Corretta la sovrapposizione visiva (z-index/overflow) tra la lista dei risultati di ricerca e le Category Pills nell'AddFoodSheet, applicando le corrette proprietà
 
 ## [1.1.0] - 2026-07-08
 
 ### ✨ Features
-- **Sezione Scan Barcode:** 
-    -  Ricerca veloce alimento con Barcode.
-    -  Importazione automatica  da *OpenFoodFacts*.
+
+- **Sezione Scan Barcode:**
+  - Ricerca veloce alimento con Barcode.
+  - Importazione automatica da _OpenFoodFacts_.
 
 ## [1.0.0] - 2026-07-07
 
 ### ✨ Features
-- **Autenticazione completa:** 
-    -  Login/registrazione nativa con verifica email tramite SendGrid.
-    -  Accesso rapido con Google OAuth2.
+
+- **Autenticazione completa:**
+  - Login/registrazione nativa con verifica email tramite SendGrid.
+  - Accesso rapido con Google OAuth2.
 - **Dashboard Nutrizionale:**
-    - View principale per tracciare calorie e macro (Proteine, Carboidrati, Grassi) suddivisi in 4 pasti.
-- **Calendario Progressi:** 
-    - Visualizzazione mensile con indicazione a colori (verde, giallo, rosso) dello stato di raggiungimento dell'obiettivo calorico giornaliero.
-    - Percentuale settimanale progesso.
+  - View principale per tracciare calorie e macro (Proteine, Carboidrati, Grassi) suddivisi in 4 pasti.
+- **Calendario Progressi:**
+  - Visualizzazione mensile con indicazione a colori (verde, giallo, rosso) dello stato di raggiungimento dell'obiettivo calorico giornaliero.
+  - Percentuale settimanale progesso.
 - **Sistema di Streak:** Meccanismo di gamification per contare i giorni consecutivi di tracking attivo.
 - **Gestione Profilo:** Upload dell'immagine del profilo tramite Cloudinary e aggiornamento del peso, obiettivi macro e password.
 - **Skeleton Loaders:** Inseriti caricamenti asincroni animati per migliorare l'esperienza utente nelle chiamate API lente.
