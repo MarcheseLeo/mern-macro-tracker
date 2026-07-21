@@ -5,6 +5,11 @@
     gap: 0.25rem;
 }
 
+.calendar-grid button {
+    min-width: 0;
+    border-radius: var(--radius-md) !important;
+}
+
 .hover-bg-light:hover {
     background-color: var(--muted) !important;
 }
@@ -21,4 +26,26 @@
 }
 .text-success {
     color: #198754 !important;
+}
+
+.calendar-summary-tile {
+    min-height: 5.75rem;
+    background: var(--muted);
+    box-shadow: none;
+}
+
+.calendar-summary-tile .metric-tile-value {
+    font-size: 1.35rem;
+}
+
+[data-theme="dark"] .bg-success-subtle {
+    background-color: rgba(66, 214, 155, 0.16) !important;
+}
+
+[data-theme="dark"] .border-success-subtle {
+    border-color: rgba(66, 214, 155, 0.26) !important;
+}
+
+[data-theme="dark"] .text-success {
+    color: var(--protein) !important;
 }

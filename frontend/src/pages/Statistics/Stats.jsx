@@ -5,6 +5,8 @@ import {
 } from 'recharts'
 import { AuthContext } from '../../context/AuthContext'
 import { getAllMealsForCalendar } from '../../services/MealService'
+import { ChartCard } from '../../components/ui/chartCard/ChartCard'
+import { MetricTile } from '../../components/ui/metricTile/MetricTile'
 
 export const Stats = () => {
     const { user, refreshUser } = useContext(AuthContext)
@@ -78,38 +80,33 @@ export const Stats = () => {
                 <p className="text-muted-foreground small mb-0">Your weekly nutrition & body trends</p>
             </header>
 
-            {/* SUMMARY CARDS */}
             <div className="row g-3">
                 <div className="col-6">
-                    <SummaryCard 
-                        label="Avg. calories" 
-                        value={avgCalories.toLocaleString()} 
-                        unit="kcal / day" 
-                        bgColor="var(--fat-soft)" 
-                        textColor="var(--fat-foreground)" 
+                    <MetricTile
+                        label="Avg. calories"
+                        value={avgCalories.toLocaleString()}
+                        unit="kcal"
+                        detail="per logged day"
+                        tone="fat"
                     />
                 </div>
                 <div className="col-6">
-                    <SummaryCard
+                    <MetricTile
                         label="Weight change"
                         value={`${weightChange > 0 ? '+' : ''}${weightChange}`}
-                        unit="kg / 30 days"
-                        bgColor="var(--protein-soft)"
-                        textColor="var(--protein-foreground)"
+                        unit="kg"
+                        detail="last 30 days"
+                        tone="protein"
                     />
                 </div>
             </div>
 
-            {/* CALORIES BAR CHART */}
-            <section className="app-card p-4 radius-3xl shadow-soft-sm">
-                <div className="d-flex align-items-center justify-content-between mb-4">
-                    <h2 className="font-heading fs-6 fw-bold mb-0 text-dark">Calories this week</h2>
-                    <span className="d-flex align-items-center gap-2 small text-muted-foreground fw-medium">
-                        <span className="rounded-pill border border-2 border-primary" style={{ borderStyle: 'dashed !important', width: '1rem', height: '0.6rem' }}></span>
-                        Goal {goalKcal.toLocaleString()}
-                    </span>
-                </div>
-                <div style={{ width: '100%', height: '220px' }}>
+            <ChartCard
+                title="Calories this week"
+                meta={`Goal ${goalKcal.toLocaleString()}`}
+                isEmpty={!calorieData.some((day) => day.calories > 0)}
+                emptyText="No calories logged this week"
+            >
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={calorieData} margin={{ top: 8, right: 4, left: -25, bottom: 0 }}>
                             <CartesianGrid vertical={false} stroke="var(--border)" />
@@ -129,16 +126,14 @@ export const Stats = () => {
                             <Bar dataKey="calories" fill="var(--chart-1)" radius={[8, 8, 8, 8]} maxBarSize={32} />
                         </BarChart>
                     </ResponsiveContainer>
-                </div>
-            </section>
+            </ChartCard>
 
-            {/* WEIGHT LINE CHART */}
-            <section className="app-card p-4 radius-3xl shadow-soft-sm mb-5">
-                <div className="d-flex align-items-center justify-content-between mb-4">
-                    <h2 className="font-heading fs-6 fw-bold mb-0 text-dark">Weight trend</h2>
-                    <span className="small text-muted-foreground fw-medium">Last 30 days</span>
-                </div>
-                <div style={{ width: '100%', height: '220px' }}>
+            <ChartCard
+                title="Weight trend"
+                meta="Last 30 days"
+                isEmpty={weightData.length === 0}
+                emptyText="Add a weight entry to see the trend"
+            >
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={weightData} margin={{ top: 8, right: 8, left: -25, bottom: 0 }}>
                             <CartesianGrid vertical={false} stroke="var(--border)" />
@@ -163,26 +158,7 @@ export const Stats = () => {
                             />
                         </LineChart>
                     </ResponsiveContainer>
-                </div>
-            </section>
+            </ChartCard>
         </div>
-    )
-}
-
-
-const SummaryCard = ({ label, value, unit, bgColor, textColor }) => {
-    return (
-        <article className="app-card p-3 p-md-4 radius-3xl h-100 d-flex flex-column justify-content-center">
-            <div>
-                <span 
-                    className="badge rounded-pill px-3 py-2 fw-semibold mb-3" 
-                    style={{ backgroundColor: bgColor, color: textColor }}
-                >
-                    {label}
-                </span>
-            </div>
-            <p className="font-heading fs-2 fw-bolder mb-1 lh-1 text-dark">{value}</p>
-            <p className="small text-muted-foreground fw-medium mb-0">{unit}</p>
-        </article>
     )
 }

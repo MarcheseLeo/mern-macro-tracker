@@ -15,6 +15,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
 
     const [foods, setFoods] = useState([])
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false)
     const [error, setError] = useState(null)
 
     const [currentPage, setCurrentPage] = useState(1)
@@ -27,12 +28,18 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
     const [showFutureModal, setShowFutureModal] = useState(false)
 
 
-    const fetchFoods = async (pageNumber, isnewSearch = false) => {
-        setIsLoading(true)
+    const fetchFoods = async (pageNumber, mode = 'replace') => {
+        const isAppending = mode === 'append'
+
+        if (isAppending) {
+            setIsLoadingMore(true)
+        } else {
+            setIsLoading(true)
+        }
+
         setError(null)
 
         try {
-            const token = localStorage.getItem('token')
             let url = `/foods?page=${pageNumber}&limit=${limit}`
 
             if (query) url += `&name=${query}`
@@ -42,10 +49,10 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
 
             const data = await getFoods(url)
 
-            if (isnewSearch) {
-                setFoods(data.foods)
-            } else {
+            if (isAppending) {
                 setFoods(prev => [...prev, ...data.foods])
+            } else {
+                setFoods(data.foods)
             }
 
             setTotalPages(data.totalPages)
@@ -53,7 +60,11 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
             console.error(e);
             setError("Could not load foods. Try again.")
         } finally {
-            setIsLoading(false);
+            if (isAppending) {
+                setIsLoadingMore(false)
+            } else {
+                setIsLoading(false)
+            }
         }
     }
 
@@ -90,16 +101,18 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             setCurrentPage(1)
-            fetchFoods(1, true)
+            fetchFoods(1, 'replace')
         }, 500)
 
         return () => clearTimeout(delayDebounceFn)
     }, [query, selectedCategory])
 
     const handleLoadMore = () => {
+        if (isLoadingMore || currentPage >= totalPages) return
+
         const nextPage = currentPage + 1
         setCurrentPage(nextPage)
-        fetchFoods(nextPage, false)
+        fetchFoods(nextPage, 'append')
     }
 
     const handleQuickAdd = async (e, f) => {
@@ -234,9 +247,15 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
                 {!isLoading && currentPage < totalPages && (
                     <button
                         onClick={handleLoadMore}
+                        disabled={isLoadingMore}
                         className="btn btn-light w-100 mt-3 rounded-4 fw-bold text-primary"
                     >
-                        Load more results...
+                        {isLoadingMore ? (
+                            <>
+                                <Loader2 className="animate-spin me-2" size={18} />
+                                Loading more...
+                            </>
+                        ) : 'Load more results...'}
                     </button>
                 )}
             </div>

@@ -1,0 +1,86 @@
+.metric-tile {
+    min-height: 5.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.65rem;
+    padding: 1rem;
+    color: var(--foreground);
+    background: var(--card);
+    border: 1px solid rgba(227, 228, 233, 0.74);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 20px -16px rgba(18, 24, 38, 0.45);
+}
+
+.metric-tile-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-md);
+}
+
+.metric-tile-icon-primary {
+    color: var(--primary);
+    background: var(--accent);
+}
+
+.metric-tile-icon-fat {
+    color: var(--fat-foreground);
+    background: var(--fat-soft);
+}
+
+.metric-tile-icon-carbs {
+    color: var(--carbs-foreground);
+    background: var(--carbs-soft);
+}
+
+.metric-tile-icon-protein {
+    color: var(--protein-foreground);
+    background: var(--protein-soft);
+}
+
+.metric-tile-icon-danger {
+    color: var(--destructive);
+    background: rgba(241, 39, 78, 0.1);
+}
+
+.metric-tile-label,
+.metric-tile-detail,
+.metric-tile-value {
+    margin: 0;
+}
+
+.metric-tile-label {
+    color: var(--muted-foreground);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.metric-tile-value {
+    color: var(--foreground);
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.metric-tile-value span {
+    margin-left: 0.3rem;
+    color: var(--muted-foreground);
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.metric-tile-detail {
+    margin-top: 0.35rem;
+    color: var(--muted-foreground);
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+[data-theme="dark"] .metric-tile {
+    border-color: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 10px 28px -20px rgba(0, 0, 0, 0.75);
+}

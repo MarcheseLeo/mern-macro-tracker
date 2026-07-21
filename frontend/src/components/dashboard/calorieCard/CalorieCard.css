@@ -3,11 +3,12 @@
     box-shadow: 0 10px 26px -10px rgba(42, 96, 221, 0.658) !important;
     color: var(--primary-foreground);
     padding: 1.5rem;
+    border-radius: var(--radius-xl) !important;
 }
 
 .goal-kcal-badge {
     background-color: #fafbff38;
-    border-radius: 20px;
+    border-radius: var(--radius-md);
     padding: 0.25rem 0.75rem;
 }
 

@@ -4,6 +4,7 @@ import { DashboardContext } from '../../context/DashboardContext';
 import { AuthContext } from '../../context/AuthContext';
 import { getAllMealsForCalendar } from '../../services/MealService';
 import { getDashboardData } from '../../services/Dashboard';
+import { MetricTile } from '../../components/ui/metricTile/MetricTile';
 import './Calendar.css';
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -196,18 +197,23 @@ export const Calendar = () => {
 
                     <div className="row g-3 mb-4">
                         <div className="col-6">
-                            <div className="bg-light rounded-4 p-3 h-100 text-dark">
-                                <p className="small text-muted fw-semibold mb-1">Calories</p>
-                                <p className="font-heading fs-4 fw-bold mb-1 lh-1">{summary.kcal.toLocaleString()}</p>
-                                <p className="small text-success fw-medium mb-0" style={{ fontSize: '0.75rem' }}>of {kcalGoal.toLocaleString()} goal</p>
-                            </div>
+                            <MetricTile
+                                label="Calories"
+                                value={summary.kcal.toLocaleString()}
+                                detail={`of ${kcalGoal.toLocaleString()} goal`}
+                                tone="fat"
+                                className="calendar-summary-tile"
+                            />
                         </div>
                         <div className="col-6">
-                            <div className="bg-light rounded-4 p-3 h-100">
-                                <p className="small text-muted fw-semibold mb-1">Water</p>
-                                <p className="font-heading fs-4 fw-bold mb-1 lh-1 text-dark">{summary.water ? summary.water.toLocaleString() : 0 }L</p>
-                                <p className="small text-success fw-medium mb-0" style={{ fontSize: '0.75rem' }}>of  2.0L goal</p>
-                            </div>
+                            <MetricTile
+                                label="Water"
+                                value={summary.water ? summary.water.toLocaleString() : 0}
+                                unit="L"
+                                detail="of 2.0L goal"
+                                tone="carbs"
+                                className="calendar-summary-tile"
+                            />
                         </div>
                     </div>
 
@@ -252,18 +258,25 @@ export const Calendar = () => {
 
                 <div className="row g-3">
                     <div className="col-6">
-                        <div className="app-card p-4 text-center d-flex flex-column align-items-center h-100">
-                            <Flame size={28} className="text-danger mb-2" />
-                            <p className="font-heading fs-3 fw-bold mb-0 lh-1 text-dark">{user?.currentStreak || 0}</p>
-                            <p className="small text-muted fw-medium mb-0 mt-1">Day Streak</p>
-                        </div>
+                        <MetricTile
+                            icon={Flame}
+                            label="Day Streak"
+                            value={user?.currentStreak || 0}
+                            tone="danger"
+                            align="center"
+                            className="h-100"
+                        />
                     </div>
                     <div className="col-6">
-                        <div className="app-card p-4 text-center d-flex flex-column align-items-center h-100">
-                            <PieChart size={28} className="text-primary-custom mb-2" />
-                            <p className="font-heading fs-3 fw-bold mb-0 lh-1 text-dark">{weeklyPercentage}%</p>
-                            <p className="small text-muted fw-medium mb-0 mt-1">Weekly</p>
-                        </div>
+                        <MetricTile
+                            icon={PieChart}
+                            label="Weekly"
+                            value={weeklyPercentage}
+                            unit="%"
+                            tone="primary"
+                            align="center"
+                            className="h-100"
+                        />
                     </div>
                 </div>
 

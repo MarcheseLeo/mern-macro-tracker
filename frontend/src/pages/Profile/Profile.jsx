@@ -30,6 +30,7 @@ import { InfoModal } from '../../components/infoModal/Infomodal'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { ThemeContext } from '../../context/ThemeContext'
 import { Toggle } from '../../components/toggle/Toggle'
+import { MetricTile } from '../../components/ui/metricTile/MetricTile'
 
 
 
@@ -288,42 +289,42 @@ export const Profile = () => {
             label: 'Daily Calories',
             value: user?.dailyKcalGoal || 2000,
             unit: 'kcal',
-            color: 'text-fat',
+            tone: 'fat',
         },
         {
             icon: Utensils,
             label: 'Macros (C/P/F)',
             value: `${user?.macroGoals?.carbs || 250}/${user?.macroGoals?.proteins || 120}/${user?.macroGoals?.fats || 65}`,
             unit: 'g',
-            color: 'text-primary-custom',
+            tone: 'primary',
         },
         {
             icon: Scale,
             label: 'Current Weight',
             value: latestWeight || 'Set',
             unit: latestWeight ? 'kg' : '',
-            color: 'text-carbs',
+            tone: 'carbs',
         },
         {
             icon: BadgeCheck,
             label: 'Weight Target',
             value: user?.goalWeight || 'Set',
             unit: user?.goalWeight ? 'kg' : '',
-            color: 'text-protein',
+            tone: 'protein',
         },
         {
             icon: Ruler,
             label: 'Height',
             value: user?.height || 'Set',
             unit: user?.height ? 'cm' : '',
-            color: 'text-info',
+            tone: 'primary',
         },
         {
             icon: Activity,
             label: 'Current Streak',
             value: user?.currentStreak || 0,
             unit: 'days',
-            color: 'text-danger',
+            tone: 'danger',
         },
     ]
 
@@ -426,15 +427,14 @@ export const Profile = () => {
                 <div className="row g-3">
                     {goalCards.map((card) => (
                         <div className="col-6" key={card.label}>
-                            <article className="profile-stat-card d-flex flex-column justify-content-center py-0">
-                                <div className="d-flex align-items-center gap-2 mb-2">
-                                    <card.icon size={15} className={card.color} />
-                                    <span>{card.label}</span>
-                                </div>
-                                <p className="font-heading fw-bold mb-0">
-                                    {card.value} <small>{card.unit}</small>
-                                </p>
-                            </article>
+                            <MetricTile
+                                icon={card.icon}
+                                label={card.label}
+                                value={card.value}
+                                unit={card.unit}
+                                tone={card.tone}
+                                className="profile-stat-card"
+                            />
                         </div>
                     ))}
                 </div>

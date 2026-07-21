@@ -88,7 +88,6 @@
     font-weight: 800;
 }
 
-.profile-stat-card,
 .profile-card {
     background: var(--card);
     border: 1px solid rgba(227, 228, 233, 0.7);
@@ -97,27 +96,7 @@
 
 .profile-stat-card {
     min-height: 5rem;
-    padding: 1rem;
-    border-radius: 0.9rem;
-}
-
-.profile-stat-card span {
-    color: var(--muted-foreground);
-    font-size: 0.72rem;
-    font-weight: 700;
-}
-
-.profile-stat-card p {
-    color: var(--foreground);
-    font-size: 1.25rem;
-    line-height: 1.1;
-}
-
-.profile-stat-card small {
-    color: var(--muted-foreground);
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 700;
+    height: 100%;
 }
 
 .profile-card {
@@ -147,8 +126,9 @@ label:has(+ .profile-input:focus){
 [data-theme="dark"] .register-form .input-group-text,
 [data-theme="dark"] .recovery-form .input-group-text,
 [data-theme="dark"] .recovery-form input{
-    background-color: var(--secondary-foreground) !important;
-    border:0
+    color: var(--foreground) !important;
+    background-color: var(--muted) !important;
+    border: 1px solid var(--border);
 }
 
 [data-theme="dark"] .input-group:has(.profile-input:focus),
@@ -187,7 +167,7 @@ label:has(+ .profile-input:focus){
 .profile-logout-btn,
 .profile-delete-btn {
     min-height: 3rem;
-    border-radius: 0.9rem;
+    border-radius: var(--radius-md);
     font-weight: 800;
 }
 

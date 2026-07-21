@@ -31,8 +31,12 @@ const server = express()
 server.set('trust proxy', 1)
 
 const allowedOrigins = [
-    process.env.FRONTEND_URL
-].filter(Boolean)
+    ...(process.env.FRONTEND_URL || '').split(','),
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:5174',
+].map(origin => origin.trim()).filter(Boolean)
 
 server.use(cors({
     origin: allowedOrigins,
