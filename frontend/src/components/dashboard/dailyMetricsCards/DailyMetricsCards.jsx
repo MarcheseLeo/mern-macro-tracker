@@ -186,8 +186,8 @@ export const DailyMetricsCards = ({
             <InfoModal
                 show={showFutureModal}
                 onHide={() => setShowFutureModal(false)}
-                title="Future Date"
-                description="You cannot track water or weight for a future date. Please select today date."
+                title="Date Not Available"
+                description="You cannot track water or weight for a future date. Please select today or a past date."
                 icon={CalendarX}
             />
         </div>
