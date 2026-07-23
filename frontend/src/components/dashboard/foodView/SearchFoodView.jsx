@@ -264,7 +264,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
             <InfoModal
                 show={showFutureModal}
                 onHide={() => setShowFutureModal(false)}
-                title="Future Date"
+                title="Date Not Available"
                 description="You cannot log food for a future date. Please select today or a past date."
                 icon={CalendarX}
             />
