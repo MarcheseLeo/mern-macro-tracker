@@ -1,5 +1,5 @@
 import './DashboardHeader.css'
-import { Bell } from 'lucide-react';
+import { Bell, ChevronDown } from 'lucide-react';
 import { useContext, useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
@@ -86,7 +86,7 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
 
                         {/* NOTIFICATIONS DROPDOWN */}
                         {showNotifs && (
-                            <div className="position-absolute bg-white shadow-soft rounded-4 p-3" style={{ top: '120%', right: 0, width: '280px', zIndex: 1000, border: '1px solid var(--border)' }}>
+                            <div className="notification-panel bg-white shadow-soft rounded-4 p-3">
                                 <div className="d-flex justify-content-between align-items-center mb-3">
                                     <h6 className="font-heading fw-bold mb-0 text-dark">Notifications</h6>
                                     <span className="badge bg-primary rounded-pill">{unreadCount} new</span>
@@ -97,19 +97,25 @@ export const DashboardHeader = ({ user, selectedDate, onDateChange }) => {
                                         {notifications.length === 0 ? (
                                             <p className="small text-muted mb-0 text-center py-3">No notifications yet.</p>
                                         ) : (
-                                            <div className="d-flex flex-column gap-2 overflow-auto no-scrollbar" style={{ maxHeight: '300px' }}>
-                                                {notifications.map(n => (
-                                                    <div
-                                                        key={n._id}
-                                                        onClick={() => markAsRead(n._id)}
-                                                        className={`p-2 rounded-3 cursor-pointer transition-colors ${n.isRead ? 'opacity-50' : 'bg-accent'}`}
-                                                        style={{ border: '1px solid var(--border)' }}
-                                                    >
-                                                        <p className={`small mb-0 ${n.isRead ? 'text-muted' : 'text-accent-foreground fw-bold'}`}>
-                                                            {n.message}
-                                                        </p>
+                                            <div className={`notification-list-wrap ${notifications.length > 4 ? 'has-more' : ''}`}>
+                                                <div className="notification-list d-flex flex-column gap-2 overflow-auto">
+                                                    {notifications.map(n => (
+                                                        <div
+                                                            key={n._id}
+                                                            onClick={() => markAsRead(n._id)}
+                                                            className={`notification-item p-2 rounded-3 cursor-pointer transition-colors ${n.isRead ? 'is-read' : 'bg-accent'}`}
+                                                        >
+                                                            <p className={`small mb-0 ${n.isRead ? 'text-muted' : 'text-accent-foreground fw-bold'}`}>
+                                                                {n.message}
+                                                            </p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                {notifications.length > 4 && (
+                                                    <div className="notification-scroll-cue">
+                                                        <ChevronDown size={14} />
                                                     </div>
-                                                ))}
+                                                )}
                                             </div>
                                         )}
                                     </>

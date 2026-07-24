@@ -25,6 +25,73 @@
     right: 0.75rem
 }
 
+.notification-panel {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    z-index: 1000;
+    width: min(20rem, calc(100vw - 1.5rem));
+    color: var(--foreground);
+    border: 1px solid var(--border);
+}
+
+.notification-list-wrap {
+    position: relative;
+}
+
+.notification-list {
+    max-height: 19rem;
+    padding-right: 0.2rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted-foreground) transparent;
+}
+
+.notification-list::-webkit-scrollbar {
+    width: 0.35rem;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+    background: var(--muted-foreground);
+    border-radius: 999px;
+}
+
+.notification-list-wrap.has-more::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3.25rem;
+    content: "";
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, var(--card));
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+.notification-scroll-cue {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.45rem;
+    z-index: 2;
+    display: grid;
+    width: 1.45rem;
+    height: 1.45rem;
+    place-items: center;
+    color: var(--primary);
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 8px 20px -12px rgba(18, 24, 38, 0.45);
+    pointer-events: none;
+}
+
+.notification-item {
+    border: 1px solid var(--border);
+}
+
+.notification-item.is-read {
+    opacity: 0.58;
+}
+
 [data-theme="dark"] .notification-button {
     background-color: var(--secondary);
 }
@@ -109,6 +176,18 @@
 }
 
 @media screen and (max-width: 576px) {
+    .notification-panel {
+        position: fixed;
+        top: 4rem;
+        right: 0.75rem;
+        left: 0.75rem;
+        width: auto;
+    }
+
+    .notification-list {
+        max-height: min(22rem, calc(100vh - 11rem));
+    }
+
     .calendar-btn {
         box-shadow: none;
         background-color: var(--background);

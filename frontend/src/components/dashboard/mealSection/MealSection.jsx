@@ -1,5 +1,5 @@
 import './MealSection.css'
-import { useContext, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { ChevronDown, Plus, Trash2 } from 'lucide-react'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { CATEGORY_EMOJIS } from '../../../lib/costants'
@@ -15,6 +15,21 @@ const MEAL_META = {
 
 export const MealSection = ({ mealsData, onFoodDeleted, onAddFoodClick }) => {
     const [openMeal, setOpenMeal] = useState('breakfast')
+    const { selectedDate } = useContext(DashboardContext)
+
+    const suggestedMeal = useMemo(() => {
+        const now = new Date()
+        const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+
+        if (selectedDate !== today) return null
+
+        const hour = now.getHours()
+        if (hour >= 6 && hour < 11) return 'breakfast'
+        if (hour >= 11 && hour < 15) return 'lunch'
+        if (hour >= 15 && hour < 18) return 'snack'
+        if (hour >= 18 && hour < 22) return 'dinner'
+        return null
+    }, [selectedDate])
 
     return (
         <div className='d-flex flex-column gap-3 mt-3'>
@@ -37,6 +52,7 @@ export const MealSection = ({ mealsData, onFoodDeleted, onAddFoodClick }) => {
                         mealId={mealId}
                         onFoodDeleted={onFoodDeleted}
                         onAddFoodClick={onAddFoodClick}
+                        isSuggested={suggestedMeal === mealKey && items.length === 0}
                     />
                 )
             })}
@@ -44,12 +60,12 @@ export const MealSection = ({ mealsData, onFoodDeleted, onAddFoodClick }) => {
     )
 }
 
-const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, onFoodDeleted, onAddFoodClick }) => {
+const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, onFoodDeleted, onAddFoodClick, isSuggested }) => {
     const [parentRef] = useAutoAnimate()
     const [animationParent] = useAutoAnimate()
 
     return (
-        <article ref={parentRef} className="app-card overflow-hidden meal-container">
+        <article ref={parentRef} className={`app-card overflow-hidden meal-container ${isSuggested ? 'meal-suggested' : ''}`}>
             <div className="d-flex align-items-center gap-3 p-3 p-md-4 cursor-pointer" onClick={onToggle}>
                 <span className="d-flex justify-content-center align-items-center radius-xl meal-emoji">
                     {meta.emoji}
@@ -70,7 +86,7 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
                 />
 
                 <button
-                    className="btn btn-primary-custom radius-lg p-0 d-flex justify-content-center align-items-center ms-1 flex-shrink-0"
+                    className={`btn btn-primary-custom radius-lg p-0 d-flex justify-content-center align-items-center ms-1 flex-shrink-0 ${isSuggested ? 'meal-suggested-add' : ''}`}
                     style={{ width: '40px', height: '40px' }}
                     aria-label={`Add food to ${meta.label}`}
                     onClick={(e) => {

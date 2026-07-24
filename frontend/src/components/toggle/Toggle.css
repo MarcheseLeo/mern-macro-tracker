@@ -8,6 +8,11 @@
     height: 1.8em;
 }
 
+.switch-disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
 .switch input {
     display: none;
     opacity: 0;
@@ -25,6 +30,10 @@
     background-color: var(--input);
     transition: .2s;
     border-radius: 30px;
+}
+
+.switch-disabled .slider {
+    cursor: not-allowed;
 }
 
 .slider:before {

@@ -6,6 +6,32 @@
     background-color: var(--card);
 }
 
+.meal-suggested {
+    border-color: color-mix(in oklab, var(--primary) 45%, var(--border));
+}
+
+.meal-suggested-add {
+    animation: meal-add-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes meal-add-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 32%, transparent);
+        transform: scale(1);
+    }
+
+    50% {
+        box-shadow: 0 0 0 0.45rem transparent;
+        transform: scale(1.04);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .meal-suggested-add {
+        animation: none;
+    }
+}
+
 .meal-emoji {
     width: 2.75rem;
     height: 2.75rem;

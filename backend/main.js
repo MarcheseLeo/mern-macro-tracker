@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 const cron = require('node-cron')
 const UserSchema = require('./modules/users/user.schema')
 const EmaliService = require('./modules/email/email.service')
-const NotificationSchema = require('./modules/notifications/notifications.schema')
+const NotificationService = require('./modules/notifications/notifications.service')
 const DailyMetricSchema = require('./modules/daily-metrics/dailyMetrics.schema')
 
 const port = process.env.PORT || 3000
@@ -86,9 +86,9 @@ cron.schedule('0 18 * * 5', async () => {
 // 🍳 BREAKFAST (Hours 08:00)
 cron.schedule('0 8 * * *', async () => {
     try {
-        const users = await UserSchema.find({ 'preferences.mealReminders': true, isVerified: true })
+        const users = await UserSchema.find({ 'preferences.notifications': true, 'preferences.mealReminders': true, isVerified: true })
         for (const u of users) {
-            await NotificationSchema.create({ user: u._id, message: "🌅 Good morning! Time to track your breakfast.", type: 'meal' })
+            await NotificationService.createMealReminder(u, 'breakfast')
         }
     } catch (e) {
         console.error('❌ Error during breakfast cron:', e)
@@ -100,9 +100,9 @@ cron.schedule('0 8 * * *', async () => {
 // 🥗 LUNCH (Hours 13:00)
 cron.schedule('0 13 * * *', async () => {
     try {
-        const users = await UserSchema.find({ 'preferences.mealReminders': true, isVerified: true })
+        const users = await UserSchema.find({ 'preferences.notifications': true, 'preferences.mealReminders': true, isVerified: true })
         for (const u of users) {
-            await NotificationSchema.create({ user: u._id, message: "🥗 Lunch time! Keep your macros on track.", type: 'meal' })
+            await NotificationService.createMealReminder(u, 'lunch')
         }
     } catch (e) {
         console.error('❌ Error during lunch cron:', e)
@@ -114,9 +114,9 @@ cron.schedule('0 13 * * *', async () => {
 // 🍝 DINNER (Hours 20:00)
 cron.schedule('0 20 * * *', async () => {
     try {
-        const users = await UserSchema.find({ 'preferences.mealReminders': true, isVerified: true })
+        const users = await UserSchema.find({ 'preferences.notifications': true, 'preferences.mealReminders': true, isVerified: true })
         for (const u of users) {
-            await NotificationSchema.create({ user: u._id, message: "🍝 Dinner time! Don't forget to log your last meal.", type: 'meal' })
+            await NotificationService.createMealReminder(u, 'dinner')
         }
     } catch (e) {
         console.error('❌ Error during dinner cron:', e)
@@ -128,9 +128,9 @@ cron.schedule('0 20 * * *', async () => {
 // 🍫 SNACKS (Hours 17:00)
 cron.schedule('0 17 * * *', async () => {
     try {
-        const users = await UserSchema.find({ 'preferences.mealReminders': true, isVerified: true })
+        const users = await UserSchema.find({ 'preferences.notifications': true, 'preferences.mealReminders': true, isVerified: true })
         for (const u of users) {
-            await NotificationSchema.create({ user: u._id, message: "🍫 Snack time!Grab a healthy bite and log it to keep your macros balanced.", type: 'meal' })
+            await NotificationService.createMealReminder(u, 'snackAfternoon')
         }
     } catch (e) {
         console.error('❌ Error during snack cron:', e)
@@ -142,9 +142,9 @@ cron.schedule('0 17 * * *', async () => {
 // 🍫 SNACKS (Hours 11:00)
 cron.schedule('0 11 * * *', async () => {
     try {
-        const users = await UserSchema.find({ 'preferences.mealReminders': true, isVerified: true })
+        const users = await UserSchema.find({ 'preferences.notifications': true, 'preferences.mealReminders': true, isVerified: true })
         for (const u of users) {
-            await NotificationSchema.create({ user: u._id, message: "🍫 Snack time!Grab a healthy bite and log it to keep your macros balanced.", type: 'meal' })
+            await NotificationService.createMealReminder(u, 'snackMorning')
         }
     } catch (e) {
         console.error('❌ Error during snack cron:', e)
@@ -156,14 +156,13 @@ cron.schedule('0 11 * * *', async () => {
 // 💧 WATER (Hours 16:00 - Checks if you drinked less than 2 liters)
 cron.schedule('0 16 * * *', async () => {
     try {
-        const users = await UserSchema.find({ 'preferences.waterReminders': true, isVerified: true })
+        const users = await UserSchema.find({ 'preferences.notifications': true, 'preferences.waterReminders': true, isVerified: true })
         const today = new Date()
         today.setUTCHours(0, 0, 0, 0)
         for (const u of users) {
             const metric = await DailyMetricSchema.findOne({ user: u._id, date: { $gte: today } })
-            console.log(metric.waterAmount)
             if (!metric || metric.waterAmount < 2) {
-                await NotificationSchema.create({ user: u._id, message: "💧 Stay hydrated! You haven't reached your water goal yet today.", type: 'water' })
+                await NotificationService.createWaterReminder(u, metric?.waterAmount || 0)
             }
         }
     } catch (e) {
