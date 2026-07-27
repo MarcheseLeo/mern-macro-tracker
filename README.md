@@ -18,7 +18,7 @@
   <img src="docs/screenshots/welcome.png" alt="Dashboard di MacroMuse" width="800" />
 </div>
 
-> Altre schermate disponibili: | [Dashboard](docs/screenshots/dashboard.png) | [Calendario Storico](docs/screenshots/calendar.png) | [Statistiche](docs/screenshots/stats.png) | [Profilo Utente](docs/screenshots/profile.png) | [Login](docs/screenshots/login.png.png) | [Mobile](docs/screenshots/mobile.png)
+> Altre schermate disponibili: | [Dashboard](docs/screenshots/dashboard.png) | [Calendario Storico](docs/screenshots/calendar.png) | [Statistiche](docs/screenshots/stats.png) | [Profilo Utente](docs/screenshots/profile.png) | [Login](docs/screenshots/login.png) | [Mobile](docs/screenshots/mobile.png)
 
 ## 📑 Indice
 
