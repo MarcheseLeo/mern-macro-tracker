@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="frontend/public/macro-logo.svg" alt="MacroMuse Logo" width="100" >
+<img src="frontend/public/macro-logo.svg" alt="Macro Logo" width="100" >
 
 # Macro
 
@@ -15,7 +15,7 @@
 ## 🖼️ Anteprima
 
 <div align="center">
-  <img src="docs/screenshots/welcome.png" alt="Dashboard di MacroMuse" width="800" />
+  <img src="docs/screenshots/welcome.png" alt="Dashboard di Macro" width="800" />
 </div>
 
 > Altre schermate disponibili: | [Dashboard](docs/screenshots/dashboard.png) | [Calendario Storico](docs/screenshots/calendar.png) | [Statistiche](docs/screenshots/stats.png) | [Profilo Utente](docs/screenshots/profile.png) | [Login](docs/screenshots/login.png) | [Mobile](docs/screenshots/mobile.png)
