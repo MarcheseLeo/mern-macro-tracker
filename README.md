@@ -161,9 +161,9 @@ npm run dev
 | Oauth         | GET    | `/api/auth/google`                                   | Accesso tramite Google Strategy                                                  |
 |               | GET    | `/api/auth/google`                                   | Renderizzamento alla pagina                                                      |
 | Users         | GET    | `/api/users/me`                                      | Recupero dati profilo utente loggato                                             |
-|               | PACTH  | `/api/users/me`                                      | Aggiornamento preferenze e dati anagrafici                                       |
-|               | PACTH  | `/api/users/me/avatar`                               | Upload immagine profilo tramite Cloudinary                                       |
-|               | PACTH  | `/api/users/me/password`                             | Aggiornamento password                                                           |
+|               | PATCH  | `/api/users/me`                                      | Aggiornamento preferenze e dati anagrafici                                       |
+|               | PATCH  | `/api/users/me/avatar`                               | Upload immagine profilo tramite Cloudinary                                       |
+|               | PATCH  | `/api/users/me/password`                             | Aggiornamento password                                                           |
 |               | DELETE | `/api/users/me`                                      | Eliminazione account e rimozione dati associati                                  |
 | Dashboard     | GET    | `/api/dashboard/summary`                             | Recupero aggregato metriche e progressi giornalieri                              |
 | Foods         | GET    | `/api/foods/import/barcode/:barcode`                 | Ricerca alimento tramite barcode e importazione da `OpenFoodFacts`               |
