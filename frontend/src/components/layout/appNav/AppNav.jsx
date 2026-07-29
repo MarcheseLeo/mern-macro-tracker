@@ -36,7 +36,7 @@ const tips = [
   {
     title: "Quick tip",
     description:
-      "You can disable notifications in profile settings, if you don't like them.",
+      "You can disable notifications in profile settings, if you prefer.",
   },
 ];
 
