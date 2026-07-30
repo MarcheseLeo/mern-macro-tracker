@@ -14,11 +14,11 @@ const navItems = [
 
 const tips = [
   {
-    title: "Stay on track",
+    title: "Stay on track 📈",
     description: "Log every meal to keep your streak alive",
   },
   {
-    title: "Stay hydrated",
+    title: "Stay hydrated 🥤",
     description: "Remember to hit your 8 glasses of water today!",
   },
   {
@@ -26,21 +26,49 @@ const tips = [
     description: "You can modify a meal food details, by tapping on it.",
   },
   {
-    title: "Make it simple",
+    title: "Make it simple ⚡",
     description: "Search a food quickly using the barcode scanner function.",
   },
   {
-    title: "Customize your experience",
-    description: "Use Dark Mode to enjoy the App in dark 👻",
+    title: "Customize your experience 🌛",
+    description: "Use Dark Mode to enjoy the App in dark",
   },
   {
-    title: "Quick tip",
+    title: "Do not disturb 🍵",
     description:
       "You can disable notifications in profile settings, if you prefer.",
   },
+  {
+    title: "Consistency is key 🗝️",
+    description:
+      "Missed a meal log? Don't stress! Just pick up where you left off.",
+  },
+  {
+    title: "Custom Recipes 🧑‍🍳",
+    description:
+      "Cook often? Save your favorite meals as Custom Foods for 1-click logging.",
+  },
+  {
+    title: "Protein Power 💪",
+    description:
+      "Try to spread your protein intake evenly across all your daily meals.",
+  },
+  {
+    title: "Fiber is your friend 🥦",
+    description:
+      "Tracking veggies helps you reach your daily fiber goal. It keeps you full longer!",
+  },
+  {
+    title: "Review your progress 📈",
+    description:
+      "Check the Stats tab at the end of the week to see your macro averages.",
+  },
+  {
+    title: "Rest and Recover 😴",
+    description:
+      "Remember that good sleep is just as important as hitting your macro goals.",
+  },
 ];
-
-const i = Math.floor(Math.random() * tips.length);
 
 export const BottomNav = () => {
   const location = useLocation();
@@ -107,6 +135,7 @@ export const BottomNav = () => {
 };
 
 export const Sidebar = () => {
+  const i = Math.floor(Math.random() * tips.length);
   const location = useLocation();
   const { setIsAddFoodOpen, setTargetMeal } = useContext(DashboardContext);
 

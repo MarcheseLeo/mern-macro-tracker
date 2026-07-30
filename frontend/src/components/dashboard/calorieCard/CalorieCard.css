@@ -12,7 +12,7 @@
 }
 
 .kcal-left {
-    font-size: 2.25rem;
+    font-size: 1.75rem;
     font-weight: 800;
 }
 
@@ -24,12 +24,26 @@
 }
 
 .line {
-    background-color: #fafbff38;
+    display: block;
+    border: 1px solid #fafbff38;
 }
 
 .calorie-card-label {
     font-size: 0.87rem;
 
+}
+
+.ring-container svg {
+    width: 130px;
+    height: 130px;
+}
+
+.trophy-icon {
+    height: 40px !important;
+}
+
+.trophy-icon+span {
+    font-size: 0.80rem;
 }
 
 @keyframes fadeIn {
@@ -39,5 +53,24 @@
 
     to {
         opacity: 1;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .ring-container svg {
+        width: 200px;
+        height: 200px;
+    }
+
+    .kcal-left {
+        font-size: 2.25rem;
+    }
+
+    .trophy-icon {
+        height: 70px !important;
+    }
+
+    .trophy-icon+span {
+        font-size: 1.25rem;
     }
 }

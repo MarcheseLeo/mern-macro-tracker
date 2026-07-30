@@ -1,8 +1,8 @@
-.dashboard-greetins {
+.dashboard-greetings {
     font-size: 0.87rem;
 }
 
-.dashboard-greetins+h1 {
+.dashboard-greetings+h1 {
     font-size: 1.5rem;
 }
 

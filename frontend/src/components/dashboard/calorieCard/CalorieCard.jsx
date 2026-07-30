@@ -31,7 +31,6 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
     if (localStorage.getItem(storageKey) == undefined)
       localStorage.setItem(storageKey, "false");
 
-    console.log(typeof localStorage.getItem(storageKey));
     const alreadySent = localStorage.getItem(storageKey);
 
     if (isGoalReached && totalEaten > 0 && alreadySent === "false") {
@@ -52,15 +51,10 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
         <span className="goal-kcal-badge fw-medium">Goal {dailyGoal} kcal</span>
       </div>
 
-      <div className="d-flex flex-column flex-md-row align-items-md-center mt-4 gap-4">
-        <div className="position-relative d-flex justify-content-center align-items-center">
+      <div className="d-flex align-items-center mt-2 mt-md-4 gap-2 gap-md-4">
+        <div className="position-relative d-flex justify-content-center align-items-center ring-container">
           {/* CIRCLE */}
-          <svg
-            width="200"
-            height="200"
-            viewBox="0 0 200 200"
-            style={{ transform: "rotate(-90deg)" }}
-          >
+          <svg viewBox="0 0 200 200" style={{ transform: "rotate(-90deg)" }}>
             <circle
               cx="100"
               cy="100"
@@ -90,16 +84,12 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
             {isGoalReached ? (
               <>
                 <Trophy
-                  size={32}
-                  className="mb-1"
+                  className="mb-1 trophy-icon"
                   style={{
                     animation: "popIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)",
                   }}
                 />
-                <span
-                  className="font-heading fw-bold lh-1"
-                  style={{ fontSize: "1.25rem" }}
-                >
+                <span className="font-heading fw-bold lh-1">
                   Goal
                   <br />
                   Reached!
@@ -136,7 +126,7 @@ const Stat = ({ label, value }) => {
   return (
     <div className="d-flex align-items-center justify-content-between">
       <span className="calorie-card-label opacity-75">{label}</span>
-      <span className="font-heading fw-bold">{value}</span>
+      <span className="font-heading fw-bold text-nowrap">{value}</span>
     </div>
   );
 };
