@@ -35,6 +35,10 @@
     --water: rgb(0, 170, 207);
     --water-foreground: rgb(0, 82, 106);
     --water-soft: rgb(214, 240, 249);
+    --fibers: #88BDA4;
+    --fibers-soft: #E6F2DD;
+    --salt: #F9B2D7;
+    --salt-soft: #FBEFEF;
 
     --chart-1: rgb(79, 80, 222);
     --chart-2: rgb(0, 158, 218);
@@ -207,18 +211,23 @@ h1, h2, h3, h4, h5, h6,
 .text-primary-custom {
     color: var(--primary) !important;
 }
-.text-secondary{
+
+.text-secondary {
     color: var(--secondary)
 }
-.text-secondary-foreground{
+
+.text-secondary-foreground {
     color: var(--secondary-foreground)
 }
-.text-accent{
+
+.text-accent {
     color: var(--accent)
 }
-.text-accent-foreground{
+
+.text-accent-foreground {
     color: var(--accent-foreground)
 }
+
 .text-carbs {
     color: var(--carbs) !important;
 }
@@ -359,6 +368,11 @@ h1, h2, h3, h4, h5, h6,
     --water-foreground: rgb(214, 240, 249);
     --water-soft: rgba(0, 170, 207, 0.2);
 
+    --fibers: #A1BC98;
+    --fibers-soft: #b1d3b967;
+    --salt: #F9B2D7;
+    --salt-soft: #fcd8cd4e;
+
 
     --chart-1: rgb(101, 102, 240);
     --chart-2: rgb(51, 181, 229);
@@ -379,7 +393,7 @@ h1, h2, h3, h4, h5, h6,
     --sidebar-accent: #262c54;
     --sidebar-accent-foreground: #b4bcff;
     --sidebar-border: #2a3143;
- 
+
 
 }
 
@@ -399,9 +413,10 @@ h1, h2, h3, h4, h5, h6,
 
 [data-theme="dark"] .btn-light {
     background-color: var(--muted-foreground) !important;
-    border:0;
-    color:black !important
+    border: 0;
+    color: black !important
 }
+
 [data-theme="dark"] .btn-light:hover {
     background-color: var(--accent-foreground) !important;
 }
@@ -413,6 +428,7 @@ h1, h2, h3, h4, h5, h6,
 [data-theme="dark"] .text-light {
     color: var(--foreground) !important;
 }
+
 [data-theme="dark"] .text-muted {
     color: var(--muted-foreground) !important;
 }

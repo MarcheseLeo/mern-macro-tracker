@@ -1,5 +1,35 @@
+.macro-carousel {
+    scroll-behavior: smooth;
+    width: 100%;
+    scroll-snap-type: x mandatory;
+}
+
+
 .macro-card {
+    scroll-snap-align: start;
     background-color: var(--card);
+    flex: 0 0 calc((100% - 2rem) / 3);
+    box-shadow: none;
+}
+
+.custom-carousel-dots {
+    transition: all 0.3s ease;
+}
+
+.carousel-dot {
+    height: 8px;
+    width: 8px;
+    background-color: var(--border);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.carousel-dot.active {
+    background-color: var(--primary);
+    width: 16px;
+    border-radius: 12px;
+    cursor: auto;
 }
 
 .macro-icon-box {
@@ -13,7 +43,7 @@
     color: var(--muted-foreground);
 }
 
-.macro-card>p:nth-of-type(2)> span {
+.macro-card>p:nth-of-type(2)>span {
     color: var(--muted-foreground);
     font-size: 0.87rem;
 }
@@ -57,8 +87,50 @@
     background-color: var(--fat-soft);
 }
 
+.bg-fibers {
+    background-color: var(--fibers);
+}
+
+.bg-fibers-soft {
+    background-color: var(--fibers-soft);
+}
+
+.bg-salt {
+    background-color: var(--salt);
+}
+
+.bg-salt-soft {
+    background-color: var(--salt-soft);
+}
+
 @keyframes popIn {
-    0% { transform: scale(0); opacity: 0; }
-    80% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    80% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width:576px) {
+    .macro-card {
+        flex: 0 0 calc((100% - 1rem) / 2);
+    }
+}
+
+.drag-container {
+    cursor: grab;
+}
+
+.drag-container:active {
+    cursor: grabbing;
+    scroll-snap-type: none;
 }

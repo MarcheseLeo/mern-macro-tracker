@@ -106,7 +106,7 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
         {/* STATS */}
         <div className="d-flex flex-column flex-grow-1 gap-2 gap-md-3 w-100">
           <Stat label="Eaten" value={`${totalEaten} kcal`} />
-          <div className="line" />
+          <div className="line d-none d-md-block" />
 
           {isGoalReached && overCalories > 0 ? (
             <Stat label="Over" value={`+${overCalories} kcal`} />
@@ -114,7 +114,7 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
             <Stat label="Remaining" value={`${remaining} kcal`} />
           )}
 
-          <div className="line" />
+          <div className="line d-none d-md-block" />
           <Stat label="Progress" value={`${percentage}%`} />
         </div>
       </div>
@@ -125,7 +125,9 @@ export const CalorieCard = ({ dailyGoal = 2000, totalEaten = 0 }) => {
 const Stat = ({ label, value }) => {
   return (
     <div className="d-flex align-items-center justify-content-between">
-      <span className="calorie-card-label opacity-75">{label}</span>
+      <span className="calorie-card-label opacity-75 text-truncate">
+        {label}
+      </span>
       <span className="font-heading fw-bold text-nowrap">{value}</span>
     </div>
   );

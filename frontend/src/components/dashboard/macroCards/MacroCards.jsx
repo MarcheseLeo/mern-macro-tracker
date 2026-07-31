@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import "./MacroCards.css";
 import { BadgeCheck } from "lucide-react";
 
@@ -27,18 +28,99 @@ export const MacroCards = ({ summary, userGoals }) => {
       target: userGoals?.fats || 65,
       theme: "fat",
     },
+    {
+      key: "fibers",
+      label: "Fibers",
+      emoji: "🥦",
+      value: summary?.fibers || 0,
+      target: 30,
+      theme: "fibers",
+    },
+    {
+      key: "salt",
+      label: "Salt",
+      emoji: "🧂",
+      value: summary?.salt || 0,
+      target: 5,
+      theme: "salt",
+    },
   ];
 
-  return (
-    <section className="row g-3 mt-1">
-      {macros.map((m, index) => {
-        const target = m.target > 0 ? m.target : 1;
-        const isGoalReached = m.value >= target;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const carouselRef = useRef(null);
 
-        const pct = Math.min(100, Math.round((m.value / target) * 100));
-        return (
-          <div key={m.key} className={`col-4`}>
-            <article className="app-card h-100 p-3 p-md-4 macro-card overflow-hidden">
+  const handleScroll = () => {
+    if (carouselRef.current) {
+      const { scrollLeft, clientWidth } = carouselRef.current;
+      // Arrotondiamo per capire su quale "schermata" ci troviamo
+      const newIndex = Math.round(scrollLeft / clientWidth);
+      setActiveIndex(newIndex);
+    }
+  };
+
+  const handleDotClick = (index) => {
+    if (carouselRef.current) {
+      const scrollPosition = index * carouselRef.current.clientWidth;
+
+      carouselRef.current.scrollTo({
+        left: scrollPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeftPos = useRef(0);
+
+  const handleMouseDown = (e) => {
+    isDragging.current = true;
+    startX.current = e.pageX - carouselRef.current.offsetLeft;
+    scrollLeftPos.current = carouselRef.current.scrollLeft;
+  };
+
+  const handleMouseLeaveOrUp = () => {
+    isDragging.current = false;
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging.current) return;
+    e.preventDefault();
+
+    const x = e.pageX - carouselRef.current.offsetLeft;
+
+    const walk = (x - startX.current) * 2;
+
+    carouselRef.current.scrollLeft = scrollLeftPos.current - walk;
+  };
+
+  const totalDots = carouselRef.current
+    ? Math.ceil(
+        carouselRef.current.scrollWidth / carouselRef.current.clientWidth,
+      )
+    : 3;
+
+  return (
+    <>
+      <section
+        className="d-flex overflow-x-auto no-scrollbar mt-4 gap-3 macro-carousel drag-container"
+        ref={carouselRef}
+        onScroll={handleScroll}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeaveOrUp}
+        onMouseUp={handleMouseLeaveOrUp}
+        onMouseMove={handleMouseMove}
+      >
+        {macros.map((m, index) => {
+          const target = m.target > 0 ? m.target : 1;
+          const isGoalReached = m.value >= target;
+
+          const pct = Math.min(100, Math.round((m.value / target) * 100));
+          return (
+            <article
+              key={m.key}
+              className="app-card h-100 p-3 p-md-4 macro-card overflow-hidden"
+            >
               <span
                 className={`macro-icon-box d-flex justify-content-center align-items-center rounded-circle bg-${m.theme}-soft`}
               >
@@ -80,9 +162,18 @@ export const MacroCards = ({ summary, userGoals }) => {
                 ></div>
               </div>
             </article>
-          </div>
-        );
-      })}
-    </section>
+          );
+        })}
+      </section>
+      <div className="d-flex justify-content-center gap-2 mt-3 custom-carousel-dots">
+        {Array.from({ length: totalDots }).map((_, idx) => (
+          <span
+            key={idx}
+            className={`carousel-dot ${activeIndex === idx ? "active" : ""}`}
+            onClick={() => handleDotClick(idx)}
+          ></span>
+        ))}
+      </div>
+    </>
   );
 };

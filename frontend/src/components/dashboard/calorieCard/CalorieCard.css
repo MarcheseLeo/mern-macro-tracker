@@ -24,13 +24,12 @@
 }
 
 .line {
-    display: block;
     border: 1px solid #fafbff38;
 }
 
 .calorie-card-label {
     font-size: 0.87rem;
-
+    max-width: 40%
 }
 
 .ring-container svg {
