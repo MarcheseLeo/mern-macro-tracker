@@ -10,7 +10,8 @@ export const DailyMetricsCards = ({
     user,
     selectedDate,
     onUpdateWater,
-    onUpdateWeight
+    onUpdateWeight,
+    isFutureDate = false
 }) => {
     const { triggerFetch } = useContext(NotificationContext)
 
@@ -115,13 +116,14 @@ export const DailyMetricsCards = ({
                             <button
                                 onClick={() => handleWaterChange(-GLASS_SIZE)}
                                 className="metrics-btn btn-water-minus cursor-pointer"
-                                disabled={glassesDrunk === 0}
+                                disabled={glassesDrunk === 0 || isFutureDate}
                             >
                                 <Minus size={16} />
                             </button>
                             <button
                                 onClick={() => handleWaterChange(GLASS_SIZE)}
                                 className="metrics-btn btn-water-plus"
+                                disabled={isFutureDate}
                             >
                                 <Plus size={16} />
                             </button>
@@ -163,12 +165,14 @@ export const DailyMetricsCards = ({
                             <button
                                 onClick={() => handleWeightChange(-0.1)}
                                 className="metrics-btn btn-water-minus"
+                                disabled={isFutureDate}
                             >
                                 <Minus size={16} />
                             </button>
                             <button
                                 onClick={() => handleWeightChange(0.1)}
                                 className="metrics-btn btn-weight-plus bg-accent text-accent-foreground"
+                                disabled={isFutureDate}
                             >
                                 <Plus size={16} />
                             </button>

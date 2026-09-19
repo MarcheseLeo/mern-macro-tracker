@@ -54,7 +54,7 @@ const foodBodyValidation = [
         .isFloat({ min: 0 })
         .withMessage('salt must be a positive number'),
     body('barcode')
-        .optional()
+        .optional({ checkFalsy: true })
         .isEAN()
         .withMessage('barcode must be an EAN code'),
     body('source')
@@ -140,7 +140,7 @@ const editFoodValidation = [
         .isFloat({ min: 0 })
         .withMessage('salt must be a positive number'),
     body('barcode')
-        .optional()
+        .optional({ checkFalsy: true })
         .isEAN()
         .withMessage('barcode must be an EAN code'),
     body('source')

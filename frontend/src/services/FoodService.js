@@ -33,7 +33,7 @@ export const createFood = async (formData) => {
       fibers: Number(formData.fibers) || 0,
       salt: Number(formData.salt) || 0,
     },
-    barcode: formData.barcode,
+        barcode: formData.barcode?.trim() || undefined,
   };
 
   const res = await api.post("/foods", body);
@@ -63,7 +63,7 @@ export const editFood = async (id, formData) => {
       fibers: Number(formData.fibers) || 0,
       salt: Number(formData.salt) || 0,
     },
-    barcode: formData.barcode,
+        barcode: formData.barcode?.trim() || undefined,
   };
 
   const res = await api.patch(`/foods/${id}`, body);

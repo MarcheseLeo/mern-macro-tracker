@@ -37,7 +37,7 @@ api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (originalRequest.url.includes('/auth/login')) {
+        if (originalRequest.url.includes('/auth/login') || originalRequest.url.includes('/auth/refresh') || originalRequest.url.includes('/auth/logout')) {
             return Promise.reject(error);
         }
         if (error.response && error.response.status === 401 && !originalRequest._retry) {

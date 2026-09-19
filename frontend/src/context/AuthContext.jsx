@@ -25,14 +25,10 @@ export const AuthProvider = ({ children }) => {
 
     const getUser = async () => {
         setIsLoading(true)
-        const token = localStorage.getItem('token')
-
-        if (!token) {
-            setIsLoading(false)
-            return
-        }
 
         try {
+            const { data } = await api.post('/auth/refresh')
+            localStorage.setItem('token', data.token)
             const response = await api.get('/users/me')
 
             setUser(response.data.user || response.data) 

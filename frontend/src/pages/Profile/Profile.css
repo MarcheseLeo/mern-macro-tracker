@@ -279,6 +279,28 @@ label:has(+ .profile-input:focus){
     outline: none;
 }
 
+.accent-color-options {
+    display: flex;
+    gap: 0.45rem;
+    align-items: center;
+}
+
+.accent-color-option {
+    width: 1.15rem;
+    height: 1.15rem;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.accent-color-option:hover { transform: scale(1.12); }
+
+.accent-color-option.active {
+    border-color: var(--card);
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
 @media (min-width: 768px) {
     .profile-card {
         padding: 1.25rem;

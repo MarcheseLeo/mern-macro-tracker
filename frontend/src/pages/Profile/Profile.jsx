@@ -12,8 +12,9 @@ import {
   Info,
   KeyRound,
   LogOut,
-  Mail,
-  Moon,
+    Mail,
+    Moon,
+    Palette,
   Ruler,
   Save,
   Scale,
@@ -78,7 +79,7 @@ export const Profile = () => {
     setOpenSection(openSection === section ? null : section);
   };
 
-  const { theme, toggleTheme } = useContext(ThemeContext);
+    const { theme, toggleTheme, accentColor, setAccentColor } = useContext(ThemeContext);
   const isDark = theme === "dark";
 
   const latestWeight = useMemo(() => {
@@ -928,6 +929,35 @@ export const Profile = () => {
             <h3 className="fw-semibold small mb-0 text-dark">Dark theme</h3>
           </div>
           <Toggle onChange={toggleTheme} checked={isDark} />
+        </div>
+      </div>
+      <div className="profile-card mb-4">
+        <div className={profileRowClass}>
+          <div className={profileRowContentClass}>
+            <span className="profile-section-icon" style={{ backgroundColor: "color-mix(in oklab, var(--primary) 10%, transparent)" }}>
+              <Palette size={20} className="text-primary-custom" />
+            </span>
+            <h3 className="fw-semibold small mb-0 text-dark">Accent Color</h3>
+          </div>
+          <div className="accent-color-options" aria-label="Accent color">
+            {[
+              { value: "purple", label: "Purple", color: "#4f50de" },
+              { value: "green", label: "Green", color: "#28a869" },
+              { value: "pink", label: "Pink", color: "#d94f8a" },
+              { value: "orange", label: "Orange", color: "#e47c22" },
+              { value: "blue", label: "Blue", color: "#2e91d6" },
+            ].map(({ value, label, color }) => (
+              <button
+                key={value}
+                type="button"
+                aria-label={label}
+                aria-pressed={accentColor === value}
+                className={`accent-color-option ${accentColor === value ? "active" : ""}`}
+                style={{ backgroundColor: color }}
+                onClick={() => setAccentColor(value)}
+              />
+            ))}
+          </div>
         </div>
       </div>
 

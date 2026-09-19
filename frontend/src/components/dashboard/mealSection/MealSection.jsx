@@ -13,7 +13,7 @@ const MEAL_META = {
     snack: { label: 'Snack', emoji: '🍎', time: 'Anytime' }
 }
 
-export const MealSection = ({ mealsData, onFoodDeleted, onAddFoodClick }) => {
+export const MealSection = ({ mealsData, onFoodDeleted, onAddFoodClick, isFutureDate = false }) => {
     const [openMeal, setOpenMeal] = useState('breakfast')
     const { selectedDate } = useContext(DashboardContext)
 
@@ -53,6 +53,7 @@ export const MealSection = ({ mealsData, onFoodDeleted, onAddFoodClick }) => {
                         onFoodDeleted={onFoodDeleted}
                         onAddFoodClick={onAddFoodClick}
                         isSuggested={suggestedMeal === mealKey && items.length === 0}
+                        isFutureDate={isFutureDate}
                     />
                 )
             })}
@@ -60,7 +61,7 @@ export const MealSection = ({ mealsData, onFoodDeleted, onAddFoodClick }) => {
     )
 }
 
-const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, onFoodDeleted, onAddFoodClick, isSuggested }) => {
+const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, onFoodDeleted, onAddFoodClick, isSuggested, isFutureDate }) => {
     const [parentRef] = useAutoAnimate()
     const [animationParent] = useAutoAnimate()
 
@@ -91,8 +92,10 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
                     aria-label={`Add food to ${meta.label}`}
                     onClick={(e) => {
                         e.stopPropagation()
+                        if (isFutureDate) return
                         onAddFoodClick?.(mealType)
                     }}
+                    disabled={isFutureDate}
                 >
                     <Plus size={20} />
                 </button>
@@ -107,7 +110,7 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
                     ) : (
                         <ul className="list-unstyled d-flex flex-column gap-2 mb-0 mt-2" >
                             {items.map((item) => (
-                                <FoodRow key={item._id} item={item} mealId={mealId} onFoodDeleted={onFoodDeleted} />
+                                <FoodRow key={item._id} item={item} mealId={mealId} onFoodDeleted={onFoodDeleted} isFutureDate={isFutureDate} />
                             ))}
                         </ul>
                     )}
@@ -117,11 +120,11 @@ const MealCard = ({ mealType, meta, items, totalKcal, isOpen, onToggle, mealId, 
     )
 }
 
-const FoodRow = ({ item, mealId, onFoodDeleted }) => {
+const FoodRow = ({ item, mealId, onFoodDeleted, isFutureDate }) => {
     const {setIsAddFoodOpen, setEditingItem} = useContext(DashboardContext)
 
     const handleRowClick = () =>{
-        if(dragX === 0 && !isDeleting){
+        if(!isFutureDate && dragX === 0 && !isDeleting){
             setEditingItem({ ...item, mealId: mealId })
             setIsAddFoodOpen(true)
         }
@@ -144,7 +147,7 @@ const FoodRow = ({ item, mealId, onFoodDeleted }) => {
 
     const handleDelete = async (e) => {
         e?.stopPropagation()
-        if (isDeleting) return
+        if (isDeleting || isFutureDate) return
 
         setIsDeleting(true)
         setDragX(-90)
@@ -216,7 +219,7 @@ const FoodRow = ({ item, mealId, onFoodDeleted }) => {
                 <button
                     className="btn btn-sm text-danger p-2 delete-food-btn rounded-circle d-none d-lg-flex align-items-center justify-content-center flex-shrink-0"
                     onClick={handleDelete}
-                    disabled={isDeleting}
+                    disabled={isDeleting || isFutureDate}
                     aria-label={`Delete ${food.name}`}
                 >
                     <Trash2 size={18} />

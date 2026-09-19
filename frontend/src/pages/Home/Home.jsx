@@ -27,6 +27,7 @@ const Home = () => {
     const [dailyMeals, setDailyMeals] = useState([])
     const [isDashboardLoading, setIsDashboardLoading] = useState(true)
     const [errors, setErrors] = useState()
+    const isFutureDate = selectedDate > today
 
     const prevDateRef = useRef(selectedDate)
 
@@ -112,7 +113,7 @@ const Home = () => {
             {isDashboardLoading ? (
                 <DashboardSkeleton />
             ) : (
-                <div>
+                <div className={isFutureDate ? 'dashboard-content-future' : ''} aria-disabled={isFutureDate}>
                     <CalorieCard
                         dailyGoal={user?.dailyKcalGoal || 2000}
                         totalEaten={dailySummary?.kcal || 0}
@@ -127,14 +128,17 @@ const Home = () => {
                         selectedDate={selectedDate}
                         onUpdateWater={handleUpdateWater}
                         onUpdateWeight={handleUpdateWeight}
+                        isFutureDate={isFutureDate}
                     />
                     <MealSection
                         mealsData={dailyMeals}
                         onFoodDeleted={() => fetchDashboardData(selectedDate, true)}
                         onAddFoodClick={(mealType) => {
+                            if (isFutureDate) return
                             setTargetMeal(mealType)
                             setIsAddFoodOpen(true)
                         }}
+                        isFutureDate={isFutureDate}
                     />
                 </div>
             )}

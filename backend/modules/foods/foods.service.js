@@ -43,7 +43,8 @@ const createFood = async(body) =>{
 }
 
 const editFood = async(id, body)=>{
-    const updatedFood = await FoodSchema.findByIdAndUpdate(id, body, {new:true})
+    if (!body.barcode) delete body.barcode
+    const updatedFood = await FoodSchema.findByIdAndUpdate(id, body, { new: true, runValidators: true })
     return updatedFood
 }
 

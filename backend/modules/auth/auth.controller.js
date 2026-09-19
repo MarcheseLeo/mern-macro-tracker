@@ -4,17 +4,19 @@ const EmailService = require('../email/email.service')
 const jwt = require('jsonwebtoken')
 const User = require('../users/user.schema')
 const UserNotFoundException = require('../../exceptions/users/UserNotFoundException')
+
+const refreshCookieOptions = () => ({
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+})
 const login = async (req, res, next) => {
     try {
         const { email, password } = req.body
         const { accessToken: token, refreshToken } = await AuthService.login(email, password)
 
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true, 
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000 
-        })
+        res.cookie('refreshToken', refreshToken, refreshCookieOptions())
 
         res.header('authorization', token)
             .status(200)
@@ -47,6 +49,13 @@ const refreshToken = async (req, res, next) => {
             email: user.email,
             id: user._id
         }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '15m' });
+
+        const newRefreshToken = jwt.sign(
+            { id: user._id },
+            process.env.REFRESH_TOKEN_SECRET || process.env.JWT_SECRET,
+            { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || '7d' }
+        )
+        res.cookie('refreshToken', newRefreshToken, refreshCookieOptions())
 
         res.status(200).send({ token: newAccessToken });
     } catch (e) {
@@ -113,7 +122,7 @@ const verifyEmail = async (req, res, next) => {
 }
 
 const logout = (req, res) => {
-    res.clearCookie('refreshToken');
+    res.clearCookie('refreshToken', refreshCookieOptions());
     res.status(200).send({ message: "Logout effettuato" });
 }
 
