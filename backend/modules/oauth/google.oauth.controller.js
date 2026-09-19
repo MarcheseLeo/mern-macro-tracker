@@ -1,5 +1,14 @@
 const jwt = require('jsonwebtoken')
 
+const refreshCookieOptions = () => ({
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    // The deployed frontend and API use separate origins, so the browser must
+    // be allowed to include this cookie on credentialed API requests.
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+})
+
 const manageOauthCallback = async (req, res, next) => {
     try {
         const accessToken = jwt.sign(
@@ -14,12 +23,7 @@ const manageOauthCallback = async (req, res, next) => {
             { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || '7d' }
         )
 
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
+        res.cookie('refreshToken', refreshToken, refreshCookieOptions())
 
         const redirectUrl = `${process.env.FRONTEND_URL}/oauth/success?token=${accessToken}`
         res.redirect(redirectUrl)

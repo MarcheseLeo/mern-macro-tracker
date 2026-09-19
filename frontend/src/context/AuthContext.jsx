@@ -23,12 +23,14 @@ export const AuthProvider = ({ children }) => {
     }
 
 
-    const getUser = async () => {
+    const getUser = async ({ refreshSession = true } = {}) => {
         setIsLoading(true)
 
         try {
-            const { data } = await api.post('/auth/refresh')
-            localStorage.setItem('token', data.token)
+            if (refreshSession) {
+                const { data } = await api.post('/auth/refresh')
+                localStorage.setItem('token', data.token)
+            }
             const response = await api.get('/users/me')
 
             setUser(response.data.user || response.data) 
@@ -50,7 +52,9 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (token) => {
         localStorage.setItem('token', token)
-        await getUser()
+        // OAuth already supplies a fresh access token. Use it immediately;
+        // the refresh cookie is used on later reloads.
+        await getUser({ refreshSession: false })
     }
 
 
