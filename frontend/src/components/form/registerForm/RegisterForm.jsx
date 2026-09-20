@@ -5,6 +5,7 @@ import Button from '../../ui/button/Button';
 import { Form, InputGroup } from 'react-bootstrap';
 import { InfoModal } from '../../infoModal/Infomodal';
 import '../loginForm/LoginForm.css';
+import api from '../../../services/api';
 
 export const RegisterForm = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -35,36 +36,22 @@ export const RegisterForm = () => {
         setError(null)
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/register`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(registerForm)
-            });
-
-            const data = await response.json();
-            console.log(data)
-            if (response.ok) {
-                setShowModal(true)
-                setError(null)
-                console.log("Registration completed!")
-            } else {
-                if (data.errors && Array.isArray(data.errors)) {
-                    const formattedErrors = data.errors.map(err => {
-                        const fieldName = err.path ? err.path.charAt(0).toUpperCase() + err.path.slice(1) : 'Field';
-                        return `${fieldName}: ${err.msg}`;
-                    });
-                    setError(formattedErrors);
-                } else if (data.message) {
-                    setError(data.message);
-                } else {
-                    setError('Error during registration');
-                }
-            }
+            await api.post('/auth/register', registerForm)
+            setShowModal(true)
+            setError(null)
         } catch (e) {
             console.error("Error:", e);
-            setError("Server connection error")
+            const data = e.response?.data
+            if (Array.isArray(data?.errors)) {
+                setError(data.errors.map((err) => {
+                    const fieldName = err.path
+                        ? err.path.charAt(0).toUpperCase() + err.path.slice(1)
+                        : 'Field'
+                    return `${fieldName}: ${err.msg}`
+                }).join(' '))
+            } else {
+                setError(data?.message || 'Server connection error')
+            }
         } finally {
             setIsLoading(false)
         }

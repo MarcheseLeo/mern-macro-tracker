@@ -34,7 +34,6 @@ export const LoginForm = () => {
 
             setError(null)
             await login(response.data.token)
-            console.log("Login Success! Token and Cookie saved.")
             navigate('/home')
         } catch (e) {
             console.error("Error:", e);

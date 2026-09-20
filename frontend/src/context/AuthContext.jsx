@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useRef } from "react";
 import api from "../services/api"
 
 
@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isAuthorized, setIsAuthorized] = useState(false)
+    const sessionRequestId = useRef(0)
 
     const logout = async () => {
         try {
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }) => {
 
 
     const getUser = async () => {
+        const requestId = ++sessionRequestId.current
         setIsLoading(true)
 
         try {
@@ -39,14 +41,22 @@ export const AuthProvider = ({ children }) => {
             // where localStorage no longer contains an access token.
             const response = await api.get('/users/me')
 
-            setUser(response.data.user || response.data) 
-            setIsAuthorized(true)
+            if (requestId === sessionRequestId.current) {
+                setUser(response.data.user || response.data)
+                setIsAuthorized(true)
+            }
 
         } catch (e) {
             console.error("Sessione scaduta o non valida", e)
-            clearSession()
+            // Do not let an older startup request clear a session that has just
+            // been established by a successful login.
+            if (requestId === sessionRequestId.current) {
+                clearSession()
+            }
         } finally {
-            setIsLoading(false)
+            if (requestId === sessionRequestId.current) {
+                setIsLoading(false)
+            }
         }
     }
 

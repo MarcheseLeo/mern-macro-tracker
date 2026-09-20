@@ -16,8 +16,8 @@ let failedQueue = []
 const isAuthEndpoint = (url = '') =>
     ['/auth/login', '/auth/refresh', '/auth/logout'].some((endpoint) => url.includes(endpoint))
 
-const notifySessionExpired = () => {
-    window.dispatchEvent(new Event('auth:expired'))
+const notifySessionExpired = (failedToken) => {
+    window.dispatchEvent(new CustomEvent('auth:expired', { detail: { failedToken } }))
 }
 
 const processQueue = (error, token = null) => {
@@ -83,8 +83,14 @@ api.interceptors.response.use(
             } catch (err) {
 
                 processQueue(err, null);
-                localStorage.removeItem('token')
-                notifySessionExpired()
+                const failedToken = originalRequest.headers?.Authorization?.replace('Bearer ', '')
+                const currentToken = localStorage.getItem('token')
+                // A request started before a later login must not log the new
+                // session out when its refresh attempt eventually fails.
+                if (failedToken && failedToken === currentToken) {
+                    localStorage.removeItem('token')
+                    notifySessionExpired(failedToken)
+                }
                 return Promise.reject(err)
             } finally {
                 isRefreshing = false
