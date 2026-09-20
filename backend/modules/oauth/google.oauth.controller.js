@@ -6,6 +6,7 @@ const refreshCookieOptions = () => ({
     // The deployed frontend and API use separate origins, so the browser must
     // be allowed to include this cookie on credentialed API requests.
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    path: '/',
     maxAge: 7 * 24 * 60 * 60 * 1000
 })
 

@@ -1,0 +1,8 @@
+.feedback-card { margin-top: 1rem; }
+.feedback-icon { display: grid; width: 2.4rem; height: 2.4rem; place-items: center; color: var(--primary); background: var(--accent); border-radius: 50%; flex: 0 0 auto; }
+.feedback-message { min-height: 5.5rem; resize: vertical; padding-top: 0.7rem; }
+.feedback-trigger { display: flex; padding: 0; color: inherit; background: transparent; border: 0; }
+.feedback-chevron { margin-left: auto; color: var(--muted-foreground); transition: transform .25s ease; }
+.feedback-card-open .feedback-chevron { transform: rotate(90deg); }
+.feedback-form { margin-top: 1rem; animation: feedback-reveal .24s ease-out; }
+@keyframes feedback-reveal { from { opacity: 0; transform: translateY(-.35rem); } to { opacity: 1; transform: translateY(0); } }

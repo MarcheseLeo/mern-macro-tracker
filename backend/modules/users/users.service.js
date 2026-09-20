@@ -11,7 +11,7 @@ const getUsers = async () => {
 }
 
 const getUserById = async (id) => {
-    return await UserSchema.findById(id)
+    return await UserSchema.findById(id).populate('favoriteFoods')
 }
 
 const editUser = async (id, body) => {

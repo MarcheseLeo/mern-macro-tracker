@@ -12,6 +12,7 @@ users.get('/me', UserController.getMe)
 
 //PATCH
 users.patch('/me', [editUserValidation, userBodyValidator], UserController.editMe)
+users.patch('/me/favorites/:foodId', UserController.toggleFavoriteFood)
 users.patch('/me/avatar', cloud.single('avatar'), UserController.uploadAvatar)
 users.patch('/me/password', [changePasswordValidation, userBodyValidator], UserController.updatePassword)
 // users.patch('/:id', [editUserValidation, userBodyValidator], UserController.editUser)

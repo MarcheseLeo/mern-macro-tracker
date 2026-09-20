@@ -1,7 +1,3 @@
 
-.text-success { color: #22c55e !important; }
-.text-danger { color: #ef4444 !important; }
-
-main {
-    background: radial-gradient(circle at top left, #f8fafc, #ffffff);
-}
+.text-success { color: var(--success) !important; }
+.text-danger { color: var(--destructive) !important; }

@@ -5,16 +5,18 @@ import {
   BadgeCheck,
   Bell,
   Camera,
+  ChevronDown,
   ChevronRight,
   Flame,
   GlassWater,
   Image,
   Info,
   KeyRound,
+  Heart,
   LogOut,
-    Mail,
-    Moon,
-    Palette,
+  Mail,
+  Moon,
+  Palette,
   Ruler,
   Save,
   Scale,
@@ -29,6 +31,7 @@ import {
   changePassword,
   deleteMe,
   editMe,
+  toggleFavoriteFood,
   uploadAvatar,
 } from "../../services/UserService";
 import "./Profile.css";
@@ -37,6 +40,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { Toggle } from "../../components/toggle/Toggle";
 import { MetricTile } from "../../components/ui/metricTile/MetricTile";
+import { FeedbackCard } from "../../components/feedback/FeedbackCard";
 
 const avatarPresets = [
   "https://api.dicebear.com/9.x/thumbs/svg?seed=MacroMuse",
@@ -50,6 +54,14 @@ const initialPasswordForm = {
   newPassword: "",
   confirmPassword: "",
 };
+
+const accentOptions = [
+  { value: "purple", label: "Purple", color: "#4f50de" },
+  { value: "green", label: "Green", color: "#28a869" },
+  { value: "pink", label: "Pink", color: "#d94f8a" },
+  { value: "orange", label: "Orange", color: "#e47c22" },
+  { value: "blue", label: "Blue", color: "#2e91d6" },
+];
 
 const profileAccordionHeaderClass =
   "d-flex align-items-center justify-content-between gap-3 cursor-pointer";
@@ -71,6 +83,7 @@ export const Profile = () => {
   const [feedback, setFeedback] = useState(null);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isAccentMenuOpen, setIsAccentMenuOpen] = useState(false);
 
   const [openSection, setOpenSection] = useState(null);
   const [parentRef] = useAutoAnimate();
@@ -79,8 +92,15 @@ export const Profile = () => {
     setOpenSection(openSection === section ? null : section);
   };
 
-    const { theme, toggleTheme, accentColor, setAccentColor } = useContext(ThemeContext);
+  const { theme, toggleTheme, accentColor, setAccentColor } =
+    useContext(ThemeContext);
   const isDark = theme === "dark";
+  const selectedAccent =
+    accentOptions.find(({ value }) => value === accentColor) ||
+    accentOptions[0];
+  const alternativeAccents = accentOptions.filter(
+    ({ value }) => value !== selectedAccent.value,
+  );
 
   const latestWeight = useMemo(() => {
     if (!user?.weightHistory?.length) return "";
@@ -321,6 +341,15 @@ export const Profile = () => {
       await logout();
     } catch (e) {
       showFeedback("danger", "Unable to delete account. Please try again.");
+    }
+  };
+
+  const handleRemoveFavorite = async (foodId) => {
+    try {
+      await toggleFavoriteFood(foodId);
+      await refreshUser();
+    } catch (e) {
+      showFeedback("danger", "Unable to update saved foods.");
     }
   };
 
@@ -934,35 +963,138 @@ export const Profile = () => {
       <div className="profile-card mb-4">
         <div className={profileRowClass}>
           <div className={profileRowContentClass}>
-            <span className="profile-section-icon" style={{ backgroundColor: "color-mix(in oklab, var(--primary) 10%, transparent)" }}>
+            <span
+              className="profile-section-icon"
+              style={{
+                backgroundColor:
+                  "color-mix(in oklab, var(--primary) 10%, transparent)",
+              }}
+            >
               <Palette size={20} className="text-primary-custom" />
             </span>
             <h3 className="fw-semibold small mb-0 text-dark">Accent Color</h3>
           </div>
-          <div className="accent-color-options" aria-label="Accent color">
-            {[
-              { value: "purple", label: "Purple", color: "#4f50de" },
-              { value: "green", label: "Green", color: "#28a869" },
-              { value: "pink", label: "Pink", color: "#d94f8a" },
-              { value: "orange", label: "Orange", color: "#e47c22" },
-              { value: "blue", label: "Blue", color: "#2e91d6" },
-            ].map(({ value, label, color }) => (
-              <button
-                key={value}
-                type="button"
-                aria-label={label}
-                aria-pressed={accentColor === value}
-                className={`accent-color-option ${accentColor === value ? "active" : ""}`}
-                style={{ backgroundColor: color }}
-                onClick={() => setAccentColor(value)}
+          <div className="accent-color-picker">
+            <div
+              className="accent-current"
+              aria-label={`Current accent color: ${selectedAccent.label}`}
+            >
+              <span
+                className="accent-current-swatch"
+                style={{ backgroundColor: selectedAccent.color }}
               />
-            ))}
+              <span>{selectedAccent.label}</span>
+            </div>
+
+            <div className="accent-menu-wrap">
+              <button
+                type="button"
+                className={`accent-menu-trigger ${isAccentMenuOpen ? "is-open" : ""}`}
+                aria-label="Choose another accent color"
+                aria-expanded={isAccentMenuOpen}
+                aria-controls="accent-color-menu"
+                onClick={() => setIsAccentMenuOpen((open) => !open)}
+              >
+                <span className="accent-option-preview" aria-hidden="true">
+                  {alternativeAccents.slice(0, 3).map(({ value, color }) => (
+                    <span key={value} style={{ backgroundColor: color }} />
+                  ))}
+                </span>
+                <ChevronDown size={15} />
+              </button>
+
+              {isAccentMenuOpen && (
+                <div
+                  id="accent-color-menu"
+                  className="accent-color-menu"
+                  role="menu"
+                  aria-label="Accent colors"
+                >
+                  {alternativeAccents.map(({ value, label, color }) => (
+                    <button
+                      key={value}
+                      type="button"
+                      role="menuitem"
+                      className="accent-menu-option"
+                      onClick={() => {
+                        setAccentColor(value);
+                        setIsAccentMenuOpen(false);
+                      }}
+                    >
+                      <span
+                        className="accent-current-swatch"
+                        style={{ backgroundColor: color }}
+                      />
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
+      {user?.role === "admin" && (
+        <>
+          <h3 className="profile-section-title mt-3">Dev Tools</h3>
+          <div className="profile-card mb-4">
+            <div className={profileRowClass}>
+              <div className={profileRowContentClass}>
+                <span
+                  className="profile-section-icon"
+                  style={{
+                    backgroundColor:
+                      "color-mix(in oklab, var(--primary) 10%, transparent)",
+                  }}
+                >
+                  <Shield size={20} className="text-primary-custom" />
+                </span>
+                <div>
+                  <h3 className="fw-semibold small mb-1 text-dark">
+                    Management area
+                  </h3>
+                  <p className="small text-muted-foreground mb-0 d-none d-md-block">
+                    Manage users, foods and incoming requests.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="btn btn-primary-custom rounded-pill px-3"
+                onClick={() => navigate("/admin")}
+              >
+                Open
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      <section className="mb-4">
+        <h3 className="profile-section-title mt-3">Saved Foods</h3>
+        <div className="profile-card saved-foods-card">
+          <div className="d-flex align-items-center gap-3 mb-3">
+            <span className="profile-section-icon saved-foods-icon"><Heart size={20} /></span>
+            <div><h3 className="fw-semibold small mb-0 text-dark">Favorite foods</h3><p className="small text-muted-foreground mb-0">{user?.favoriteFoods?.length || 0} foods saved</p></div>
+          </div>
+          {user?.favoriteFoods?.length ? <div className="d-grid gap-2">
+            {user.favoriteFoods.map((food) => <div className="saved-food-row" key={food._id}>
+              <span className="saved-food-emoji">{food.category === 'fruit' ? '🍎' : food.category === 'vegetable' ? '🥦' : '🍽️'}</span>
+              <div className="flex-grow-1 overflow-hidden"><strong className="d-block small text-dark text-truncate">{food.name}</strong><span className="small text-muted-foreground">{food.brand || 'Custom food'}</span></div>
+              <button type="button" onClick={() => handleRemoveFavorite(food._id)} className="btn saved-food-remove" aria-label={`Remove ${food.name} from favorites`}><Heart size={17} fill="currentColor" /></button>
+            </div>)}
+          </div> : <p className="small text-muted-foreground mb-0">Save foods from their details to find them here quickly.</p>}
+        </div>
+      </section>
+
+      <h3 className="profile-section-title mt-3">Help & Support</h3>
+
+      {user?.role !== "admin" && <FeedbackCard type="category_suggestion" />}
+      <FeedbackCard type="problem_report" />
+
       {/* BOTTOM BOTTONS */}
-      <div className="row g-3">
+      <div className="row g-3 mt-3">
         <div className="col col-12 col-md-8">
           {/* LOGOUT BUTTON */}
           <button

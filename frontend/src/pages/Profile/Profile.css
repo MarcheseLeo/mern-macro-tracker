@@ -62,7 +62,7 @@
     background: var(--accent);
     border: 0.35rem solid var(--card);
     border-radius: 50%;
-    box-shadow: 0 18px 42px -26px rgba(18, 24, 38, 0.55);
+    box-shadow: 0 18px 42px -26px color-mix(in srgb, var(--foreground) 45%, transparent);
     font-family: var(--font-heading);
     font-size: 2rem;
     font-weight: 800;
@@ -90,7 +90,7 @@
 
 .profile-card {
     background: var(--card);
-    border: 1px solid rgba(227, 228, 233, 0.7);
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
     box-shadow: var(--bs-box-shadow-sm);
 }
 
@@ -160,13 +160,13 @@ label:has(+ .profile-input:focus){
 [data-theme="dark"] .recovery-form .input-group-text,
 [data-theme="dark"] .recovery-form input{
     color: var(--foreground) !important;
-    background-color: var(--muted) !important;
+    background-color: var(--card) !important;
     border: 1px solid var(--border);
 }
 
 [data-theme="dark"] .input-group:has(.profile-input:focus),
 [data-theme="dark"] .profile-input:focus {
-    box-shadow: 0 0 0 0.15rem var(--primary);
+    box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--ring) 28%, transparent);
     border-radius: 15px
 }
 
@@ -192,7 +192,7 @@ label:has(+ .profile-input:focus){
 
 .profile-input:focus {
     border-color: var(--ring);
-    box-shadow: 0 0 0 0.18rem rgba(79, 80, 222, 0.14);
+    box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--ring) 18%, transparent);
 }
 
 .profile-primary-btn,
@@ -212,8 +212,8 @@ label:has(+ .profile-input:focus){
 
 .profile-primary-btn:hover {
     color: var(--primary-foreground);
-    background: #4243c7;
-    border-color: #4243c7;
+    background: var(--primary-muted);
+    border-color: var(--primary-muted);
 }
 
 .profile-secondary-btn {
@@ -234,18 +234,18 @@ label:has(+ .profile-input:focus){
 }
 
 .profile-delete-btn {
-    color: var(--card);
+    color: var(--destructive-foreground);
     background: var(--destructive);
 }
 
 [data-theme="dark"] .profile-delete-btn,
 [data-theme="dark"] .profile-delete-btn:hover {
-    color: var(--foreground)
+    color: var(--destructive-foreground)
 }
 
 .profile-delete-btn:hover {
     filter: saturate(0.8);
-    color: var(--card);
+    color: var(--destructive-foreground);
     background: var(--destructive);
 }
 
@@ -253,6 +253,15 @@ label:has(+ .profile-input:focus){
     filter: saturate(1.5);
     background: var(--primary-muted);
     color: var(--muted);
+}
+
+.profile-primary-btn:focus-visible,
+.profile-secondary-btn:focus-visible,
+.profile-logout-btn:focus-visible,
+.profile-delete-btn:focus-visible,
+.profile-avatar-choice:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
 }
 
 [data-theme="dark"] .profile-logout-btn:hover {
@@ -279,26 +288,139 @@ label:has(+ .profile-input:focus){
     outline: none;
 }
 
-.accent-color-options {
+.accent-color-picker {
     display: flex;
+    align-items: center;
     gap: 0.45rem;
+    min-width: 0;
+}
+
+.accent-current,
+.accent-menu-trigger,
+.accent-menu-option {
+    display: inline-flex;
     align-items: center;
 }
 
-.accent-color-option {
-    width: 1.15rem;
-    height: 1.15rem;
-    padding: 0;
-    border: 2px solid transparent;
+.accent-current {
+    gap: 0.4rem;
+    min-height: 2rem;
+    padding: 0.3rem 0.55rem;
+    color: var(--foreground);
+    background: var(--muted);
+    border: 1px solid var(--border);
     border-radius: 999px;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    font-size: 0.78rem;
+    font-weight: 700;
 }
 
-.accent-color-option:hover { transform: scale(1.12); }
+.accent-current-swatch {
+    width: 0.9rem;
+    height: 0.9rem;
+    flex: 0 0 auto;
+    border: 2px solid var(--card);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--foreground) 18%, transparent);
+}
 
-.accent-color-option.active {
-    border-color: var(--card);
-    box-shadow: 0 0 0 2px var(--primary);
+.accent-menu-wrap {
+    position: relative;
+}
+
+.accent-menu-trigger {
+    min-width: 3.45rem;
+    min-height: 2rem;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.4rem;
+    color: var(--muted-foreground);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.accent-menu-trigger:hover,
+.accent-menu-trigger.is-open {
+    color: var(--foreground);
+    background: var(--muted);
+}
+
+.accent-menu-trigger.is-open svg {
+    transform: rotate(180deg);
+}
+
+.accent-option-preview {
+    display: flex;
+    align-items: center;
+}
+
+.accent-option-preview span {
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-left: -0.18rem;
+    border: 1px solid var(--card);
+    border-radius: 50%;
+}
+
+.accent-option-preview span:first-child {
+    margin-left: 0;
+}
+
+.accent-color-menu {
+    position: absolute;
+    top: calc(100% + 0.45rem);
+    right: 0;
+    z-index: 10;
+    display: grid;
+    gap: 0.2rem;
+    min-width: 8.25rem;
+    padding: 0.35rem;
+    background: var(--popover);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0.75rem 1.5rem color-mix(in srgb, var(--foreground) 14%, transparent);
+}
+
+.accent-menu-option {
+    width: 100%;
+    gap: 0.55rem;
+    padding: 0.45rem 0.5rem;
+    color: var(--foreground);
+    background: transparent;
+    border: 0;
+    border-radius: calc(var(--radius-sm) - 0.1rem);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-align: left;
+}
+
+.accent-menu-option:hover,
+.accent-menu-option:focus-visible {
+    background: var(--muted);
+}
+
+.accent-menu-trigger:focus-visible,
+.accent-menu-option:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+}
+
+@media (max-width: 420px) {
+    .accent-current {
+        width: 2rem;
+        justify-content: center;
+        padding: 0.3rem;
+    }
+
+    .accent-current > span:last-child {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
 }
 
 @media (min-width: 768px) {
@@ -319,6 +441,12 @@ label:has(+ .profile-input:focus){
     border: 0;
     border-radius: 0.95rem;
 }
+
+.saved-foods-icon { color: #d94f8a; background: color-mix(in oklab, #d94f8a 12%, transparent); }
+.saved-food-row { display: flex; align-items: center; gap: .7rem; padding: .6rem; border-radius: .8rem; background: var(--muted); }
+.saved-food-emoji { display: grid; width: 2.15rem; height: 2.15rem; place-items: center; border-radius: .65rem; background: var(--card); }
+.saved-food-remove { display: grid; width: 2.1rem; height: 2.1rem; place-items: center; padding: 0; color: #d94f8a; border: 0; border-radius: 50%; }
+.saved-food-remove:hover { background: color-mix(in oklab, #d94f8a 12%, transparent); }
 
 @media (min-width: 992px) {
     .profile-feedback-toast {

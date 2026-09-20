@@ -25,6 +25,8 @@ const meals = require('./modules/meals/meals.route')
 const dailyMetrics = require('./modules/daily-metrics/dailyMetrics.route')
 const dashboard = require('./modules/dashboard/dashboard.route')
 const notifications = require('./modules/notifications/notifications.route')
+const feedback = require('./modules/feedback/feedback.route')
+const admin = require('./modules/admin/admin.route')
 
 const server = express()
 
@@ -59,6 +61,8 @@ server.use('/meals', meals)
 server.use('/metrics', dailyMetrics)
 server.use('/dashboard', dashboard)
 server.use('/notifications', notifications)
+server.use('/feedback', feedback)
+server.use('/admin', admin)
 
 //Error Handler middleware
 server.use(errorHandler)

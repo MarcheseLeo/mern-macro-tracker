@@ -2,7 +2,7 @@
     max-width: 28rem;
     height: 70px;
     border-radius: calc(var(--radius) + 18px) calc(var(--radius) + 18px) 0 0;
-    border-top: 1px solid #e3e4e98f;
+    border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
     background-color: var(--card);
 }
 
@@ -27,6 +27,11 @@
 
 .nav-link-item.active {
     color: var(--primary);
+}
+
+.nav-link-item.active svg,
+.sidebar-link.active svg {
+    fill: color-mix(in srgb, currentColor 18%, transparent);
 }
 
 
@@ -83,8 +88,8 @@
 }
 
 .sidebar-link.active {
-    background-color:var(--sidebar-accent);
-    color: var(--sidebar-accent-foreground);
+    background-color: var(--accent);
+    color: var(--accent-foreground);
     font-weight: 600;
 }
 

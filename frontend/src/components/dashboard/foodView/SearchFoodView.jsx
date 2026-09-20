@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Search, Loader2, Plus, Check, CalendarX } from 'lucide-react'
+import { Search, Loader2, Plus, Check, CalendarX, Clock3 } from 'lucide-react'
 import { CATEGORY_EMOJIS } from '../../../lib/costants'
 import { InfoModal } from '../../infoModal/Infomodal'
 import { DashboardContext } from '../../../context/DashboardContext'
@@ -9,9 +9,12 @@ import { getFoods } from '../../../services/FoodService'
 import './styles.css'
 const CATEGORIES = ['All', 'fruit', 'vegetable', 'meat', 'dairy', 'cereal', 'snack', 'beverage', 'other']
 
-export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
-    const [query, setQuery] = useState('')
-    const [selectedCategory, setSelectedCategory] = useState('All')
+export const SearchFoodView = ({ onFoodSelect, onQuickAdd, searchState, onSearchStateChange }) => {
+    const query = searchState?.query ?? ''
+    const selectedCategory = searchState?.selectedCategory ?? 'All'
+    const setQuery = (value) => onSearchStateChange?.((state) => ({ ...state, query: value }))
+    const setSelectedCategory = (value) => onSearchStateChange?.((state) => ({ ...state, selectedCategory: value }))
+    const [recentFoods] = useState(() => JSON.parse(localStorage.getItem('recentFoods') || '[]'))
 
     const [foods, setFoods] = useState([])
     const [isLoading, setIsLoading] = useState(true);
@@ -144,7 +147,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search healthy food..."
+                    placeholder="Search foods, brands or ingredients"
                     className="form-control border-0 bg-transparent shadow-none px-1"
                     autoFocus
                 />
@@ -174,6 +177,10 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
 
             {/* RESULT LIST */}
             <div className="flex-grow-1 overflow-y-auto no-scrollbar">
+                {!query && selectedCategory === 'All' && recentFoods.length > 0 && <section className="frequent-foods mb-3">
+                    <div className="d-flex align-items-center gap-2 mb-2"><Clock3 size={16} /><strong className="small">Frequently added</strong></div>
+                    <div className="d-flex gap-2 overflow-auto no-scrollbar">{recentFoods.map((food) => <button type="button" key={food._id} className="frequent-food-chip" onClick={() => onFoodSelect(food)}>{CATEGORY_EMOJIS[food.category] || '🍽️'} <span>{food.name}</span></button>)}</div>
+                </section>}
                 {error && <p className="text-danger text-center small">{error}</p>}
 
                 {isLoading ? (
@@ -192,7 +199,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
                                     return (
                                         <li key={f._id}>
                                             <div
-                                                className="d-flex align-items-center gap-3 p-2 bg-light  cursor-pointer"
+                                                className="food-search-result d-flex align-items-center gap-3 p-3 cursor-pointer"
                                                 onClick={() => onFoodSelect(f)}
                                                 style={{ border: "1px solid rgba(227, 228, 233, 0.72)", borderRadius: " var(--radius-xl)" }}
                                             >
@@ -214,7 +221,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd }) => {
                                                     </span>
                                                 </div>
 
-                                                <div className="text-end">
+                                                <div className="text-end food-result-kcal">
                                                     <span className="d-block font-heading fw-bold text-primary">{calculatedKcal}</span>
                                                     <span className="small text-muted">kcal</span>
                                                 </div>

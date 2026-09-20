@@ -61,6 +61,12 @@ const editMe = async (req, res, next) => {
     try {
         const { id } = req.user
         const { body } = req
+        // Privileged fields are administered only through protected admin APIs.
+        delete body.role
+        delete body.isVerified
+        delete body.verificationToken
+        delete body.resetPasswordToken
+        delete body.resetPasswordExpires
         const user = await UserService.editUser(id, body)
 
         if (!user)
@@ -219,11 +225,26 @@ const uploadAvatar = async (req, res, next) => {
     }
 }
 
+const toggleFavoriteFood = async (req, res, next) => {
+    try {
+        const user = await UserService.getUserById(req.user.id)
+        if (!user) throw new UserNotFoundException()
+        const foodId = req.params.foodId
+        const index = user.favoriteFoods.findIndex((food) => food._id.toString() === foodId)
+        if (index >= 0) user.favoriteFoods.splice(index, 1)
+        else user.favoriteFoods.push(foodId)
+        await user.save()
+        await user.populate('favoriteFoods')
+        res.status(200).send({ favoriteFoods: user.favoriteFoods })
+    } catch (e) { next(e) }
+}
+
 module.exports = {
     getMe,
     getUsers,
     getUserById,
     editMe,
+    toggleFavoriteFood,
     editUser,
     updatePassword,
     deleteMe,

@@ -15,6 +15,8 @@ import { Stats } from './pages/Statistics/Stats';
 import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword/ResetPassword';
 import { ThemeProvider } from './context/ThemeContext';
+import { AdminRoute } from './components/auth/AdminRoute';
+import { Admin } from './pages/Admin/Admin';
 
 
 const App = () => {
@@ -45,6 +47,9 @@ const App = () => {
               <Route path='/stats' element={<Stats />} />
               <Route path='/calendar' element={<Calendar />} />
               <Route path='/profile' element={<Profile />} />
+              <Route element={<AdminRoute />}>
+                <Route path='/admin' element={<Admin />} />
+              </Route>
             </Route>
           </Route>
 

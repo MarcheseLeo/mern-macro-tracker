@@ -19,13 +19,13 @@
 }
 
 .bg-success-subtle {
-    background-color: #d1e7dd !important;
+    background-color: var(--protein-soft) !important;
 }
 .border-success-subtle {
-    border-color: #badbcc !important;
+    border-color: var(--protein) !important;
 }
 .text-success {
-    color: #198754 !important;
+    color: var(--protein-foreground) !important;
 }
 
 .calendar-summary-tile {

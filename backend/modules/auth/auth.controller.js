@@ -9,6 +9,7 @@ const refreshCookieOptions = () => ({
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    path: '/',
     maxAge: 7 * 24 * 60 * 60 * 1000
 })
 const login = async (req, res, next) => {
@@ -71,6 +72,8 @@ const register = async (req, res, next) => {
 
         body.isVerified = false
         body.verificationToken = token
+        // Public registration must never be able to elevate privileges.
+        body.role = 'user'
 
         const user = await AuthService.register(body)
 

@@ -15,6 +15,11 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         type: String,
     },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
+    },
     password: {
         required: function () {
             return !this.googleId
@@ -78,6 +83,7 @@ const UserSchema = new mongoose.Schema({
         achievements: { type: Boolean, default: true },
         emailSummary: { type: Boolean, default: true }
     },
+    favoriteFoods: [{ type: mongoose.Schema.Types.ObjectId, ref: 'food' }],
     isVerified: {
         type: Boolean,
         default: false

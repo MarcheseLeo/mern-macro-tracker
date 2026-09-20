@@ -23,6 +23,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
     const [mode, setMode] = useState('choices')
     const [meal, setMeal] = useState(defaultMeal)
     const [selectedFood, setSelectedFood] = useState(null)
+    const [searchState, setSearchState] = useState({ query: '', selectedCategory: 'All' })
 
     const { editingItem, setEditingItem } = useContext(DashboardContext)
 
@@ -167,11 +168,15 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                     {/* SEARCH VIEW */}
                     {mode === 'search' && (
                         <SearchFoodView
+                            searchState={searchState}
+                            onSearchStateChange={setSearchState}
                             onFoodSelect={(food) => {
                                 setSelectedFood(food);
                                 setMode('details');
                             }}
                             onQuickAdd={(food) => {
+                                const recent = JSON.parse(localStorage.getItem('recentFoods') || '[]').filter((item) => item._id !== food._id)
+                                localStorage.setItem('recentFoods', JSON.stringify([food, ...recent].slice(0, 6)))
                                 saveFoodToMeal(food._id, food.servingSize, false)
                             }}
                         />

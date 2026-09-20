@@ -8,6 +8,11 @@ export const editMe = async (body) =>{
     return res.data
 }
 
+export const toggleFavoriteFood = async (foodId) => {
+    const res = await api.patch(`/users/me/favorites/${foodId}`)
+    return res.data.favoriteFoods
+}
+
 export const uploadAvatar = async (file) => {
     const formData = new FormData()
     formData.append('avatar', file)

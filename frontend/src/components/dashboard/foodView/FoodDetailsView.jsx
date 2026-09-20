@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { Plus, Info, Edit3 } from 'lucide-react'
+import React, { useContext, useState } from 'react'
+import { Plus, Info, Edit3, Heart, ChevronDown } from 'lucide-react'
 import { InfoModal } from '../../infoModal/Infomodal'
 import { CATEGORY_EMOJIS } from '../../../lib/costants'
+import { AuthContext } from '../../../context/AuthContext'
+import { toggleFavoriteFood } from '../../../services/UserService'
 
 export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing, onEditClick }) => {
 
     const [quantity, setQuantity] = useState(initialQuantity || 100);
     const [selectMode, setSelectMode] = useState(initialQuantity ? 'custom' : '100')
+    const [showNutrition, setShowNutrition] = useState(false)
+    const { user, setUser } = useContext(AuthContext)
+    const isFavorite = user?.favoriteFoods?.some((favorite) => favorite._id === food._id || favorite === food._id)
 
     const unit = food.servingUnit || 'g'
 
@@ -40,6 +45,11 @@ export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing, o
     const macros = food.nutritionalValues
     const currentKcal = Math.round((macros.kcal / 100) * quantity)
 
+    const handleFavorite = async () => {
+        const favoriteFoods = await toggleFavoriteFood(food._id)
+        setUser((current) => ({ ...current, favoriteFoods }))
+    }
+
     return (
         <div className="d-flex flex-column">
 
@@ -50,40 +60,24 @@ export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing, o
                     {food.name}
                 </h3>
                 <p className="text-muted small mb-2">{food.brand}</p>
-                {/* EDIT BUTTON */}
-                <button
-                    onClick={onEditClick}
-                    className="btn btn-sm position-absolute rounded-pill d-inline-flex align-items-center gap-2 edit-button"
-                >
-                    <Edit3 size={14} /> Edit
-                </button>
+                <div className="position-absolute end-0 bottom-0 d-flex gap-2">
+                    <button onClick={onEditClick} className="btn btn-sm rounded-pill d-inline-flex align-items-center gap-2 edit-button"><Edit3 size={14} /> Edit</button>
+                    <button onClick={handleFavorite} className={`btn btn-sm rounded-circle details-favorite ${isFavorite ? 'is-favorite' : ''}`} aria-label="Toggle favorite"><Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} /></button>
+                </div>
             </div>
 
             {/* SUMMARY */}
-            <div className="d-flex justify-content-center gap-4 gap-md-5 text-center bg-light radius-3xl p-3 mb-4 shadow-soft-sm">
-                <div>
-                    <span className="d-block font-heading fs-4 fw-bold text-primary">{currentKcal}</span>
-                    <span className="small text-muted fw-medium">Kcal</span>
-                </div>
-                <div>
-                    <span className="d-block font-heading fs-4 fw-bold text-carbs" ><span>{calc(macros.carbs?.total)}</span>g</span>
-                    <span className="small text-muted fw-medium">Carbs</span>
-                </div>
-                <div>
-                    <span className="d-block font-heading fs-4 fw-bold text-protein">{calc(macros.proteins)}g</span>
-                    <span className="small text-muted fw-medium">Proteins</span>
-                </div>
-                <div>
-                    <span className="d-block font-heading fs-4 fw-bold text-fat">{calc(macros.fats?.total)}g</span>
-                    <span className="small fw-medium text-muted">Fats</span>
-                </div>
+            <div className="food-detail-summary p-3 mb-4 shadow-soft-sm">
+                <div className="food-detail-kcal"><strong>{currentKcal}</strong><span>kcal</span></div>
+                <div className="food-macro-badges"><span className="food-macro-badge carbs">C {calc(macros.carbs?.total)}g</span><span className="food-macro-badge proteins">P {calc(macros.proteins)}g</span><span className="food-macro-badge fats">F {calc(macros.fats?.total)}g</span></div>
             </div>
 
 
 
             {/* FULL MACRO TABLE */}
             <div className="flex-grow-1 overflow-y-auto mb-4 px-1">
-                <h6 className="font-heading fw-bold mb-3 px-2 text-dark ">Nutritional Values</h6>
+                <button type="button" className="nutrition-toggle w-100" onClick={() => setShowNutrition((show) => !show)} aria-expanded={showNutrition}><span className="font-heading fw-bold text-dark">All nutritional values</span><ChevronDown size={18} className={showNutrition ? 'rotate-180' : ''} /></button>
+                {showNutrition && <div className="nutrition-reveal">
                 <div className="bg-white border rounded-4 p-3 shadow-sm">
                     {/* Calories */}
                     <div className="d-flex justify-content-between align-items-center pb-2 border-bottom">
@@ -144,6 +138,7 @@ export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing, o
                         <span className="fw-bold text-dark">{calc(macros.salt)} g</span>
                     </div>
                 </div>
+                </div>}
             </div>
 
             {/* SERVING SIZE */}

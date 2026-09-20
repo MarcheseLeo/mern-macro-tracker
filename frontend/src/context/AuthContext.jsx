@@ -22,15 +22,21 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const clearSession = () => {
+        localStorage.removeItem('token')
+        setUser(null)
+        setIsAuthorized(false)
+        setIsLoading(false)
+    }
 
-    const getUser = async ({ refreshSession = true } = {}) => {
+
+    const getUser = async () => {
         setIsLoading(true)
 
         try {
-            if (refreshSession) {
-                const { data } = await api.post('/auth/refresh')
-                localStorage.setItem('token', data.token)
-            }
+            // A 401 from /users/me is handled by the API interceptor. It performs
+            // exactly one refresh for all concurrent requests, including reloads
+            // where localStorage no longer contains an access token.
             const response = await api.get('/users/me')
 
             setUser(response.data.user || response.data) 
@@ -38,9 +44,7 @@ export const AuthProvider = ({ children }) => {
 
         } catch (e) {
             console.error("Sessione scaduta o non valida", e)
-            localStorage.removeItem('token')
-            setUser(null)
-            setIsAuthorized(false)
+            clearSession()
         } finally {
             setIsLoading(false)
         }
@@ -50,11 +54,21 @@ export const AuthProvider = ({ children }) => {
         getUser()
     }, [])
 
+    useEffect(() => {
+        const handleSessionExpired = () => {
+            clearSession()
+            if (window.location.pathname !== '/login') {
+                window.location.assign('/login')
+            }
+        }
+
+        window.addEventListener('auth:expired', handleSessionExpired)
+        return () => window.removeEventListener('auth:expired', handleSessionExpired)
+    }, [])
+
     const login = async (token) => {
         localStorage.setItem('token', token)
-        // OAuth already supplies a fresh access token. Use it immediately;
-        // the refresh cookie is used on later reloads.
-        await getUser({ refreshSession: false })
+        await getUser()
     }
 
 
@@ -66,6 +80,7 @@ export const AuthProvider = ({ children }) => {
                 login,
                 logout,
                 refreshUser: getUser,
+                setUser,
                 isLoading,
                 isAuthorized
             }}

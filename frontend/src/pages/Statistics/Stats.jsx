@@ -122,8 +122,8 @@ export const Stats = () => {
                                     fontWeight: '600'
                                 }}
                             />
-                            <ReferenceLine y={goalKcal} stroke="var(--primary)" strokeDasharray="6 6" />
-                            <Bar dataKey="calories" fill="var(--chart-1)" radius={[8, 8, 8, 8]} maxBarSize={32} />
+                            <ReferenceLine y={goalKcal} stroke="var(--primary-muted)" strokeDasharray="6 6" />
+                            <Bar dataKey="calories" fill="var(--primary)" radius={[8, 8, 8, 8]} maxBarSize={32} />
                         </BarChart>
                     </ResponsiveContainer>
             </ChartCard>

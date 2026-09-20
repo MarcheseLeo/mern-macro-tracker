@@ -92,7 +92,6 @@ export const BottomNav = () => {
               <item.icon
                 size={22}
                 className="mb-1"
-                fill={`${isActive ? "#4f4fde31" : "transparent"}`}
               />
               <span>{item.label}</span>
             </Link>
@@ -123,7 +122,6 @@ export const BottomNav = () => {
               <item.icon
                 size={22}
                 className="mb-1"
-                fill={`${isActive ? "#4f4fde31" : "transparent"}`}
               />
               <span>{item.label}</span>
             </Link>
@@ -171,7 +169,6 @@ export const Sidebar = () => {
                 <item.icon
                   size={20}
                   className="me-3"
-                  fill={isActive ? "#4f4fde31" : "transparent"}
                 />
                 {item.label}
               </Link>

@@ -18,7 +18,10 @@
     --muted-foreground: #6d717e;
     --accent: #e9edff;
     --accent-foreground: #383e87;
+    --success: #198754;
+    --success-foreground: #0f5132;
     --destructive: #f1274e;
+    --destructive-foreground: #ffffff;
     --border: #e3e4e9;
     --input: #e3e4e9;
     --ring: #4f50de;
@@ -101,14 +104,14 @@ h1, h2, h3, h4, h5, h6,
 
 .app-card {
     background: var(--card);
-    border: 1px solid rgba(227, 228, 233, 0.72);
+    border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
     border-radius: var(--radius-lg);
     box-shadow: 0 10px 26px -18px rgba(18, 24, 38, 0.38);
 }
 
 .surface-soft {
     background: var(--muted) !important;
-    border: 1px solid rgba(227, 228, 233, 0.65);
+    border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
 }
 
 .soft-control,
@@ -125,7 +128,12 @@ h1, h2, h3, h4, h5, h6,
 .form-control.soft-control:focus,
 .form-select.soft-control:focus {
     border-color: var(--ring);
-    box-shadow: 0 0 0 0.18rem rgba(79, 80, 222, 0.14);
+    box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--ring) 18%, transparent);
+}
+
+:where(button, a, input, select, textarea):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
 }
 
 .btn-primary-custom {
@@ -140,6 +148,39 @@ h1, h2, h3, h4, h5, h6,
     border-color: var(--primary-muted) !important;
     color: var(--primary-foreground) !important;
 }
+
+/* Bootstrap's compiled utilities contain their default blue values. Map them
+   back to the design tokens so every primary control follows the chosen accent. */
+.btn-primary {
+    --bs-btn-color: var(--primary-foreground);
+    --bs-btn-bg: var(--primary);
+    --bs-btn-border-color: var(--primary);
+    --bs-btn-hover-color: var(--primary-foreground);
+    --bs-btn-hover-bg: var(--primary-muted);
+    --bs-btn-hover-border-color: var(--primary-muted);
+    --bs-btn-active-color: var(--primary-foreground);
+    --bs-btn-active-bg: var(--primary-muted);
+    --bs-btn-active-border-color: var(--primary-muted);
+    --bs-btn-disabled-bg: var(--primary);
+    --bs-btn-disabled-border-color: var(--primary);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--primary);
+    --bs-btn-border-color: var(--primary);
+    --bs-btn-hover-color: var(--primary-foreground);
+    --bs-btn-hover-bg: var(--primary);
+    --bs-btn-hover-border-color: var(--primary);
+    --bs-btn-active-color: var(--primary-foreground);
+    --bs-btn-active-bg: var(--primary);
+    --bs-btn-active-border-color: var(--primary);
+}
+
+.bg-primary { background-color: var(--primary) !important; }
+.text-primary, .link-primary { color: var(--primary) !important; }
+.border-primary { border-color: var(--primary) !important; }
+.text-bg-primary { color: var(--primary-foreground) !important; background-color: var(--primary) !important; }
+.bg-accent { background-color: var(--accent) !important; }
 
 .btn-soft-custom {
     color: var(--secondary-foreground) !important;
@@ -287,7 +328,7 @@ h1, h2, h3, h4, h5, h6,
 .skeleton {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(90deg, var(--muted) 0%, #ffffff 48%, var(--muted) 100%);
+    background: linear-gradient(90deg, var(--muted) 0%, color-mix(in srgb, var(--card) 72%, var(--muted)) 48%, var(--muted) 100%);
     background-size: 220% 100%;
     animation: skeleton-shimmer 1.15s ease-in-out infinite;
 }
@@ -344,6 +385,8 @@ h1, h2, h3, h4, h5, h6,
     --muted-foreground: #8e95a9;
     --accent: #262c54;
     --accent-foreground: #b4bcff;
+    --success: #42d69b;
+    --success-foreground: #cdf3db;
     --border: #2a3143;
     --input: #2a3143;
 
@@ -351,6 +394,7 @@ h1, h2, h3, h4, h5, h6,
     --primary-foreground: #ffffff;
     --primary-muted: #8384f5;
     --ring: #6566f0;
+    --destructive-foreground: #ffffff;
 
     --carbs: rgb(51, 181, 229);
     --carbs-foreground: rgb(207, 237, 255);
@@ -412,16 +456,18 @@ h1, h2, h3, h4, h5, h6,
 }
 
 [data-theme="dark"] .btn-light {
-    background-color: var(--muted-foreground) !important;
+    background-color: var(--secondary) !important;
     border: 0;
-    color: black !important
+    color: var(--foreground) !important;
 }
 
 [data-theme="dark"] .btn-light:hover {
-    background-color: var(--accent-foreground) !important;
+    background-color: var(--muted) !important;
 }
 
-[data-theme="dark"] .text-dark {
+[data-theme="dark"] .text-dark,
+[data-theme="dark"] .text-black,
+[data-theme="dark"] .text-body {
     color: var(--foreground) !important;
 }
 
@@ -440,6 +486,21 @@ h1, h2, h3, h4, h5, h6,
 
 [data-theme="dark"] .bg-light {
     background-color: var(--muted) !important;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .input-group-text,
+[data-theme="dark"] .dropdown-menu,
+[data-theme="dark"] .list-group-item {
+    color: var(--foreground);
+    background-color: var(--card);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .form-control::placeholder {
+    color: var(--muted-foreground);
+    opacity: 1;
 }
 
 [data-theme="dark"] main {

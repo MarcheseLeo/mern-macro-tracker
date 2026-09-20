@@ -13,6 +13,13 @@ const api = axios.create({
 let isRefreshing = false
 let failedQueue = []
 
+const isAuthEndpoint = (url = '') =>
+    ['/auth/login', '/auth/refresh', '/auth/logout'].some((endpoint) => url.includes(endpoint))
+
+const notifySessionExpired = () => {
+    window.dispatchEvent(new Event('auth:expired'))
+}
+
 const processQueue = (error, token = null) => {
     failedQueue.forEach(prom => {
         if (error) {
@@ -37,7 +44,9 @@ api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (originalRequest.url.includes('/auth/login') || originalRequest.url.includes('/auth/refresh') || originalRequest.url.includes('/auth/logout')) {
+
+        // Network failures do not always include an Axios request config.
+        if (!originalRequest || isAuthEndpoint(originalRequest.url)) {
             return Promise.reject(error);
         }
         if (error.response && error.response.status === 401 && !originalRequest._retry) {
@@ -55,7 +64,12 @@ api.interceptors.response.use(
             isRefreshing = true;
 
             try {
-                const { data } = await axios.post(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/refresh`, {}, { withCredentials: true });
+                // Use the bare Axios client: the refresh request must never enter
+                // this interceptor or inherit an expired Authorization header.
+                const { data } = await axios.post(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/refresh`, {}, {
+                    withCredentials: true,
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' }
+                });
                 
                 const newAuthToken = data.token;
                 localStorage.setItem('token', newAuthToken)
@@ -70,9 +84,7 @@ api.interceptors.response.use(
 
                 processQueue(err, null);
                 localStorage.removeItem('token')
-                if (window.location.pathname !== '/login') {
-                    window.location.href = '/login'
-                }
+                notifySessionExpired()
                 return Promise.reject(err)
             } finally {
                 isRefreshing = false
