@@ -2,6 +2,27 @@
 
 Tutte le modifiche di rilievo a questo progetto saranno documentate in questo file.
 
+## [1.4.0] - 2026-09-20
+
+### Features
+
+- **Management Area:**
+  - Aggiunta la ricerca contestuale per utenti, alimenti e richieste, con filtro dedicato agli amministratori.
+  - Introdotta la richiesta di accesso amministratore nei Dev Tools e la relativa gestione nella console admin.
+- **Dashboard e Alimenti:**
+  - Rinnovate le righe degli alimenti con badge macro, preferiti espandibili e navigazione giornaliera tramite swipe.
+
+### UX/UI Improvements
+
+- **Stati Visivi di Gestione:**
+  - Gli amministratori, gli alimenti disabilitati e le richieste chiuse hanno ora un aspetto immediatamente riconoscibile.
+  - Migliorate la Food Sheet, Food Details e la griglia degli alimenti salvati.
+
+### Security & Authentication
+
+- **Protezione Admin Originale:**
+  - L'account `leonardo.lol.ldp@gmail.com` non può essere declassato al ruolo utente attraverso le API amministrative.
+
 ## [1.3.0] - 2026-07-21
 
 ### ✨ Features
