@@ -98,10 +98,88 @@
     font-size: 0.7rem;
 }
 
-.food-row-macros { gap: .25rem; }
-.food-row-macros .food-macro-badge { padding: .16rem .36rem; font-size: .64rem; }
-.food-kcal-value { font-size: 1.15rem; }
-.food-kcal-value small { font-size: .65rem; font-weight: 700; }
+.food-row-macros {
+    gap: .25rem;
+}
+
+.food-row-macros .food-macro-badge {
+    padding: .16rem .36rem;
+    font-size: .64rem;
+}
+
+.food-kcal-value {
+    font-size: 1.15rem;
+}
+
+.food-kcal-value small {
+    font-size: .65rem;
+    font-weight: 700;
+}
+
+@media (max-width: 400px) {
+    .food-row {
+        max-height: 5.35rem;
+    }
+
+    .food-row-content {
+        display: grid !important;
+        grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+        grid-template-rows: auto auto auto;
+        column-gap: .45rem !important;
+        row-gap: 0;
+        align-items: center !important;
+        align-content: center;
+        min-height: 4.65rem;
+        padding: .35rem .45rem !important;
+    }
+
+    .food-row-details {
+        display: flex !important;
+        flex-direction: column;
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        gap: 0.38rem;
+        justify-content: center;
+    }
+
+    .food-icon {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        width: 2.2rem;
+        height: 2.2rem;
+        font-size: 1rem;
+    }
+
+    .food-name {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .food-meta {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .food-row-macros {
+        grid-column: auto;
+        grid-row: auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        margin-top: 0 !important;
+        transform: none;
+    }
+
+    .food-row-macros .food-macro-badge {
+        padding: .12rem .3rem;
+        font-size: .59rem;
+    }
+
+    .food-kcal-value {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+        font-size: 1.05rem;
+    }
+}
 
 .delete-food-btn:hover {
     background-color: rgba(241, 39, 78, 0.1);

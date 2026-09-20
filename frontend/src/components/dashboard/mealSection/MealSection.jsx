@@ -201,7 +201,7 @@ const FoodRow = ({ item, mealId, onFoodDeleted, isFutureDate }) => {
                     {CATEGORY_EMOJIS[food.category] || CATEGORY_EMOJIS.other}
                 </span>
 
-                <div className="flex-grow-1 overflow-hidden">
+                <div className="flex-grow-1 overflow-hidden food-row-details">
                     <span className="d-block fw-semibold text-truncate food-name">{food.name}</span>
                     <span className="d-block text-muted-foreground food-meta text-truncate">
                         {item.consumedQuantity}{food.servingUnit} · {food.brand}
