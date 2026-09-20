@@ -1,0 +1,8 @@
+.admin-role-filter { max-width: 12rem; }
+.admin-user-row > * { background: color-mix(in oklab, var(--primary) 7%, var(--card)) !important; }
+.admin-user-row td:first-child { border-left: 3px solid var(--primary); }
+.admin-role-badge { color: var(--primary-foreground); background: var(--primary); border: 0; }
+.admin-crown, .admin-state-badge { display: inline-block; margin-left: .5rem; padding: .14rem .42rem; color: var(--primary); background: var(--primary-muted); border-radius: 999px; font-size: .65rem; font-weight: 700; vertical-align: middle; }
+.admin-food-row.is-disabled, .admin-request.is-closed { opacity: .58; filter: saturate(.55); border-left: 3px solid var(--muted-foreground); }
+.admin-request-status { text-transform: capitalize; font-weight: 700; }
+@media (max-width: 575px) { .admin-role-filter { max-width: none; } }

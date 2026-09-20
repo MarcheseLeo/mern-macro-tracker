@@ -1,6 +1,7 @@
 const User = require('../users/user.schema')
 const Food = require('../foods/foods.schema')
 const Feedback = require('../feedback/feedback.schema')
+const ORIGINAL_ADMIN_EMAIL = 'leonardo.lol.ldp@gmail.com'
 
 const getUsers = async (req, res, next) => {
     try {
@@ -14,6 +15,11 @@ const updateUser = async (req, res, next) => {
         const allowed = ['role', 'isVerified']
         const update = Object.fromEntries(Object.entries(req.body).filter(([key]) => allowed.includes(key)))
         if (Object.keys(update).length === 0) return res.status(400).send({ message: 'No editable fields provided.' })
+        const targetUser = await User.findById(req.params.id).select('email')
+        if (!targetUser) return res.status(404).send({ message: 'User not found.' })
+        if (targetUser.email?.toLowerCase() === ORIGINAL_ADMIN_EMAIL && update.role && update.role !== 'admin') {
+            return res.status(403).send({ message: 'The original administrator role cannot be removed.' })
+        }
         if (req.params.id === String(req.user.id) && update.role === 'user') return res.status(400).send({ message: 'You cannot remove your own administrator role.' })
         const user = await User.findByIdAndUpdate(req.params.id, update, { new: true, runValidators: true }).select('firstName lastName email avatar role isVerified createdAt lastActiveDate')
         if (!user) return res.status(404).send({ message: 'User not found.' })

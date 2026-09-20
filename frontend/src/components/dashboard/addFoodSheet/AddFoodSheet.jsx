@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Search, PlusCircle, ScanLine, X, ArrowLeft, CalendarX } from 'lucide-react'
 import { SearchFoodView } from '../foodView/SearchFoodView';
 import { FoodDetailsView } from '../foodView/FoodDetailsView';
@@ -24,6 +24,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
     const [meal, setMeal] = useState(defaultMeal)
     const [selectedFood, setSelectedFood] = useState(null)
     const [searchState, setSearchState] = useState({ query: '', selectedCategory: 'All' })
+    const dragStartY = useRef(null)
 
     const { editingItem, setEditingItem } = useContext(DashboardContext)
 
@@ -96,6 +97,19 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
             <div
                 className="bg-white radius-3xl w-100 p-4 shadow-lg d-flex flex-column mx-auto food-sheet-container"
             >
+                <button
+                    type="button"
+                    className="sheet-drag-handle"
+                    aria-label="Swipe down to close"
+                    onPointerDown={(event) => {
+                        dragStartY.current = event.clientY
+                        event.currentTarget.setPointerCapture(event.pointerId)
+                    }}
+                    onPointerUp={(event) => {
+                        if (dragStartY.current !== null && event.clientY - dragStartY.current > 55) handleClose()
+                        dragStartY.current = null
+                    }}
+                ><span /></button>
                 {/* HEADER */}
                 <div className="d-flex align-items-center justify-content-between mb-3">
                     <div className="d-flex align-items-center gap-2">
@@ -153,7 +167,7 @@ export const AddFoodSheet = ({ open, onClose, selectedDate, defaultMeal = "break
                                     onClick={() => setMode(c.mode)}
                                     className={`btn btn-outline-light text-start p-3 rounded-4 d-flex align-items-center gap-3 border ${c.disabled ? 'opacity-50' : ''} view-btn`}
                                 >
-                                    <div className={`bg-${c.color} bg-opacity-10 text-${c.color} rounded-3 p-3 d-flex justify-content-center align-items-center`}>
+                                    <div className={`choice-icon ${c.mode} rounded-3 p-3 d-flex justify-content-center align-items-center`}>
                                         <c.icon size={24} />
                                     </div>
                                     <div>

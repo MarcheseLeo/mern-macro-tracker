@@ -57,7 +57,7 @@
     padding: 0;
     border: none;
     background-color: transparent;
-    max-height: 4.75rem;
+    max-height: 5.5rem;
     transition: max-height 0.28s ease, opacity 0.2s ease, margin 0.28s ease;
 }
 
@@ -76,7 +76,7 @@
 }
 
 .food-row-content {
-    min-height: 4.25rem;
+    min-height: 5rem;
 }
 
 .food-icon {
@@ -97,6 +97,11 @@
 .food-kcal-label {
     font-size: 0.7rem;
 }
+
+.food-row-macros { gap: .25rem; }
+.food-row-macros .food-macro-badge { padding: .16rem .36rem; font-size: .64rem; }
+.food-kcal-value { font-size: 1.15rem; }
+.food-kcal-value small { font-size: .65rem; font-weight: 700; }
 
 .delete-food-btn:hover {
     background-color: rgba(241, 39, 78, 0.1);

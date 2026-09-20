@@ -70,7 +70,7 @@ const profileRowClass =
 const profileRowContentClass = "d-flex align-items-center gap-3";
 
 export const Profile = () => {
-  const { user, logout, refreshUser } = useContext(AuthContext);
+  const { user, logout, refreshUser, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const feedbackTimeoutRef = useRef(null);
@@ -346,8 +346,8 @@ export const Profile = () => {
 
   const handleRemoveFavorite = async (foodId) => {
     try {
-      await toggleFavoriteFood(foodId);
-      await refreshUser();
+      const favoriteFoods = await toggleFavoriteFood(foodId);
+      setUser((current) => ({ ...current, favoriteFoods }));
     } catch (e) {
       showFeedback("danger", "Unable to update saved foods.");
     }
@@ -1071,20 +1071,30 @@ export const Profile = () => {
         </>
       )}
 
-      <section className="mb-4">
+      {user?.role !== "admin" && (
+        <>
+          <h3 className="profile-section-title mt-3">Dev Tools</h3>
+          <FeedbackCard type="admin_request" />
+        </>
+      )}
+
+      <section className="mb-4" ref={parentRef}>
         <h3 className="profile-section-title mt-3">Saved Foods</h3>
-        <div className="profile-card saved-foods-card">
-          <div className="d-flex align-items-center gap-3 mb-3">
+        <div className={`profile-card saved-foods-card ${openSection === 'savedFoods' ? 'is-open' : ''}`}>
+          <div className={profileAccordionHeaderClass} onClick={() => onToggle('savedFoods')} aria-expanded={openSection === 'savedFoods'}>
             <span className="profile-section-icon saved-foods-icon"><Heart size={20} /></span>
-            <div><h3 className="fw-semibold small mb-0 text-dark">Favorite foods</h3><p className="small text-muted-foreground mb-0">{user?.favoriteFoods?.length || 0} foods saved</p></div>
+            <div className="flex-grow-1"><h3 className="fw-semibold small mb-0 text-dark">Favorite foods</h3><p className="small text-muted-foreground mb-0">{user?.favoriteFoods?.length || 0} foods saved</p></div>
+            <ChevronDown size={19} className={`profile-accordion-chevron ${openSection === 'savedFoods' ? 'is-open' : ''}`} />
           </div>
-          {user?.favoriteFoods?.length ? <div className="d-grid gap-2">
+          {openSection === 'savedFoods' && <div className="saved-foods-content">
+          {user?.favoriteFoods?.length ? <div className="saved-foods-grid">
             {user.favoriteFoods.map((food) => <div className="saved-food-row" key={food._id}>
               <span className="saved-food-emoji">{food.category === 'fruit' ? '🍎' : food.category === 'vegetable' ? '🥦' : '🍽️'}</span>
               <div className="flex-grow-1 overflow-hidden"><strong className="d-block small text-dark text-truncate">{food.name}</strong><span className="small text-muted-foreground">{food.brand || 'Custom food'}</span></div>
-              <button type="button" onClick={() => handleRemoveFavorite(food._id)} className="btn saved-food-remove" aria-label={`Remove ${food.name} from favorites`}><Heart size={17} fill="currentColor" /></button>
+              <button type="button" onClick={(event) => { event.stopPropagation(); handleRemoveFavorite(food._id) }} className="btn saved-food-remove" aria-label={`Remove ${food.name} from favorites`}><Heart size={17} fill="currentColor" /></button>
             </div>)}
           </div> : <p className="small text-muted-foreground mb-0">Save foods from their details to find them here quickly.</p>}
+          </div>}
         </div>
       </section>
 

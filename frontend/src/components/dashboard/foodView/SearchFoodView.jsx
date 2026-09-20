@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Search, Loader2, Plus, Check, CalendarX, Clock3 } from 'lucide-react'
+import { Search, Loader2, Plus, Check, CalendarX, Clock3, Heart } from 'lucide-react'
 import { CATEGORY_EMOJIS } from '../../../lib/costants'
 import { InfoModal } from '../../infoModal/Infomodal'
 import { DashboardContext } from '../../../context/DashboardContext'
 import { useContext } from 'react'
+import { AuthContext } from '../../../context/AuthContext'
 import { getFoods } from '../../../services/FoodService'
 
 import './styles.css'
@@ -26,8 +27,10 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd, searchState, onSearch
     const limit = 7
 
     const [addedFoodId, setAddedFoodId] = useState(null)
+    const [showFavorites, setShowFavorites] = useState(false)
 
     const { selectedDate } = useContext(DashboardContext)
+    const { user } = useContext(AuthContext)
     const [showFutureModal, setShowFutureModal] = useState(false)
 
 
@@ -153,6 +156,16 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd, searchState, onSearch
                 />
             </div>
 
+            <button
+                type="button"
+                className={`favorite-filter-btn ${showFavorites ? 'is-active' : ''}`}
+                onClick={() => setShowFavorites((visible) => !visible)}
+                aria-pressed={showFavorites}
+            >
+                <Heart size={16} fill={showFavorites ? 'currentColor' : 'none'} />
+                {showFavorites ? 'Show all foods' : `Saved foods (${user?.favoriteFoods?.length || 0})`}
+            </button>
+
             {/* CATEGORY PILLS*/}
             <div
                 className="d-flex align-items-center gap-2 overflow-x-auto overflow-y-hidden no-scrollbar flex-shrink-0 drag-scroll-container"
@@ -177,6 +190,17 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd, searchState, onSearch
 
             {/* RESULT LIST */}
             <div className="flex-grow-1 overflow-y-auto no-scrollbar">
+                {showFavorites ? (
+                    <section className="favorite-food-results">
+                        {user?.favoriteFoods?.length ? user.favoriteFoods.map((food) => (
+                            <button type="button" key={food._id} className="favorite-food-result" onClick={() => onFoodSelect(food)}>
+                                <span>{CATEGORY_EMOJIS[food.category] || '🍽️'}</span>
+                                <strong className="text-truncate">{food.name}</strong>
+                                <small>{Math.round((food.nutritionalValues?.kcal || 0) * (food.servingSize || 100) / 100)} kcal</small>
+                            </button>
+                        )) : <p className="text-center text-muted small mt-5">No saved foods yet.</p>}
+                    </section>
+                ) : <>
                 {!query && selectedCategory === 'All' && recentFoods.length > 0 && <section className="frequent-foods mb-3">
                     <div className="d-flex align-items-center gap-2 mb-2"><Clock3 size={16} /><strong className="small">Frequently added</strong></div>
                     <div className="d-flex gap-2 overflow-auto no-scrollbar">{recentFoods.map((food) => <button type="button" key={food._id} className="frequent-food-chip" onClick={() => onFoodSelect(food)}>{CATEGORY_EMOJIS[food.category] || '🍽️'} <span>{food.name}</span></button>)}</div>
@@ -265,6 +289,7 @@ export const SearchFoodView = ({ onFoodSelect, onQuickAdd, searchState, onSearch
                         ) : 'Load more results...'}
                     </button>
                 )}
+                </>}
             </div>
 
             {/* MODAL */}

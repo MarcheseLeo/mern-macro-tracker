@@ -2,40 +2,32 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Check, Search, Shield, Users, Utensils, Inbox } from 'lucide-react'
 import { getAdminFeedback, getAdminFoods, getAdminUsers, updateAdminFeedback, updateAdminFood, updateAdminUser } from '../../services/AdminService'
+import './Admin.css'
 
 export const Admin = () => {
-    const [tab, setTab] = useState('users')
-    const [users, setUsers] = useState([])
-    const [foods, setFoods] = useState([])
-    const [feedback, setFeedback] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
-    const [query, setQuery] = useState('')
-
-    const load = async () => {
-        setLoading(true); setError('')
-        try {
-            const [nextUsers, nextFoods, nextFeedback] = await Promise.all([getAdminUsers(), getAdminFoods(), getAdminFeedback()])
-            setUsers(nextUsers); setFoods(nextFoods); setFeedback(nextFeedback)
-        } catch (e) { setError(e.response?.data?.message || 'Unable to load administration data.') }
-        finally { setLoading(false) }
-    }
+    const [tab, setTab] = useState('users'), [users, setUsers] = useState([]), [foods, setFoods] = useState([]), [feedback, setFeedback] = useState([])
+    const [loading, setLoading] = useState(true), [error, setError] = useState(''), [query, setQuery] = useState(''), [roleFilter, setRoleFilter] = useState('all')
+    const load = async () => { setLoading(true); setError(''); try { const [u, f, r] = await Promise.all([getAdminUsers(), getAdminFoods(), getAdminFeedback()]); setUsers(u); setFoods(f); setFeedback(r) } catch (e) { setError(e.response?.data?.message || 'Unable to load administration data.') } finally { setLoading(false) } }
     useEffect(() => { load() }, [])
-    const changeUser = async (id, body) => setUsers((list) => list.map((user) => user._id === id ? { ...user, ...body } : user)) || await updateAdminUser(id, body)
-    const changeFood = async (id, isActive) => { await updateAdminFood(id, { isActive }); setFoods((list) => list.map((food) => food._id === id ? { ...food, isActive } : food)) }
-    const resolveFeedback = async (id, status) => { const item = await updateAdminFeedback(id, { status }); setFeedback((list) => list.map((entry) => entry._id === id ? item : entry)) }
-    const openRequests = feedback.filter((item) => item.status !== 'resolved').length
+    const changeUser = async (id, body) => { try { const updated = await updateAdminUser(id, body); setUsers((list) => list.map((user) => user._id === id ? updated : user)) } catch (e) { setError(e.response?.data?.message || 'Unable to update this user.') } }
+    const changeFood = async (id, isActive) => { try { await updateAdminFood(id, { isActive }); setFoods((list) => list.map((food) => food._id === id ? { ...food, isActive } : food)) } catch (e) { setError('Unable to update this food.') } }
+    const resolveFeedback = async (id, status) => { try { const item = await updateAdminFeedback(id, { status }); setFeedback((list) => list.map((entry) => entry._id === id ? item : entry)) } catch (e) { setError('Unable to update this request.') } }
+    const q = query.trim().toLowerCase(), matches = (...v) => !q || v.filter(Boolean).some((x) => String(x).toLowerCase().includes(q))
+    const visibleUsers = users.filter((u) => (roleFilter === 'all' || u.role === roleFilter) && matches(u.firstName, u.lastName, u.email, u.role))
+    const visibleFoods = foods.filter((f) => matches(f.name, f.brand, f.category, f.isActive ? 'active' : 'disabled'))
+    const visibleFeedback = feedback.filter((f) => matches(f.title, f.message, f.type, f.status, f.user?.firstName, f.user?.lastName, f.user?.email))
+    const openRequests = feedback.filter((f) => !['resolved', 'rejected'].includes(f.status)).length
     const tabs = [{ key: 'users', label: 'Users', icon: Users }, { key: 'foods', label: 'Foods', icon: Utensils }, { key: 'feedback', label: 'Requests', icon: Inbox }]
 
     return <div className="container py-4" style={{ maxWidth: '960px' }}>
         <header className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4"><div><p className="text-primary-custom small fw-bold mb-1">ADMINISTRATION</p><h1 className="h3 font-heading text-dark mb-0">Management area</h1></div><Link to="/home" className="btn btn-secondary-custom rounded-pill"><ArrowLeft size={16} className="me-1" />User area</Link></header>
         <nav className="d-flex gap-2 overflow-auto pb-2 mb-3">{tabs.map(({ key, label, icon: Icon }) => <button key={key} onClick={() => setTab(key)} className={`btn rounded-pill text-nowrap position-relative ${tab === key ? 'btn-primary-custom' : 'btn-light'}`}><Icon size={16} className="me-1" />{label}{key === 'feedback' && openRequests > 0 && <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{openRequests}</span>}</button>)}</nav>
-        <div className="input-group mb-3"><span className="input-group-text bg-transparent border-end-0"><Search size={17} /></span><input value={query} onChange={(e) => setQuery(e.target.value)} className="form-control border-start-0" placeholder="Search users, foods or requests" /></div>
+        <div className="d-flex flex-column flex-sm-row gap-2 mb-3"><div className="input-group"><span className="input-group-text bg-transparent border-end-0"><Search size={17} /></span><input value={query} onChange={(e) => setQuery(e.target.value)} className="form-control border-start-0" placeholder={`Search ${tab}`} /></div>{tab === 'users' && <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)} className="form-select admin-role-filter"><option value="all">All roles</option><option value="admin">Administrators</option><option value="user">Standard users</option></select>}</div>
         {error && <div className="alert alert-danger">{error}</div>}
         {loading ? <div className="app-card p-4 text-muted">Loading administration data…</div> : <section className="app-card p-3 p-md-4 overflow-auto">
-            {tab === 'users' && <table className="table align-middle mb-0"><thead><tr><th>User</th><th>Role</th><th>Verified</th></tr></thead><tbody>{users.map((user) => <tr key={user._id}><td><div className="fw-semibold text-dark">{user.firstName} {user.lastName}</div><small className="text-muted">{user.email}</small></td><td><button onClick={() => changeUser(user._id, { role: user.role === 'admin' ? 'user' : 'admin' })} className="btn btn-sm btn-secondary-custom rounded-pill"><Shield size={14} className="me-1" />{user.role}</button></td><td><button onClick={() => changeUser(user._id, { isVerified: !user.isVerified })} className={`btn btn-sm rounded-pill ${user.isVerified ? 'btn-success' : 'btn-outline-custom'}`}>{user.isVerified && <Check size={14} className="me-1" />}{user.isVerified ? 'Verified' : 'Pending'}</button></td></tr>)}</tbody></table>}
-            {tab === 'foods' && <div className="d-grid gap-2">{foods.map((food) => <div key={food._id} className="surface-soft p-3 radius-md d-flex justify-content-between align-items-center gap-3"><div><div className="fw-semibold text-dark">{food.name}</div><small className="text-muted-foreground">{food.brand} · {food.category}</small></div><button onClick={() => changeFood(food._id, !food.isActive)} className={`btn btn-sm rounded-pill ${food.isActive ? 'btn-outline-custom' : 'btn-primary-custom'}`}>{food.isActive ? 'Disable' : 'Enable'}</button></div>)}</div>}
-            {tab === 'feedback' && <div className="d-grid gap-3">{feedback.map((item) => <article key={item._id} className="surface-soft p-3 radius-md"><div className="d-flex justify-content-between gap-2"><div><span className="badge text-bg-primary rounded-pill me-2">{item.type === 'category_suggestion' ? 'Category' : 'Problem'}</span><strong className="text-dark">{item.title}</strong></div><span className="small text-muted">{item.status}</span></div><p className="small mb-2 mt-2 text-secondary-foreground">{item.message}</p><small className="text-muted d-block mb-2">From {item.user?.firstName} {item.user?.lastName} · {item.user?.email}</small><button onClick={() => resolveFeedback(item._id, item.status === 'resolved' ? 'in_review' : 'resolved')} className="btn btn-sm btn-primary-custom rounded-pill">{item.status === 'resolved' ? 'Reopen' : 'Mark resolved'}</button></article>)}</div>}
+            {tab === 'users' && <table className="table align-middle mb-0"><thead><tr><th>User</th><th>Role</th><th>Verified</th></tr></thead><tbody>{visibleUsers.map((u) => <tr key={u._id} className={u.role === 'admin' ? 'admin-user-row' : ''}><td><div className="fw-semibold text-dark">{u.firstName} {u.lastName}{u.role === 'admin' && <span className="admin-crown">Administrator</span>}</div><small className="text-muted">{u.email}</small></td><td><button onClick={() => changeUser(u._id, { role: u.role === 'admin' ? 'user' : 'admin' })} className={`btn btn-sm rounded-pill ${u.role === 'admin' ? 'admin-role-badge' : 'btn-secondary-custom'}`}><Shield size={14} className="me-1" />{u.role}</button></td><td><button onClick={() => changeUser(u._id, { isVerified: !u.isVerified })} className={`btn btn-sm rounded-pill ${u.isVerified ? 'btn-success' : 'btn-outline-custom'}`}>{u.isVerified && <Check size={14} className="me-1" />}{u.isVerified ? 'Verified' : 'Pending'}</button></td></tr>)}</tbody></table>}
+            {tab === 'foods' && <div className="d-grid gap-2">{visibleFoods.map((f) => <div key={f._id} className={`surface-soft p-3 radius-md d-flex justify-content-between align-items-center gap-3 admin-food-row ${!f.isActive ? 'is-disabled' : ''}`}><div><div className="fw-semibold text-dark">{f.name}{!f.isActive && <span className="admin-state-badge">Disabled</span>}</div><small className="text-muted-foreground">{f.brand} · {f.category}</small></div><button onClick={() => changeFood(f._id, !f.isActive)} className={`btn btn-sm rounded-pill ${f.isActive ? 'btn-outline-custom' : 'btn-primary-custom'}`}>{f.isActive ? 'Disable' : 'Enable'}</button></div>)}</div>}
+            {tab === 'feedback' && <div className="d-grid gap-3">{visibleFeedback.map((f) => <article key={f._id} className={`surface-soft p-3 radius-md admin-request ${['resolved', 'rejected'].includes(f.status) ? 'is-closed' : ''}`}><div className="d-flex justify-content-between gap-2"><div><span className={`badge rounded-pill me-2 ${f.type === 'admin_request' ? 'text-bg-warning' : 'text-bg-primary'}`}>{f.type === 'category_suggestion' ? 'Category' : f.type === 'admin_request' ? 'Admin access' : 'Problem'}</span><strong className="text-dark">{f.title}</strong></div><span className="small admin-request-status">{f.status}</span></div><p className="small mb-2 mt-2 text-secondary-foreground">{f.message}</p><small className="text-muted d-block mb-2">From {f.user?.firstName} {f.user?.lastName} · {f.user?.email}</small><button onClick={() => resolveFeedback(f._id, f.status === 'resolved' ? 'in_review' : 'resolved')} className="btn btn-sm btn-primary-custom rounded-pill">{f.status === 'resolved' ? 'Reopen' : 'Mark resolved'}</button></article>)}</div>}
         </section>}
     </div>
 }

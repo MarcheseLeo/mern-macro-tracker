@@ -443,7 +443,10 @@ label:has(+ .profile-input:focus){
 }
 
 .saved-foods-icon { color: #d94f8a; background: color-mix(in oklab, #d94f8a 12%, transparent); }
-.saved-food-row { display: flex; align-items: center; gap: .7rem; padding: .6rem; border-radius: .8rem; background: var(--muted); }
+.saved-foods-content { padding-top: 1rem; animation: feedback-reveal .2s ease-out; }
+.profile-accordion-chevron { color: var(--muted-foreground); transition: transform .2s ease; }.profile-accordion-chevron.is-open { transform: rotate(180deg); }
+.saved-foods-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: .65rem; }
+.saved-food-row { display: flex; align-items: center; gap: .7rem; min-width: 0; padding: .6rem; border-radius: .8rem; background: var(--muted); }
 .saved-food-emoji { display: grid; width: 2.15rem; height: 2.15rem; place-items: center; border-radius: .65rem; background: var(--card); }
 .saved-food-remove { display: grid; width: 2.1rem; height: 2.1rem; place-items: center; padding: 0; color: #d94f8a; border: 0; border-radius: 50%; }
 .saved-food-remove:hover { background: color-mix(in oklab, #d94f8a 12%, transparent); }

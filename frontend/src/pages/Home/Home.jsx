@@ -30,9 +30,31 @@ const Home = () => {
     const isFutureDate = selectedDate > today
 
     const prevDateRef = useRef(selectedDate)
+    const swipeStartX = useRef(null)
 
     const onDatechange = (date) => {
         setSelectedDate(date)
+    }
+
+    const changeDayBy = (amount) => {
+        const [year, month, day] = selectedDate.split('-').map(Number)
+        const nextDate = new Date(year, month - 1, day + amount)
+        setSelectedDate(`${nextDate.getFullYear()}-${String(nextDate.getMonth() + 1).padStart(2, '0')}-${String(nextDate.getDate()).padStart(2, '0')}`)
+    }
+
+    const handleDashboardSwipeStart = (event) => {
+        if (event.target.closest('button, input, select, textarea, .food-row')) {
+            swipeStartX.current = null
+            return
+        }
+        swipeStartX.current = event.touches[0].clientX
+    }
+
+    const handleDashboardSwipeEnd = (event) => {
+        if (swipeStartX.current === null) return
+        const distance = event.changedTouches[0].clientX - swipeStartX.current
+        if (Math.abs(distance) > 65) changeDayBy(distance < 0 ? 1 : -1)
+        swipeStartX.current = null
     }
 
     const fetchDashboardData = async (date = today, silent = false) => {
@@ -97,7 +119,7 @@ const Home = () => {
     }, [selectedDate, refreshTrigger])
 
     return (
-        <div className="container py-3">
+        <div className="container py-3" onTouchStart={handleDashboardSwipeStart} onTouchEnd={handleDashboardSwipeEnd}>
             <DashboardHeader
                 user={user}
                 selectedDate={selectedDate}

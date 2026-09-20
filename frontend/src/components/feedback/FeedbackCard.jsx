@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { Bug, ChevronRight, Lightbulb, Send } from 'lucide-react'
+import { Bug, ChevronRight, Lightbulb, Send, Shield } from 'lucide-react'
 import { createFeedback } from '../../services/FeedbackService'
 import './FeedbackCard.css'
 
 export const FeedbackCard = ({ type }) => {
     const isCategory = type === 'category_suggestion'
-    const Icon = isCategory ? Lightbulb : Bug
+    const isAdminRequest = type === 'admin_request'
+    const Icon = isCategory ? Lightbulb : isAdminRequest ? Shield : Bug
     const [title, setTitle] = useState('')
     const [message, setMessage] = useState('')
     const [status, setStatus] = useState(null)
@@ -32,15 +33,15 @@ export const FeedbackCard = ({ type }) => {
             <div className="d-flex gap-3 align-items-center text-start w-100">
                 <span className="feedback-icon"><Icon size={20} /></span>
                 <div>
-                    <h2 className="h6 font-heading fw-bold text-dark mb-1">{isCategory ? 'Suggest a food category' : 'Report a problem'}</h2>
-                    <p className="small text-muted-foreground mb-0">{isCategory ? 'Tell us which category would make logging food easier.' : 'Describe the issue and the admin team will review it.'}</p>
+                    <h2 className="h6 font-heading fw-bold text-dark mb-1">{isCategory ? 'Suggest a food category' : isAdminRequest ? 'Request admin access' : 'Report a problem'}</h2>
+                    <p className="small text-muted-foreground mb-0">{isCategory ? 'Tell us which category would make logging food easier.' : isAdminRequest ? 'Tell the team why you need administrator access.' : 'Describe the issue and the admin team will review it.'}</p>
                 </div>
                 <ChevronRight className="feedback-chevron" size={20} />
             </div>
             </button>
             {isOpen && <form onSubmit={submit} className="d-grid gap-2 feedback-form">
-                <input className="form-control soft-control" required maxLength="100" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={isCategory ? 'Category name, e.g. legumes' : 'Short summary'} />
-                <textarea className="form-control soft-control feedback-message" required maxLength="2000" value={message} onChange={(e) => setMessage(e.target.value)} placeholder={isCategory ? 'Why would this category be useful?' : 'What happened and how can we reproduce it?'} />
+                <input className="form-control soft-control" required maxLength="100" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={isCategory ? 'Category name, e.g. legumes' : isAdminRequest ? 'Reason for your request' : 'Short summary'} />
+                <textarea className="form-control soft-control feedback-message" required maxLength="2000" value={message} onChange={(e) => setMessage(e.target.value)} placeholder={isCategory ? 'Why would this category be useful?' : isAdminRequest ? 'Describe the responsibilities you need to manage.' : 'What happened and how can we reproduce it?'} />
                 <div className="d-flex justify-content-between align-items-center gap-2">
                     {status ? <span className={`small text-${status.type}`}>{status.text}</span> : <span />}
                     <button className="btn btn-primary-custom rounded-pill px-3" disabled={isSending}><Send size={15} className="me-1" />{isSending ? 'Sending…' : 'Send'}</button>

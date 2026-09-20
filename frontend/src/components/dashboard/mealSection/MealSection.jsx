@@ -205,15 +205,19 @@ const FoodRow = ({ item, mealId, onFoodDeleted, isFutureDate }) => {
                     <span className="d-block fw-semibold text-truncate food-name">{food.name}</span>
                     <span className="d-block text-muted-foreground food-meta text-truncate">
                         {item.consumedQuantity}{food.servingUnit} · {food.brand}
-                        <span className='d-none d-sm-inline-block px-1'>
+                        <span className='d-none px-1'>
                             · C {actualCarbs}g · P {actualProteins}g · F {actualFats}g
                         </span>
                     </span>
+                    <div className="food-macro-badges food-row-macros mt-1" aria-label="Food macros">
+                        <span className="food-macro-badge carbs">C {actualCarbs}g</span>
+                        <span className="food-macro-badge proteins">P {actualProteins}g</span>
+                        <span className="food-macro-badge fats">F {actualFats}g</span>
+                    </div>
                 </div>
 
                 <div className="text-end me-1 flex-shrink-0">
-                    <span className="d-block font-heading fw-bold lh-1 text-dark">{actualKcal}</span>
-                    <span className="d-block text-muted-foreground food-kcal-label">kcal</span>
+                    <span className="d-block font-heading fw-bold lh-1 text-dark food-kcal-value">{actualKcal}<small> kcal</small></span>
                 </div>
 
                 <button

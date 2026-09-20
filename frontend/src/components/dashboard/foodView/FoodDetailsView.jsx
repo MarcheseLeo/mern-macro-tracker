@@ -46,15 +46,20 @@ export const FoodDetailsView = ({ food, onConfirm, initialQuantity, isEditing, o
     const currentKcal = Math.round((macros.kcal / 100) * quantity)
 
     const handleFavorite = async () => {
-        const favoriteFoods = await toggleFavoriteFood(food._id)
-        setUser((current) => ({ ...current, favoriteFoods }))
+        try {
+            const favoriteFoods = await toggleFavoriteFood(food._id)
+            // Update local context only, so the current sheet never navigates away.
+            setUser((current) => ({ ...current, favoriteFoods }))
+        } catch (error) {
+            console.error('Unable to update favorite food', error)
+        }
     }
 
     return (
         <div className="d-flex flex-column">
 
             {/* HEADER */}
-            <div className="text-center mb-4 mt-2 position-relative">
+            <div className="food-details-heading mb-3 mt-2 position-relative">
                 <h3 className="font-heading fw-bold mb-1 text-dark">
                     <span className="me-2">{CATEGORY_EMOJIS[food.category] || '🍽️'}</span>
                     {food.name}
