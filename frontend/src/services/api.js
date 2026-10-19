@@ -2,7 +2,8 @@ import axios from 'axios'
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_SERVER_BASE_URL,
-    timeout: 10000,
+    // Render's free instance may need several seconds to wake after inactivity.
+    timeout: 60000,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
@@ -67,6 +68,7 @@ api.interceptors.response.use(
                 // Use the bare Axios client: the refresh request must never enter
                 // this interceptor or inherit an expired Authorization header.
                 const { data } = await axios.post(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/refresh`, {}, {
+                    timeout: 60000,
                     withCredentials: true,
                     headers: { 'Content-Type': 'application/json', Accept: 'application/json' }
                 });

@@ -51,7 +51,16 @@ export const AuthProvider = ({ children }) => {
             // Do not let an older startup request clear a session that has just
             // been established by a successful login.
             if (requestId === sessionRequestId.current) {
-                clearSession()
+                const isTemporaryServerFailure = !e.response || e.response.status >= 500
+                const hasStoredToken = Boolean(localStorage.getItem('token'))
+
+                // A sleeping Render instance or a temporary network failure is
+                // not proof that the user's refresh session has expired.
+                if (isTemporaryServerFailure && hasStoredToken) {
+                    setIsAuthorized(true)
+                } else {
+                    clearSession()
+                }
             }
         } finally {
             if (requestId === sessionRequestId.current) {
